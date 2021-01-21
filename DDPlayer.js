@@ -6,7 +6,7 @@ class DDPlayer {
 
       // spritesheet
       
-      this.billy = ASSET_MANAGER.getAsset("./sprites/DDPlayer.png")
+      this.billy = ASSET_MANAGER.getAsset("./sprites/BillyLee.png")
       
     
 
@@ -15,11 +15,9 @@ class DDPlayer {
     //  this.animations = [];
      // this.loadAnimations();
      this.animations = [];
-     this.animations.push(new Animator(this.billy, 120, 436, 26, 62, 1, 10, 0, false, true));
-     this.animations.push(new Animator(this.billy, 152, 434, 28, 64, 1, 10, 0, false, true));
-     this.animations.push(new Animator(this.billy, 188, 459, 38, 40, 1, 10, 0, false, true));
-     this.animations.push(new Animator(this.billy, 233, 454, 45, 45, 1, 10, 0, false, true));
-     this.animations.push(new Animator(this.billy, 285, 459, 38, 40, 1, 10, 0, false, true));
+     
+     
+
      
   };
 
@@ -34,36 +32,30 @@ class DDPlayer {
           }
       }
       // (source, x coor, y coor, x width, y width, frame count, duration, padding, reverse, loop)
-      // punching
-      this.animations[0][0] = new Animator(this.billy, 165, 278, 26, 60, 1, 10, 0, false, true);
-      this.animations[0][1] = new Animator(this.billy, 200, 278, 46, 60, 1, 10, 0, false, true);
-      this.animations[0][2] = new Animator(this.billy, 254, 278, 28, 60, 1, 10, 0, false, true);
+       //DD2
+        // Right Punch
+        // this.animation = new Animator(this.spritesheet, 0, 0, 47, 60, 3, .5, 8, false, true); 
 
-      // climbing
-      this.animations[1][0] = new Animator(this.billy, 14, 173, 26, 60, 1, 10, 0, false, true);
-      this.animations[1][1] = new Animator(this.billy, 44, 173, 26, 60, 1, 10, 0, false, true);
-      this.animations[1][2] = new Animator(this.billy, 77, 173, 26, 60, 1, 10, 0, false, true);
-      this.animations[1][3] = new Animator(this.billy, 109, 173, 26, 60, 1, 10, 0, false, true);
-      this.animations[1][4] = new Animator(this.billy, 138, 173, 26, 60, 1, 10, 0, false, true);
+        // Left Punch
+        // this.animation = new Animator(this.spritesheet, 165, 0, 47, 60, 3, .5, 10, false, true);
 
-      // super punch
-      this.animations[2][0] = new Animator(this.billy, 405, 278, 30, 60, 1, 10, 0, false, true);
-      this.animations[2][1] = new Animator(this.billy, 440, 278, 26, 60, 1, 10, 0, false, true);
-      this.animations[2][2] = new Animator(this.billy, 473, 278, 36, 60, 1, 10, 0, false, true);
-      this.animations[2][3] = new Animator(this.billy, 516, 268, 32, 72, 1, 10, 0, false, true);
+        // Super Right Punch
+        // this.animation = new Animator(this.spritesheet, 339, 0, 35, 90, 4, .5, 5, false, true);
 
-      // super kick
-      this.animations[3][0] = new Animator(this.billy, 120, 436, 26, 62, 1, 10, 0, false, true);
-      this.animations[3][1] = new Animator(this.billy, 152, 434, 28, 64, 1, 10, 0, false, true);
-      this.animations[3][2] = new Animator(this.billy, 188, 459, 38, 40, 1, 10, 0, false, true);
-      this.animations[3][3] = new Animator(this.billy, 233, 454, 45, 45, 1, 10, 0, false, true);
-      this.animations[3][4] = new Animator(this.billy, 285, 459, 38, 40, 1, 10, 0, false, true);
+        // walking
+        // this.animation = new Animator(this.spritesheet, 0, 79, 28, 62, 4, .5, 2, false, true);
 
-      // walking
-      this.animations[4][0] = new Animator(this.billy, 405, 278, 30, 60, 1, 10, 0, false, true);
-      this.animations[4][1] = new Animator(this.billy, 440, 278, 26, 60, 1, 10, 0, false, true);
-      this.animations[4][2] = new Animator(this.billy, 473, 278, 36, 60, 1, 10, 0, false, true);
-      this.animations[4][3] = new Animator(this.billy, 516, 268, 32, 72, 1, 10, 0, false, true);
+        // kick
+        // this.animation = new Animator(this.spritesheet, 140, 79, 44, 62, 3, .5, 6, false, true);
+
+        // dead
+        //  this.animation = new Animator(this.spritesheet, 290, 102, 49, 45, 4, .5, 1, false, true);
+
+         // super kick
+         this.animation = new Animator(this.spritesheet, 0, 299, 49, 64, 5, .2, 1, false, true);
+     
+      
+
 
 
   };
@@ -90,6 +82,7 @@ class DDPlayer {
         this.animations[2].drawFrame(this.game.clockTick, ctx, 425, 175, 3);
         this.animations[3].drawFrame(this.game.clockTick, ctx, 625, 150, 3);
         this.animations[4].drawFrame(this.game.clockTick, ctx, 825, 150, 3);
+        this.animations[4].drawFrame(this.game.clockTick, ctx, 1025, 150, 3);
 
 
    /*   if (this.dead) {
