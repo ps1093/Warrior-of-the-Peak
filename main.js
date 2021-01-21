@@ -12,10 +12,17 @@ ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 
-	var mountainscene = new MountainScene(gameEngine);
-	var karateplayer = new KaratePlayer(gameEngine);
 	gameEngine.init(ctx);
-	gameEngine.addEntity(mountainscene);
-	//gameEngine.addEntity(karateplayer);
+	gameEngine.addEntity(new SceneManager(gameEngine));
 	gameEngine.start();
+
+
+
+	// var mountainscene = new MountainScene(gameEngine);
+	// var karateplayer = new KaratePlayer(gameEngine);
+	// gameEngine.init(ctx);
+
+	// gameEngine.addEntity(mountainscene);
+	// //gameEngine.addEntity(karateplayer);
+	// gameEngine.start();
 });
