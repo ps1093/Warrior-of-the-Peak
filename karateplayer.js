@@ -71,15 +71,15 @@ class KaratePlayer{
              = new Animator(this.spritesheet, 1558,10, this.width,this.height ,7,.08,0,false, true);
     
          //****** Duck Left & Right ******
-         this.animations[this.STATE.DUCK][this.STATE.RIGHT]
+         this.animations[this.STATE.DUCK][this.FACING.RIGHT]
              = new Animator(this.spritesheet, 1984,10, this.width,this.height ,2,.15,0,false, true);
-         this.animations[this.STATE.DUCK][this.STATE.LEFT]
+         this.animations[this.STATE.DUCK][this.FACING.LEFT]
              = new Animator(this.spritesheet, 2099,10, this.width,this.height ,2,.15,0,false, true);
     
          //****** Jump Right & Left ******
-         this.animations[this.STATE.JUMP][this.STATE.RIGHT]
+         this.animations[this.STATE.JUMP][this.FACING.RIGHT]
              = new Animator(this.spritesheet, 2220,5, this.width,this.height ,6,.15,0,false, true);
-         this.animations[this.STATE.JUMP][this.STATE.LEFT]
+         this.animations[this.STATE.JUMP][this.FACING.LEFT]
              = new Animator(this.spritesheet, 2580,5, this.width,this.height ,6,.15,0,false, true);
     };
 
@@ -94,7 +94,6 @@ class KaratePlayer{
         } 
         if (this.game.S){
             this.state = this.STATE.DUCK;
-            this.y += 1;
             action = true;
         }
         //Walk 
