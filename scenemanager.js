@@ -2,7 +2,7 @@ class SceneManager{
 	constructor(game){
 		this.game = game;
         this.game.camera = this;
-        //this.karateplayer = new KaratePlayer(this.game, 450,300);
+        
 		this.loadLevel();
 	};
 
@@ -11,9 +11,9 @@ class SceneManager{
     };
 
     loadLevel(){
-        this.mountain = new MountainScene(this.game, 0, 0);
-        this.game.addEntity(this.mountain);
+        this.karateplayer = new KaratePlayer(this.game, 400, 350);
 
+        this.game.addEntity(this.karateplayer);
     };
 
     update(){
