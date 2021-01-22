@@ -10,6 +10,13 @@ class GameEngine {
         this.wheel = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
+
+        this.W = false;
+        this.A = false;
+        this.S = false;
+        this.D = false;
+        this.P = false;
+        this.C = false;
     };
 
     init(ctx) {
@@ -30,6 +37,59 @@ class GameEngine {
 
     startInput() {
         var that = this;
+        this.ctx.canvas.addEventListener("keydown", function (e) {
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.A = true;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.D = true;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.W = true;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.S = true;
+                    break;
+                case "Comma":
+                    that.C = true;
+                    break;
+                case "Period":
+                    that.P = true;
+                    break;
+            }
+        }, false);
+
+        this.ctx.canvas.addEventListener("keyup", function (e) {
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.A = false;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.D = false;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.W = false;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.S = false;
+                    break;
+                case "Comma":
+                    that.C = false;
+                    break;
+                case "Period":
+                    that.P = false;
+                    break;
+            }
+        }, false);
 
         var getXandY = function (e) {
             var x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
