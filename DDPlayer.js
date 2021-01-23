@@ -15,6 +15,41 @@ class DDPlayer {
     //  this.animations = [];
      // this.loadAnimations();
      this.animations = [];
+
+    
+     // king hippo
+     //  this.animation = new Animator(this.spritesheet, 7, 758, 58, 98, 7, .20 , 3, false, true); 
+
+     //DD2
+     // Idle
+     // this.animation = new Animator(this.spritesheet, 0, 0, 30, 62, 1, .5, 0, false, true); 
+
+     // walk
+     // this.animation = new Animator(this.spritesheet, 50, 0, 30, 62, 4, .5, 0, false, true);
+
+     // left punch
+     //this.animation = new Animator(this.spritesheet, 180, 0, 50, 62, 3, .5, 0, false, true);
+
+     // right punch
+     // this.animation = new Animator(this.spritesheet, 330, 0, 50, 62, 3, .5, 0, false, true);
+
+     // super punch
+     // this.animation = new Animator(this.spritesheet, 0, 64, 48, 72, 4, .5, 2, false, true);
+
+     // kick
+     // this.animation = new Animator(this.spritesheet, 198, 74, 50, 62, 3, .5, 0, false, true);
+
+     // super kick
+     // this.animation = new Animator(this.spritesheet, 0, 142, 50, 64, 5, .2, 0, false, true);
+
+     // dead
+     // this.animation = new Animator(this.spritesheet, 250, 153, 49, 64, 5, .2, 1, false, true);
+
+     // get hit
+     // this.animation = new Animator(this.spritesheet, 0, 216, 30, 62, 2, .2, 0, false, true);
+
+     // jump
+      this.animation = new Animator(this.spritesheet, 0, 142, 50, 64, 3, .2, 0, false, true);
      
      
 
