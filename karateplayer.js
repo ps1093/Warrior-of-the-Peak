@@ -140,8 +140,8 @@ class KaratePlayer{
     draw(ctx){
         if(PARAMS.DEBUG){
             ctx.strokeStyle = "Red";
-            ctx.strokeRect(this.x, this.y, this.width*3, this.height*3);
+            ctx.strokeRect(this.x, this.y, this.width*2, this.height*2);
         };
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, 3);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, 2);
     };
 };

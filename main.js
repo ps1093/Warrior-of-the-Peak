@@ -2,9 +2,10 @@ var gameEngine = new GameEngine();
 
 var ASSET_MANAGER = new AssetManager();
 
-ASSET_MANAGER.queueDownload("./sprites/mtnspritesheet.png");
 
 ASSET_MANAGER.queueDownload("./sprites/spritesheet.png");
+
+ASSET_MANAGER.queueDownload("./sprites/tilesetsprite.png");
 
 
 
@@ -18,11 +19,5 @@ ASSET_MANAGER.downloadAll(function () {
 
 
 
-	// var mountainscene = new MountainScene(gameEngine);
-	// var karateplayer = new KaratePlayer(gameEngine);
-	// gameEngine.init(ctx);
 
-	// gameEngine.addEntity(mountainscene);
-	// //gameEngine.addEntity(karateplayer);
-	// gameEngine.start();
 });
