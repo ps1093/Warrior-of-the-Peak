@@ -163,6 +163,12 @@ class KaratePlayer{
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.x, this.y, this.width*2, this.height*2);
         };
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, 2);
+        if(this.state === this.STATE.JUMP){
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y-8, 2);
+        } else if(this.state === this.STATE.FLIP){
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y-18, 2);
+        } else {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, 2);
+        }
     };
 };b
