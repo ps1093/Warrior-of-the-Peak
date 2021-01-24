@@ -11,10 +11,10 @@ class SceneManager{
     };
 
     loadLevel(){
-        // let ground = new Ground(this.game, 14 * PARAMS.BLOCKWIDTH, 69 * PARAMS.BLOCKWIDTH);
-        // this.game.addEntity(ground);
+        let ground = new Ground(this.game, 0, 721, 1024);
+        this.game.addEntity(ground);
 
-        this.karateplayer = new KaratePlayer(this.game, 0, 500);
+        this.karateplayer = new KaratePlayer(this.game, 0, 475);
         this.game.addEntity(this.karateplayer);
     };
 
