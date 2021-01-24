@@ -17,6 +17,7 @@ class GameEngine {
         this.D = false;
         this.P = false;
         this.C = false;
+
     };
 
     init(ctx) {
@@ -61,6 +62,7 @@ class GameEngine {
                 case "Period":
                     that.P = true;
                     break;
+
             }
         }, false);
 
@@ -88,6 +90,7 @@ class GameEngine {
                 case "Period":
                     that.P = false;
                     break;
+
             }
         }, false);
 
