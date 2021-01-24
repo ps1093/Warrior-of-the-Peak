@@ -85,9 +85,9 @@ class KaratePlayer{
 
         //****** Back Flip Left & Right ******
         this.animations[this.STATE.FLIP][this.FACING.RIGHT]
-         = new Animator(this.spritesheet, 2761,5, this.width,this.height ,9,.1,0,false, true);
+         = new Animator(this.spritesheet, 2759,0, this.width,this.height ,9,.1,0,false, true);
         this.animations[this.STATE.FLIP][this.FACING.LEFT]
-         = new Animator(this.spritesheet, 3300,5, this.width,this.height ,9,.1,0,false, true);
+         = new Animator(this.spritesheet, 3300,0, this.width,this.height ,9,.1,0,false, true);
     };
 
     update(){
