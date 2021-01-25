@@ -171,4 +171,4 @@ class KaratePlayer{
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, 2);
         }
     };
-};b
+};

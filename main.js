@@ -7,7 +7,9 @@ ASSET_MANAGER.queueDownload("./sprites/spritesheet.png");
 
 ASSET_MANAGER.queueDownload("./sprites/tilesetsprite1.png");
 
+ASSET_MANAGER.queueDownload("./sprites/fighterLR.png");
 
+ASSET_MANAGER.queueDownload("./sprites/falls.png");
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
