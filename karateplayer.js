@@ -73,9 +73,9 @@ class KaratePlayer{
     
          //****** Duck Left & Right ******
          this.animations[this.STATE.DUCK][this.FACING.RIGHT]
-             = new Animator(this.spritesheet, 1561,10, this.width,this.height ,2,.15,0,false, true);
+             = new Animator(this.spritesheet, 1621,10, this.width,this.height ,1,.15,0,false, true);
          this.animations[this.STATE.DUCK][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 1680,10, this.width,this.height ,2,.15,0,false, true);
+             = new Animator(this.spritesheet, 1740,10, this.width,this.height ,1,.15,0,false, true);
     
          //****** Jump Right & Left ******
          this.animations[this.STATE.JUMP][this.FACING.RIGHT]
