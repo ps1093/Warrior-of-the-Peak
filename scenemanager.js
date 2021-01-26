@@ -3,7 +3,8 @@ class SceneManager{
 		this.game = game;
         this.game.camera = this;
         
-		this.loadLevel();
+        //this.loadLevel();
+        this.loadlevel2();
 	};
 
     clearEntities(){
@@ -11,15 +12,25 @@ class SceneManager{
     };
 
     loadLevel(){
-        // let ground = new Ground(this.game, 0, 721, 1024);
-        // this.game.addEntity(ground);
 
-        this.bkground = new background(this.game, 0, 0);
+        this.bkground = new BackGround(this.game, 0, 0);
         this.game.addEntity(this.bkground);
         this.catplayer = new catplayer(this.game, 400, 435 );
         this.game.addEntity(this.catplayer);
         this.karateplayer = new KaratePlayer(this.game, 0, 375);
         this.game.addEntity(this.karateplayer);
+    };
+
+    loadlevel2(){
+
+        this.backscene = new BackScene(this.game,0,0, 1023, 626);
+        this.game.addEntity(this.backscene);
+
+         let ground = new Ground(this.game, 0, 721, 1024);
+         this.game.addEntity(ground);
+
+         this.karateplayer = new KaratePlayer(this.game, 0, 8);
+         this.game.addEntity(this.karateplayer);
     };
 
     update(){
