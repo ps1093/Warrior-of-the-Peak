@@ -13,6 +13,8 @@ ASSET_MANAGER.queueDownload("./sprites/falls.png");
 
 ASSET_MANAGER.queueDownload("./sprites/backdrop.png");
 
+ASSET_MANAGER.queueDownload("./sprites/ChunLi.png");
+
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
