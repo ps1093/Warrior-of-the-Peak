@@ -114,8 +114,8 @@ class KaratePlayer{
     update(){
         const RUN = 2;
         const ROLL = 2.9;
-        const SCALE = 120;
-        const TICK = this.game.clockTick * SCALE;
+        const CLOCKSCALE = 120;
+        const TICK = this.game.clockTick * CLOCKSCALE;
         const TICK1 = this.game.clockTick;
 
 
@@ -183,7 +183,7 @@ class KaratePlayer{
                         that.updateBB();
                         if((entity instanceof BackScene) && (that.lastBB.left) <= entity.BB.left){
                             console.log("Im guessing it collides with left");
-                            that.x = entity.BB.left + that.width-65;
+                            that.x = entity.BB.left + that.width-62;
                             if(that.velocity.x < 0) that.velocity.x = 0;
                         }
                         that.updateBB();
