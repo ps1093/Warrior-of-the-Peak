@@ -180,75 +180,75 @@ class BillyLee {
   
   update(){
   
-    let action = false;
-    
-    // jump state 9
-    if(this.game.W) {
-        this.state = 9;
-        this.game.y -= 10;
-        action = true;
-    } 
-    if (this.game.S) {
-        this.state = 9;
-        action = true;
-    }
-  
-    // walk state 1
-    if(this.game.D) {
+     // walk right
+     if(this.game.D){
         this.facing = 0;
         this.state = 1;
         this.x += 5;
-        action = true;
-    } else if(this.game.A) {
+
+    }
+    // walk left
+    if(this.game.A){
         this.facing = 1;
         this.state = 1;
-        this.x -= 5;
-        action = true;
+        this.x -=5;
     }
-  
-    // Kick state 5
-    if(this.game.P && (this.facing === 0)) {
-        this.facing = 0;
-        this.state = 5;
-        this.y -= 3;
-        this.y += 3;
-        action = true;
-    } else if (this.game.P && (this.facing === 1)) {
-        this.facing = 1;
-        this.state = 5;
-        this.y -= 3;
-        this.y += 3;
-        action = true;
+    // jump
+    if(this.game.W){
+        if(this.state == 0){
+           this.state = 8
+        //    this.y -=10;
+        
+        }else{
+            this.state = 0; 
+        }
+    //    this.game.W = false;
+        // this.y +=10;
     }
-  
-    // Punch state 4
-    if(this.game.C && this.facing === 0) {
-        this.facing = 0;
-        this.state = 4;
-        action = true;
-    } else if(this.game.C && this.facing === 1) {
-        this.facing = 1;
-        this.state = 4;
-        action = true;
+    // punch
+    if(this.game.E){
+        if(this.state == 0){
+           this.state = 2
+        
+        }else{
+            this.state = 2;
+        }
+       //this.game.E = false;
     }
-  
-    // Idle with no action
-    if(!action? this.state = 0: action = false);
+    // kick
+    if(this.game.R){
+        if(this.state == 0){
+           this.state = 5
+        
+        }else{
+            this.state = 5;
+        }
+       //this.game.R = false;
+    }
+    //block
+    if(this.game.S){
+        this.state = 6;
+    }
+    if(!this.game.D && !this.game.A && !this.game.W && !this.game.S && !this.game.E && !this.game.R){
+        this.state = 0;
+    }
+
   };
   
   
   
     draw(ctx) {
+
+    /*
     if(PARAMS.DEBUG){
         ctx.strokeStyle = "Red";
         ctx.strokeRect(this.x, this.y, this.width*3, this.height*3);
     };
+    */
   
-    if (this.dead) {
-        this.deadAnim.drawFrame(this.spritesheet, 250, 153, 49, 64, 5, .2, 1, false, true);
-    } else {
+  
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y, 3);
-    }
+    
   
     };
   };

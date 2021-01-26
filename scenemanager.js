@@ -21,6 +21,9 @@ class SceneManager{
         this.game.addEntity(this.karateplayer);
         this.chunLi = new ChunLi(this.game, 450, 375);
         this.game.addEntity(this.chunLi);
+      //  this.billyLee = new BillyLee(this.game, 600, 375);
+      //  this.game.addEntity(this.billyLee);
+      
     };
 
     loadlevel2(){
