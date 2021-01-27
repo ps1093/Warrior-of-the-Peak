@@ -29,7 +29,7 @@ class SceneManager{
          let ground = new Ground(this.game, 0, 721, 1024);
          this.game.addEntity(ground);
 
-         this.karateplayer = new KaratePlayer(this.game, 0, 8);
+         this.karateplayer = new KaratePlayer(this.game, 0, 400);
          this.game.addEntity(this.karateplayer);
     };
 
