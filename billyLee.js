@@ -6,12 +6,15 @@ class BillyLee {
   
   
         // spritesheet
-        this.billy = ASSET_MANAGER.getAsset("./sprites/BillyLee.png")
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/BillyLee.png")
   
         // DDPlayer state variables
         this.state = 0; // 0 = idle, 1 = walking, 2 = right punch, 3 = left punch, 4 = super punch, 5 = kick, 6 = super kick, 7 = get hit, 8 = jump, 9 = duck 
         this.facing = 0; // 0 = right, 1 = left
         this.dead = false;
+
+        this.velocity = {x:0, y:0};
+        this.fallAcc = 562.5;
     
   
   
@@ -37,14 +40,14 @@ class BillyLee {
   
          // walking animation for state 1
         // facing right
-        this.animations[1][0] = new Animator(this.spritesheet, 50, 0, 30, 62, 4, .5, 0, false, true);
+        this.animations[1][0] = new Animator(this.spritesheet, 50, 0, 30, 62, 4, .2, 0, false, true);
   
         // facing left
         this.animations[1][1] = new Animator(this.spritesheet, 50, 0, 30, 62, 4, .5, 0, false, true); // need to update for left facing
   
         // right punch animation for state 2
         // facing right
-        this.animations[2][0] = new Animator(this.spritesheet, 330, 0, 50, 62, 3, .5, 0, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 330, 0, 50, 62, 3, .2, 0, false, true);
   
         // facing left
         this.animations[2][1] = new Animator(this.spritesheet, 330, 0, 50, 62, 3, .5, 0, false, true); // need to update for left facing
@@ -58,14 +61,14 @@ class BillyLee {
   
         // super punch animation for state 4
         // facing right
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 64, 48, 72, 4, .5, 2, false, true);
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 64, 48, 72, 4, .2, 2, false, true);
   
         // facing left
-        this.animations[4][1] = new Animator(this.spritesheet, 0, 64, 48, 72, 4, .5, 2, false, true); // need to update for left facing
+        this.animations[4][1] = new Animator(this.spritesheet, 0, 64, 48, 72, 4, .2, 2, false, true); // need to update for left facing
   
         // kick animation for state 5
         // facing right
-        this.animations[5][0] = new Animator(this.spritesheet, 198, 74, 50, 62, 3, .5, 0, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 198, 74, 50, 62, 3, .2, 0, false, true);
   
         // facing left
         this.animations[5][1] = new Animator(this.spritesheet, 198, 74, 50, 62, 3, .5, 0, false, true); // need to update for left facing
@@ -179,59 +182,60 @@ class BillyLee {
   
   
   update(){
-  
-     // walk right
-     if(this.game.D){
-        this.facing = 0;
-        this.state = 1;
-        this.x += 5;
 
-    }
-    // walk left
-    if(this.game.A){
-        this.facing = 1;
-        this.state = 1;
-        this.x -=5;
-    }
-    // jump
-    if(this.game.W){
-        if(this.state == 0){
-           this.state = 8
-        //    this.y -=10;
-        
-        }else{
-            this.state = 0; 
+      const TICK = this.game.clockTick;
+
+      const WALK = 30;
+      const FALL = 10;
+      const MAX_JUMP = 10;
+
+        if (!this.dead){
+          if (this.game.D){
+              this.facing = 0;
+              this.state = 1;
+              this.x += WALK * TICK;
+          }
+
+          if (this.game.A){
+              this.facing = 0;
+              this.state = 1;
+              this.x -= WALK * TICK;
+          }
+
+          if (this.game.W){
+              this.facing = 0;
+              this.state = 8;
+              this.y -= MAX_JUMP;
+              this.fallAcc = FALL;
+             
+          }
+
+          if (this.game.S){
+              this.facing = 0;
+              this.state = 9;
+          }
+
+          if (this.game.C){
+              this.facing = 0;
+              this.state = 2;
+          }
+
+          if (this.game.P){
+              this.facing = 0;
+              this.state = 5;
+          }
         }
-    //    this.game.W = false;
-        // this.y +=10;
-    }
-    // punch
-    if(this.game.E){
-        if(this.state == 0){
-           this.state = 2
+
+           
+
+
         
-        }else{
-            this.state = 2;
-        }
-       //this.game.E = false;
-    }
-    // kick
-    if(this.game.R){
-        if(this.state == 0){
-           this.state = 5
+
         
-        }else{
-            this.state = 5;
-        }
-       //this.game.R = false;
-    }
-    //block
-    if(this.game.S){
-        this.state = 6;
-    }
-    if(!this.game.D && !this.game.A && !this.game.W && !this.game.S && !this.game.E && !this.game.R){
-        this.state = 0;
-    }
+        
+      
+   
+    
 
   };
   
@@ -247,7 +251,7 @@ class BillyLee {
     */
   
   
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y, 3);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1.5);
     
   
     };
