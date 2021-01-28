@@ -27,7 +27,7 @@ window.requestAnimFrame = (function () {
 
 const PARAMS = {
     DEBUG: true,
-    SCALE: 1,
+    SCALE: 6,
     BLOCKWIDTH: 16
 }
 // add global parameters here

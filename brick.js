@@ -2,10 +2,9 @@ class Ground {
     constructor(game, x, y, w){
         Object.assign(this, {game, x, y, w});
 
-        this.BB = new BoundingBox(this.x, 626, this.w, 142);
-        this.leftBB = new BoundingBox(this.x, 626, 47, 142);
-        this.rightBB = new BoundingBox(this.x + this.w-47, 626, 47,142);
-        
+        this.newy = 626;
+        this.height = 142;
+       
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/tilesetsprite1.png");
     };
@@ -19,7 +18,7 @@ draw(ctx){
     //Debug
     if(PARAMS.DEBUG){
         ctx.strokeStyle = "Red";
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width,this.BB.height);
+        ctx.strokeRect(this.x, this.newy, this.w,this.height);
     }
 
 

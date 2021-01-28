@@ -23,13 +23,13 @@ class SceneManager{
 
     loadlevel2(){
 
-        this.backscene = new BackScene(this.game,0,0, 1023, 626);
+        this.backscene = new BackScene(this.game,0,0, 1023, 628);
         this.game.addEntity(this.backscene);
 
          let ground = new Ground(this.game, 0, 721, 1024);
          this.game.addEntity(ground);
 
-         this.karateplayer = new KaratePlayer(this.game, 0, 400);
+         this.karateplayer = new KaratePlayer(this.game, 0, 100);
          this.game.addEntity(this.karateplayer);
     };
 
