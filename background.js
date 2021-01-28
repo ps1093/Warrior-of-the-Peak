@@ -22,10 +22,9 @@ class BackGround {
 
 class BackScene{
     constructor(game, x, y, w, h){
+        
         Object.assign(this,{game, x, y, w, h});
-        console.log("Does it make it to BackSCene");
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/backdrop.png");
-        console.log("Does it make it to BackScene1");
 
         this.BB = new BoundingBox(this.x, this.y, this.w,this.h);
         this.leftBB = new BoundingBox(this.x, this.y, 0, this.h);
@@ -40,7 +39,8 @@ class BackScene{
     draw(ctx){
         ctx.drawImage(this.spritesheet, 0,0,1,1,0,0, 1024, 626);
         ctx.strokeStyle = "#1da1d1";
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width,this.BB.height);
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width,this.BB.height-1);
+        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width,this.BB.height-2);
         //Debug
         if(PARAMS.DEBUG){
             ctx.strokeStyle = "Red";
