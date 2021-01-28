@@ -3,7 +3,7 @@ class KaratePlayer{
         Object.assign(this, {game, x, y});
         this.game.KaratePlayer = this;
 
-        //This is for walking and jumping
+        //This is for walking and jumping, and kick
         this.height1 = 25;
 
         //This is for punch, and idle
@@ -22,18 +22,22 @@ class KaratePlayer{
         this.width2 = 15;
 
         //this is to adjust the player when he is updated
-        this.rollAdjust = 20;
+        this.rollAdjust = 5;
 
         //this is to adjust the player when he is updated
         this.walkAdjust = 5;
 
         //this is to adjust the player when he is updated
-        this.punchAdjust = 6.5;
+        this.punchAdjust = 10;
 
         //this is to adjust the player when he is updated
-        this.duckAdjust = 42;
+        this.duckAdjust = 8;
 
-        //this.checkCollideBottom = false;
+        this.colAdj1 = 5;
+
+        this.colRollAdj2 = 1;
+
+        this.collAdj2 = 1;
 
         this.STATE = {
             WALK: 0,
@@ -51,7 +55,7 @@ class KaratePlayer{
         };
 
         this.velocity = {x:0, y:0};
-        this.fallAcc = 5;
+        this.fallAcc = 562.5;
 
 
         this.updateBB();
@@ -60,7 +64,7 @@ class KaratePlayer{
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         
         this.facing = this.FACING.RIGHT;
-        this.state = this.STATE.IDLE;
+        this.state = this.STATE.JUMP;
        
         this.animations = [];
   
@@ -82,9 +86,9 @@ class KaratePlayer{
 
         //****** IDLE LEFT & RIGHT *********
         this.animations[this.STATE.IDLE][this.FACING.RIGHT]
-            = new Animator(this.spritesheet, 480,8, this.width1,this.height2 ,2,.15,0,false, true);
+            = new Animator(this.spritesheet, 480,8, this.width1,this.height2 ,2,.175,0,false, true);
         this.animations[this.STATE.IDLE][this.FACING.LEFT]
-            = new Animator(this.spritesheet, 520,8, this.width1,this.height2,2,.15,0,false, true);
+            = new Animator(this.spritesheet, 520,8, this.width1,this.height2,2,.175,0,false, true);
     
         //******* WALK LEFT & RIGHT *********
         this.animations[this.STATE.WALK][this.FACING.RIGHT]
@@ -106,9 +110,9 @@ class KaratePlayer{
     
          //****** Duck Left & Right ******
          this.animations[this.STATE.DUCK][this.FACING.RIGHT]
-             = new Animator(this.spritesheet, 380,0, this.width1,this.height4 ,1,.15,0,false, true);
+             = new Animator(this.spritesheet, 380,15, this.width1,this.height4 ,1,.15,0,false, true);
          this.animations[this.STATE.DUCK][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 420,0, this.width1,this.height4 ,1,.15,0,false, true);
+             = new Animator(this.spritesheet, 420,15, this.width1,this.height4 ,1,.15,0,false, true);
     
          //****** Jump Right & Left ******
          this.animations[this.STATE.JUMP][this.FACING.RIGHT]
@@ -126,15 +130,15 @@ class KaratePlayer{
     updateBB(){
         this.lastBB = this.BB;
         if(this.state === this.STATE.IDLE){
-            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE)-5);
+            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else if(this.state === this.STATE.WALK){
-            this.BB = new BoundingBox(this.x, this.y - this.walkAdjust, this.width1 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE)-5);
+            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
         } else if(this.state === this.STATE.PUNCH){
-            this.BB = new BoundingBox(this.x, this.y + this.punchAdjust, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE)-11);
+            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else if(this.state === this.STATE.KICK){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
         } else if(this.state === this.STATE.DUCK){
-            this.BB = new BoundingBox(this.x, this.y + this.duckAdjust, this.width1 * PARAMS.SCALE, (this.height4 * PARAMS.SCALE) - 10);
+            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height4 * PARAMS.SCALE));
         } else if(this.state === this.STATE.JUMP){
             this.BB = new BoundingBox(this.x, this.y, this.width2 * PARAMS.SCALE, this.height1 * (PARAMS.SCALE));
         } else {
@@ -143,19 +147,13 @@ class KaratePlayer{
     };
 
     update(){
-
-        const WALK = 1;
-        const ROLL = 1.2;
-        const JUMPING = -10;
-        //const JUMP_ACC = .3;
-        const FRICTION = .9;
-        const STOP_FALL = 10;
-        const STOP_FALL_A = 8;
-        const CLOCKSCALE = 120;
-        const TICK = this.game.clockTick * CLOCKSCALE;
-        //for gravity
-        const TICK1 = this.game.clockTick;
-        console.log(this.state);
+        const WALK = 50;
+        const FALL_WALK = 10;
+        const ROLL = 100;
+        const JUMPING = -1;
+        const STOP_FALL = 1575;
+        const STOP_FALL_A = 450;
+        const TICK = this.game.clockTick;
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP){
@@ -165,6 +163,7 @@ class KaratePlayer{
                 this.state = this.STATE.WALK;
                 this.facing = this.FACING.RIGHT;
             } else if(this.game.A){
+
                 this.velocity.x = -WALK;
                 this.facing = this.FACING.LEFT;
                 this.state = this.STATE.WALK;
@@ -190,30 +189,35 @@ class KaratePlayer{
                 this.facing = this.FACING.RIGHT;
                 this.state = this.STATE.ROLL;
             }
-
-            this.velocity.y += this.fallAcc * TICK1;
+            this.velocity.y += this.fallAcc * TICK;
             //Jump
-            if(this.game.W){
+            if(this.game.W || this.game.W && this.game.D || this.game.W && this.game.A){
+                if(this.velocity.x > 0) this.facing = this.FACING.RIGHT;
+                else if(this.velocity.x < 0) this.facing = this.FACING.LEFT;
                 this.velocity.y = JUMPING;
                 this.state = this.STATE.JUMP;
                 this.fallAcc = STOP_FALL;
-             } 
-        } else {
+             }  
+
+        //air physics     
+        } else if(this.state === this.STATE.JUMP) {
+            
             if(this.velocity.y < 0 && this.game.W){
                 if(this.fallAcc === STOP_FALL) this.velocity.y -= (STOP_FALL - STOP_FALL_A);
             }
-            this.velocity.y += this.fallAcc;//this.fallAcc * TICK1;
+            this.velocity.y += this.fallAcc * TICK;
 
+            //horizontal air physics
+            if(this.game.D && !this.game.A){
+                this.velocity.x += FALL_WALK;
+            } else if(this.game.A && !this.game.D){
+                this.velocity.x -= FALL_WALK;
+            } else {
 
-
+            }                 
         }
-        //wthis.velocity.y += 1;
-        
 
-
-
-
-
+        //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.updateBB();
@@ -222,94 +226,51 @@ class KaratePlayer{
         var that = this;
         this.game.entities.forEach(function (entity) {
                 if (entity.BB && that.BB.collide(entity.BB)) {
-                    if (that.velocity.y > 0 || that.velocity.x > 0) { // falling                        
+                     if (that.velocity.y > 0) {
+                        //Falling logic                        
                         if((entity instanceof BackScene) && that.lastBB.bottom >= entity.BB.bottom){
-                            console.log("Yup, officially fell through");
-                        
-                            if(that.state === that.STATE.IDLE){
-                                that.velocity.y = 0;
-                                that.y = entity.BB.bottom - ((that.height2 -1) * PARAMS.SCALE);
-                            } else if(that.state === that.STATE.PUNCH){
-                                that.velocity.y = 0;
-                                that.y = entity.BB.bottom - ((that.height2-1)  * PARAMS.SCALE );
-                            } else if (that.state === that.STATE.WALK){
-                                that.velocity.y = 0;
-                                that.y = entity.BB.bottom - ((that.height1-2) * PARAMS.SCALE );
-                            } else if (that.state === that.STATE.JUMP){
-                                that.velocity.y = 0;
-                                that.y = entity.BB.bottom - ((that.height1-2) * PARAMS.SCALE);
-                            } else if (that.state === that.STATE.KICK){
-                                that.velocity.y = 0;
-                                that.y = entity.BB.bottom - ((that.height1) * PARAMS.SCALE);
-                            } else if (that.state === that.STATE.DUCK){
-                                that.velocity.y = 0;
-                                that.y = entity.BB.bottom - ((that.height4 + 5) * PARAMS.SCALE );
-                            } else {
-                                that.velocity.y = 0;
-                                that.y = entity.BB.bottom - ((that.heightWidth+3) * PARAMS.SCALE );
-                            }
-                            that.updateBB();
-                        }
-                        if((entity instanceof BackScene) && that.BB.right >= entity.BB.right){
-                            console.log("I made it to right side.");
-                            if(that.state === that.STATE.PUNCH){
-                                that.velocity.x = 0;
-                                that.x = entity.BB.right - ((that.width1)  * PARAMS.SCALE );
-                            } else if (that.state === that.STATE.WALK){
-                                that.velocity.x = 0;
-                                that.x = entity.BB.right - ((that.width1) * PARAMS.SCALE );
-                            } else if (that.state === that.STATE.JUMP){
-                                that.velocity.x = 0;
-                                that.x = entity.BB.right - ((that.width2) * PARAMS.SCALE);
-                            } else if (that.state === that.STATE.KICK){
-                                that.velocity.x = 0;
-                                that.x = entity.BB.right - ((that.width1) * PARAMS.SCALE);
-                            } else {
-                                that.velocity.x = 0;
-                                that.x = entity.BB.right - ((that.heightWidth) * PARAMS.SCALE );
-                            }
-                        }
-                        that.updateBB();
-                    }
-                    if(that.velocity.y < 0 || that.velocity.x < 0){//jumping
-                        if((entity instanceof BackScene) && that.BB.top <= entity.BB.top){
-                            if(that.state === that.STATE.JUMP){
-                                console.log("Went through the top!");
-                                that.velocity.y = 0;
-                                that.y = entity.BB.top + that.height1-4.95;
-                            } else if(that.state === that.STATE.KICK){
-                                that.velocity.y = 0;
-                                that.y = entity.BB.top + that.height1-4.75;
-                            }
-                            that.updateBB();
-                        }
-                        if((entity instanceof BackScene) && that.BB.left <= entity.BB.left){
-                            console.log("hittting the left side!");
-                            if(that.state === that.STATE.PUNCH){
-                                that.velocity.x = 0;
-                                that.x = entity.BB.left + that.width1-17;
-                            } else if (that.state === that.STATE.WALK){
-                                that.velocity.x = 0;
-                                that.x = entity.BB.left + that.width1-17;
-                            } else if (that.state === that.STATE.JUMP){
-                                that.velocity.x = 0;
-                                that.x = entity.BB.left + that.width1-17;
-                            } else if (that.state === that.STATE.KICK){
-                                that.velocity.x = 0;
-                                that.x = entity.BB.left + that.width1-17;
-                            } else if (that.state === that.STATE.ROLL){
-                                that.velocity.x = 0;
-                                that.x = entity.BB.left;
-                            }
+                            if(that.state === that.STATE.IDLE) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE-that.colAdj1);
+                            else if(that.state === that.STATE.WALK) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE-that.walkAdjust);
+                            else if(that.state === that.STATE.ROLL) that.y = entity.BB.bottom - (that.heightWidth * PARAMS.SCALE-that.rollAdjust);
+                            else if(that.state === that.STATE.DUCK) that.y = entity.BB.bottom - (that.height4 * PARAMS.SCALE-that.duckAdjust);
+                            else if(that.state === that.STATE.PUNCH) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE-that.punchAdjust);
+                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
+                            that.velocity.y = 0;
                             that.updateBB();
                         }
                     }
-                    
-
-                }                        
+                    if(that.velocity.y < 0 || that.velocity.x < 0 || that.velocity.x > 0){
+                         //Jumping logic
+                        if((entity instanceof BackScene) && that.lastBB.top >= entity.BB.top){
+                            if(that.state === that.STATE.JUMP) that.y = entity.BB.top + (that.height1 * PARAMS.SCALE);
+                            else if(that.state === that.STATE.JUMP) that.y = entity.BB.top + (that.height1 * PARAMS.SCALE);
+                            that.velocity.y = 0;
+                            that.updateBB();
+                        }
+                        //Walking to left logic.
+                        if((entity instanceof BackScene) && that.lastBB.left <= entity.BB.left){
+                            if(that.state === that.STATE.WALK) that.x = entity.BB.left; 
+                            else if(that.state === that.STATE.ROLL) that.x = entity.BB.left;
+                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.left;
+                            else if(that.state === that.STATE.JUMP) that.x = entity.BB.left; 
+                            else if(that.state === that.STATE.KICK) that.x = entity.BB.left; 
+                            if(that.velocity.x < 0) that.velocity.x = 0;
+                            that.updateBB();
+                        }
+                        //Falling to right logic.
+                            if((entity instanceof BackScene) && that.lastBB.right >= entity.BB.right){
+                            if(that.state === that.STATE.WALK) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE+that.collAdj2);
+                            else if(that.state === that.STATE.ROLL) that.x = entity.BB.right - (that.heightWidth * PARAMS.SCALE+that.colRollAdj2);
+                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                            else if(that.state === that.STATE.JUMP) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE);
+                            else if(that.state === that.STATE.KICK) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE);
+                                                    
+                            if(that.velocity.x > 0) that.velocity.x = 0;
+                            that.updateBB();
+                            }
+                    }
+                }       
         });
-
-
     };
 
     draw(ctx){
@@ -317,16 +278,9 @@ class KaratePlayer{
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         };
-       if(this.state === this.STATE.WALK){
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y - this.walkAdjust, PARAMS.SCALE);
-        } else if(this.state === this.STATE.DUCK){
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y + this.duckAdjust, PARAMS.SCALE);
-        } else if(this.state === this.STATE.PUNCH){
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y + this.punchAdjust, PARAMS.SCALE);
-        } else if(this.state === this.STATE.ROLL) {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y + this.rollAdjust, PARAMS.SCALE);
-        } else {
+        
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
-        }
+    
     };
 };
+
