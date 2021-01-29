@@ -235,32 +235,51 @@ class KaratePlayer{
         this.updateBB();
 
         //collisions
+        //Ones we create an object for what level the player chooses, I can get rid of the different level collisions.
         var that = this;
         this.game.entities.forEach(function (entity) {
                 if (entity.BB && that.BB.collide(entity.BB)) {
                      if (that.velocity.y > 0) {
                         //Falling logic - Level2                        
                         if((entity instanceof BackScene) && that.lastBB.bottom >= entity.BB.bottom){
+                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
+
                             if(that.state === that.STATE.IDLE) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE-that.colAdj1);
                             else if(that.state === that.STATE.WALK) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE-that.walkAdjust);
                             else if(that.state === that.STATE.ROLL) that.y = entity.BB.bottom - (that.heightWidth * PARAMS.SCALE-that.rollAdjust);
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.bottom - (that.height4 * PARAMS.SCALE-that.duckAdjust);
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE-that.punchAdjust);
-                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
+        
                             that.velocity.y = 0;
                             that.updateBB();
                         }
                         //Falling Logic - Level1
                         if((entity instanceof BackGround) && that.lastBB.bottom >= entity.BB.bottom){
+                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
+
                             if(that.state === that.STATE.IDLE) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE-that.colAdj1);
                             else if(that.state === that.STATE.WALK) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE-that.walkAdjust);
                             else if(that.state === that.STATE.ROLL) that.y = entity.BB.bottom - (that.heightWidth * PARAMS.SCALE-that.rollAdjust);
-                            else if(that.state === that.STATE.DUCK) that.y = entity.BB.bottom - (that.height4 * PARAMS.SCALE-that.duckAdjust);
+                            else if(that.state === that.STATE.DUCK) that.y = entity.BB.bottom - (that.height4 * PARAMS.SCALE-that.duckAdjust-10);
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE-that.punchAdjust);
-                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
+                            
                             that.velocity.y = 0;
                             that.updateBB();
                             
+                        }
+
+                        //Falling Logic - Level2 - Platform
+                        if((entity instanceof Platform) && that.lastBB.bottom >= entity.BB.top){
+                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
+                        
+                            if(that.state === that.STATE.IDLE) that.y = entity.BB.top - (that.height2 * PARAMS.SCALE-that.colAdj1);
+                            else if(that.state === that.STATE.WALK) that.y = entity.BB.top - (that.height1 * PARAMS.SCALE-that.walkAdjust);
+                            else if(that.state === that.STATE.ROLL) that.y = entity.BB.top - (that.heightWidth * PARAMS.SCALE-that.rollAdjust);
+                            else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - (that.height4 * PARAMS.SCALE-8);
+                            else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - (that.height2 * PARAMS.SCALE-that.punchAdjust);
+                                                    
+                            that.velocity.y = 0;
+                            that.updateBB();                         
                         }
                     }
                     if(that.velocity.y < 0 || that.velocity.x < 0 || that.velocity.x > 0){
@@ -271,6 +290,26 @@ class KaratePlayer{
                             that.velocity.y = 0;
                             that.updateBB();
                         }
+
+                         //Falling Logic - Level2 - Platform
+                         if((entity instanceof Platform) && that.lastBB.bottom >= entity.BB.top){
+                            if(that.state === that.STATE.WALK) that.y = entity.BB.top - (that.height1 * PARAMS.SCALE-that.walkAdjust);
+                            else if(that.state === that.STATE.ROLL) that.y = entity.BB.top - (that.heightWidth * PARAMS.SCALE-that.rollAdjust);
+                            else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - (that.height4 * PARAMS.SCALE-that.duckAdjust);
+                            else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - (that.height2 * PARAMS.SCALE-that.punchAdjust);
+                                                                            
+                            that.velocity.y = 0;
+                            that.updateBB();                         
+                        }
+
+                        //Jumping logic - Level2 - Platform
+                        if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
+                            if(that.state === that.STATE.JUMP) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                            else if(that.state === that.STATE.JUMP) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                            that.velocity.y = 0;
+                            that.updateBB();
+                        }
+
                         //Walking to left logic - Level2.
                         if((entity instanceof BackScene) && that.lastBB.left <= entity.BB.left){
                             if(that.state === that.STATE.WALK) that.x = entity.BB.left; 
@@ -328,15 +367,12 @@ class KaratePlayer{
                 }       
         });
     };
-
     draw(ctx){
         if(PARAMS.DEBUG){
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         };
-        
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
-    
     };
 };
 
