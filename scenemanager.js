@@ -3,8 +3,8 @@ class SceneManager{
 		this.game = game;
         this.game.camera = this;
         
-        //this.loadLevel();
-        this.loadlevel2();
+        this.loadLevel();
+        //this.loadlevel2();
 	};
 
     clearEntities(){
