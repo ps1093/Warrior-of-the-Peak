@@ -15,7 +15,7 @@ class KaratePlayer{
         //this height is for duck
         this.height4 = 18;
 
-        //walking, punch, kick, duck, idle
+        //walking, punch, duck, idle, kick
         this.width1 = 19;
 
         //this is for jump
@@ -114,7 +114,7 @@ class KaratePlayer{
          this.animations[this.STATE.KICK][this.FACING.RIGHT]
              = new Animator(this.spritesheet, 260,9, this.width1,this.height1 ,2,.15,0,false, true);
          this.animations[this.STATE.KICK][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 320,9, this.width1,this.height1 ,2,.15,0,false, true);
+             = new Animator(this.spritesheet, 319,9, this.width1,this.height1 ,2,.15,0,false, true);
     
          //****** Duck Left & Right ******
          this.animations[this.STATE.DUCK][this.FACING.RIGHT]
