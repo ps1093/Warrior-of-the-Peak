@@ -7,6 +7,7 @@ class BackGround {
         this.animation1 = new Animator(this.spritesheet1, 5, 5, 583, 360, 1, 0.50, 0, false, true);
         this.BB = new BoundingBox(this.x, this.y+191, 1024, 386);
         
+        
     };
 
 
@@ -34,8 +35,8 @@ class BackScene{
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/waterfallsprite.png");
 
         this.BB = new BoundingBox(this.x, this.y, this.w,this.h);
-        this.leftBB = new BoundingBox(this.x, this.y, 0, this.h);
-        this.rightBB = new BoundingBox(this.x + this.w, this.y, 0,this.h);
+        // this.leftBB = new BoundingBox(this.x, this.y,0, this.h);
+        // this.rightBB = new BoundingBox(this.w, this.y, 0,this.h);
 
     };
 
@@ -50,6 +51,7 @@ class BackScene{
         if(PARAMS.DEBUG){
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width,this.BB.height);
+            // ctx.strokeRect(this.rightBB.x, this.rightBB.y, this.rightBB.width,this.rightBB.height);
         }
         
     };
