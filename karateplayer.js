@@ -18,6 +18,12 @@ class KaratePlayer{
         //walking, punch, duck, idle, kick
         this.width1 = 19;
 
+        //Attack Widths
+        this.attackPunchWidth = 14;
+
+        //Attack Widths
+        this.attackKickWidth = 16;
+
         //this is for jump
         this.width2 = 15;
 
@@ -140,10 +146,14 @@ class KaratePlayer{
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else if(this.state === this.STATE.WALK){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
-        } else if(this.state === this.STATE.PUNCH){
-            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
-        } else if(this.state === this.STATE.KICK){
-            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.RIGHT){
+            this.BB = new BoundingBox(this.x, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.LEFT){
+            this.BB = new BoundingBox(this.x+this.attackPunchWidth, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.KICK && this.facing === this.FACING.RIGHT){
+            this.BB = new BoundingBox(this.x, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.KICK && this.facing === this.FACING.LEFT){
+            this.BB = new BoundingBox(this.x + this.attackKickWidth, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
         } else if(this.state === this.STATE.DUCK){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height4 * PARAMS.SCALE));
         } else if(this.state === this.STATE.JUMP){
@@ -165,7 +175,6 @@ class KaratePlayer{
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP){
-            console.log("Im in the ground branch");
             //Walking
             if(this.game.D){
                 this.velocity.x = WALK;
@@ -213,7 +222,6 @@ class KaratePlayer{
 
         //air physics     
         } else if(this.state === this.STATE.JUMP) {
-            console.log("Im in the air branch");
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
             //horizontal air physics
             if(this.game.D && !this.game.A){
