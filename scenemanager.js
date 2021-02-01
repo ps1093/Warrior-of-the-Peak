@@ -1,19 +1,25 @@
+/**
+ * Authors: Austin Scott
+ *          Paras Sharma
+ *          Suk Won
+ *          Tyler Phippen
+ * Austin: Made Scene Manager and Level Two
+ * Paras: Put Level one together and added his player.
+ * Suk: Loaded his player into level 1.
+ * Tyelr: Loaded his player into level 1.
+ */
 class SceneManager{
 	constructor(game){
 		this.game = game;
         this.game.camera = this;
-        
+        //Loading Levels
         this.loadLevel2();
         //this.loadLevel();
-        
 	};
-
     clearEntities(){
         this.game.entities = [];
     };
-
     loadLevel(){
-
         this.bkground = new BackGround(this.game, 0, 0);
         this.game.addEntity(this.bkground);
         this.catplayer = new catplayer(this.game, 400, 435 );
@@ -24,29 +30,24 @@ class SceneManager{
         this.game.addEntity(this.chunLi);
         this.billyLee = new BillyLee(this.game, 350, 435);
         this.game.addEntity(this.billyLee);
-      
     };
-
     loadLevel2(){
+        //Loading Background image
         this.backscene = new BackScene(this.game,0,0, 1024, 672);
         this.game.addEntity(this.backscene);
-
+        //Loading Platform to jump on
         this.platform = new Platform(this.game, 360,390, 744);
         this.game.addEntity(this.platform);
-
-
-         let ground = new Ground(this.game, 0, 736, 1024);
-         this.game.addEntity(ground);
-
-         this.karateplayer = new KaratePlayer(this.game, 0, 0);
-         this.game.addEntity(this.karateplayer);
+        //Loading the ground to fight on.
+        this.ground = new Ground(this.game, 0, 736, 1024);
+        this.game.addEntity(this.ground);
+        //Loading Player
+        this.karateplayer = new KaratePlayer(this.game, 0, 0);
+        this.game.addEntity(this.karateplayer);
     };
-
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
-
     };
-
     draw(ctx){
         if(PARAMS.DEBUG){
             // let xV = "xV=" + Math.floor(this.karateplayer.velocity.x);
@@ -56,8 +57,5 @@ class SceneManager{
             // ctx.fillText(xV, 100, 100);
             // ctx.fillText(yV, 100,200);
         }
-
     };
-
-
 };
