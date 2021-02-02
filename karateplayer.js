@@ -220,7 +220,7 @@ class KaratePlayer{
                 this.state = this.STATE.KICK;
             }
 
-        //air physics     
+         //air physics     
         } else if(this.state === this.STATE.JUMP) {
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
             //horizontal air physics

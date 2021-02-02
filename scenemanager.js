@@ -3,8 +3,8 @@ class SceneManager{
 		this.game = game;
         this.game.camera = this;
         
-        this.loadLevel2();
-        //this.loadLevel();
+        //this.loadLevel2();
+        this.loadLevel();
         
 	};
 
@@ -40,6 +40,8 @@ class SceneManager{
 
          this.karateplayer = new KaratePlayer(this.game, 0, 0);
          this.game.addEntity(this.karateplayer);
+
+      
     };
 
     update(){
