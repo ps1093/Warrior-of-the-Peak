@@ -1,8 +1,10 @@
-class aiKarateFighter extends KaratePlayer{
+class CPU extends KaratePlayer{
     constructor(game, x, y, karatePlayer){
         super(game, x, y);
         this.karatePlayer = karatePlayer;
         this.facing = this.FACING.LEFT;
+        this.CPU = true;
+        this.hitPoints = 13;
                
     };
     update(){
