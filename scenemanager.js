@@ -43,15 +43,11 @@ class SceneManager{
         this.platform = new Platform(this.game, 360,390, 744);
         this.game.addEntity(this.platform);
 
-
-
          let ground = new Ground(this.game, 0, 736, 1024);
          this.game.addEntity(ground);
 
          this.karateplayer = new KaratePlayer(this.game, 0, 0);
          this.game.addEntity(this.karateplayer);
-
-      
 
         //Loading the ground to fight on.
         this.ground = new Ground(this.game, 0, 736, 1024);
@@ -60,11 +56,16 @@ class SceneManager{
         this.karateplayer = new KaratePlayer(this.game, 0, 0);
         this.game.addEntity(this.karateplayer);
 
+        this.healthbar = new HealthBar(this.karateplayer);
+        this.game.addEntity(this.healthbar);
+
         // this.catplayer = new catplayer(this.game, 0,550 );
         // this.game.addEntity(this.catplayer);
         //AI KaratePlayer
-        this.aifighter = new aiKarateFighter(this.game, 960, 0, this.karateplayer);
-        this.game.addEntity(this.aifighter);
+        this.cpu = new CPU(this.game, 960, 0, this.karateplayer);
+        this.game.addEntity(this.cpu);
+        this.healthbar = new HealthBar(this.cpu);
+        this.game.addEntity(this.healthbar);
 
     };
     update(){

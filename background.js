@@ -41,4 +41,38 @@ class BackScene{
     };
 };
 
+/********************************************
+ * Author: Austin Scott                     *
+ * Health Bar: Visualizes the Player Health * 
+ *******************************************/
+class HealthBar{
+    constructor(player){
+        Object.assign(this,{player});
+        this.pX = 50;
+        this.pY = 50;
+        this.cpuX = 717;
+        this.cpuY = 50;
+    };
+    update(){
+
+    };
+    draw(ctx){
+        if(!this.player.CPU){
+            var ratio = this.player.hitPoints / this.player.maxHitPoints;
+            ctx.strokeStyle = "Black";
+            ctx.fillStyle = ratio < .25 ? "Red" : ratio < .75 ? "Yellow" : "Green";
+            //Makes it so healthbar depltes fro right to left. 
+            ctx.fillRect(this.pX, this.pY, this.pX * 4 * ratio, 10);
+            ctx.strokeRect(this.pX, this.pY, this.pX * 4, 10);
+        } else {
+            var ratio = this.player.hitPoints / this.player.maxHitPoints;
+            ctx.strokeStyle = "Black";
+            ctx.fillStyle = ratio < .25 ? "Red" : ratio < .75 ? "Yellow" : "Green";
+            //Makes it so Health Bar depletes from left to right
+            ctx.fillRect(this.cpuX + ((this.pX * 4) - (this.pX * 4 * ratio)), this.cpuY, this.pX * 4 * ratio, 10);
+            ctx.strokeRect(this.cpuX, this.cpuY, this.pX * 4, 10);
+        }
+    };
+}
+
 

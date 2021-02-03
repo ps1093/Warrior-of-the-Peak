@@ -48,6 +48,15 @@ class KaratePlayer{
 
         this.collAdj2 = 1;
 
+        //For the Health Bar
+        this.maxHitPoints  = 100;
+
+        //Total hit points taken
+        this.hitPoints = 73;
+
+        //Check to make sure this isnt the CPU
+        this.CPU = false;
+
         //All the Karate Players movements
         this.STATE = {
             WALK: 0,
