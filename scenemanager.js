@@ -12,16 +12,16 @@ class SceneManager{
 	constructor(game){
 		this.game = game;
         this.game.camera = this;
-<<<<<<< HEAD
+
         
         //this.loadLevel2();
         this.loadLevel();
         
-=======
+
         //Loading Levels
         this.loadLevel2();
         //this.loadLevel();
->>>>>>> 3e312bcb7b937ab292f5dc40f0d56c7662b9b49a
+
 	};
     clearEntities(){
         this.game.entities = [];
@@ -45,7 +45,7 @@ class SceneManager{
         //Loading Platform to jump on
         this.platform = new Platform(this.game, 360,390, 744);
         this.game.addEntity(this.platform);
-<<<<<<< HEAD
+
 
 
          let ground = new Ground(this.game, 0, 736, 1024);
@@ -55,14 +55,20 @@ class SceneManager{
          this.game.addEntity(this.karateplayer);
 
       
-=======
+
         //Loading the ground to fight on.
         this.ground = new Ground(this.game, 0, 736, 1024);
         this.game.addEntity(this.ground);
         //Loading Player
         this.karateplayer = new KaratePlayer(this.game, 0, 0);
         this.game.addEntity(this.karateplayer);
->>>>>>> 3e312bcb7b937ab292f5dc40f0d56c7662b9b49a
+
+        // this.catplayer = new catplayer(this.game, 0,550 );
+        // this.game.addEntity(this.catplayer);
+        //AI KaratePlayer
+        this.aifighter = new aiKarateFighter(this.game, 960, 0, this.karateplayer);
+        this.game.addEntity(this.aifighter);
+
     };
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;

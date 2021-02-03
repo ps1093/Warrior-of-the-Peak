@@ -112,15 +112,15 @@ class KaratePlayer{
     
          //******* Punch Right & LEFT ********
          this.animations[this.STATE.PUNCH][this.FACING.RIGHT] 
-             = new Animator(this.spritesheet, 160,9, this.width1,this.height2 ,2,.2,0,false, true);
+             = new Animator(this.spritesheet, 159,9, this.width1,this.height2 ,2,.2,0,false, true);
          this.animations[this.STATE.PUNCH][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 200,9, this.width1,this.height2 ,2,.2,0,false, true);
+             = new Animator(this.spritesheet, 200,9, this.width1,this.height2 ,2,.2,0,true, true);
     
          //******* Kick Right & Left *******
          this.animations[this.STATE.KICK][this.FACING.RIGHT]
              = new Animator(this.spritesheet, 260,9, this.width1,this.height1 ,2,.15,0,false, true);
          this.animations[this.STATE.KICK][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 319,9, this.width1,this.height1 ,2,.15,0,false, true);
+             = new Animator(this.spritesheet, 320,9, this.width1,this.height1 ,2,.15,0,false, true);
     
          //****** Duck Left & Right ******
          this.animations[this.STATE.DUCK][this.FACING.RIGHT]
@@ -169,9 +169,7 @@ class KaratePlayer{
         const ROLL = 100;
         const JUMPING = 500;
         const STOP_FALL = 400;
-        const STOP_FALL_A = 90;
         const TICK = this.game.clockTick;
-        const KICKING = 100;
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP){
@@ -238,7 +236,10 @@ class KaratePlayer{
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.updateBB();
+        this.collisions();
+    };
 
+    collisions(){
         //collisions
         var that = this;
         this.game.entities.forEach(function (entity) {
@@ -313,7 +314,7 @@ class KaratePlayer{
                         }
                     }
                 }       
-        });
+        });        
     };
     draw(ctx){
         if(PARAMS.DEBUG){
