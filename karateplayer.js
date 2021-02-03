@@ -1,10 +1,3 @@
-/**
- * Author: Austin Scott
- * Karate Player: This character is self drawn by me, 
- * his states include jumping, idling, punching, ducking, back rolls, and kicking.
- */
-
-
 class KaratePlayer{
     constructor(game, x, y){
         Object.assign(this, {game, x, y});
@@ -225,7 +218,7 @@ class KaratePlayer{
                 this.state = this.STATE.KICK;
             }
 
-        //air physics     
+         //air physics     
         } else if(this.state === this.STATE.JUMP) {
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
             //horizontal air physics

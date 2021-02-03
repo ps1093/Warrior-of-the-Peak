@@ -29,6 +29,4 @@ ASSET_MANAGER.downloadAll(function () {
 	gameEngine.start();
 
 
-
-
 });
