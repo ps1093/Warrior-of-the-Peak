@@ -44,6 +44,11 @@ class SceneManager{
         //Loading Player
         this.karateplayer = new KaratePlayer(this.game, 0, 0);
         this.game.addEntity(this.karateplayer);
+        // this.catplayer = new catplayer(this.game, 0,550 );
+        // this.game.addEntity(this.catplayer);
+        //AI KaratePlayer
+        this.aifighter = new aiKarateFighter(this.game, 960, 0, this.karateplayer);
+        this.game.addEntity(this.aifighter);
     };
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
