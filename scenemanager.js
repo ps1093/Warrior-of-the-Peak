@@ -16,8 +16,8 @@ class SceneManager{
              
 
         //Loading Levels
-        //this.loadLevel2();
-        this.loadLevel();
+        this.loadLevel2();
+        //this.loadLevel();
 
 	};
     clearEntities(){
