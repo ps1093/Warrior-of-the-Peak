@@ -50,7 +50,7 @@ class HealthBar{
         Object.assign(this,{player});
         this.pX = 50;
         this.pY = 50;
-        this.cpuX = 717;
+        this.cpuX = 764;
         this.cpuY = 50;
     };
     update(){

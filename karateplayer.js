@@ -3,6 +3,8 @@ class KaratePlayer{
         Object.assign(this, {game, x, y});
         this.game.KaratePlayer = this;
 
+        this.name = "Daniel Larusso";
+
         //This is for walking and jumping, and kick
         this.height1 = 25;
 
@@ -52,7 +54,7 @@ class KaratePlayer{
         this.maxHitPoints  = 100;
 
         //Total hit points taken
-        this.hitPoints = 73;
+        this.hitPoints = 100;
 
         //Check to make sure this isnt the CPU
         this.CPU = false;
