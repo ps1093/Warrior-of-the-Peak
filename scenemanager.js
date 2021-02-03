@@ -12,7 +12,10 @@ class SceneManager{
 	constructor(game){
 		this.game = game;
         this.game.camera = this;
-
+        this.Characters = {
+            PLAYER: "KarateKid",
+            OPPONENT: "CPU"
+        }
              
 
         //Loading Levels
@@ -46,26 +49,45 @@ class SceneManager{
          let ground = new Ground(this.game, 0, 736, 1024);
          this.game.addEntity(ground);
 
-         this.karateplayer = new KaratePlayer(this.game, 0, 0);
-         this.game.addEntity(this.karateplayer);
-
         //Loading the ground to fight on.
         this.ground = new Ground(this.game, 0, 736, 1024);
         this.game.addEntity(this.ground);
         //Loading Player
-        this.karateplayer = new KaratePlayer(this.game, 0, 0);
-        this.game.addEntity(this.karateplayer);
+        switch(this.Characters.PLAYER){
+            case 'KarateKid':
+                this.player = new KaratePlayer(this.game, 0, 0);
+                this.game.addEntity(this.player);
+                break;
+            case 'ChunLi':
+                break;
+            case 'BillyLee':
+                break;
+            case 'CatPlayer':
+                break;
+        }
 
-        this.healthbar = new HealthBar(this.karateplayer);
-        this.game.addEntity(this.healthbar);
+        //loading CPU
+        switch(this.Characters.OPPONENT){
+            case 'CPU':
+                this.opponent = new CPU(this.game, 0, 0, this.player);
+                this.game.addEntity(this.opponent);
+                break;
+            case 'ChunLi':
+                break;
+            case 'BillyLee':
+                break;
+            case 'CatPlayer':
+                break;
+        }
+
+
 
         // this.catplayer = new catplayer(this.game, 0,550 );
         // this.game.addEntity(this.catplayer);
         //AI KaratePlayer
-        this.cpu = new CPU(this.game, 960, 0, this.karateplayer);
+        this.cpu = new CPU(this.game, 960, 0, this.player);
         this.game.addEntity(this.cpu);
-        this.healthbar = new HealthBar(this.cpu);
-        this.game.addEntity(this.healthbar);
+
 
     };
     update(){
@@ -73,12 +95,21 @@ class SceneManager{
     };
     draw(ctx){
         if(PARAMS.DEBUG){
-            // let xV = "xV=" + Math.floor(this.karateplayer.velocity.x);
-            // let yV = "yV=" + Math.floor(this.karateplayer.velocity.y);
-            // ctx.font="40px Arial";
-            // ctx.fillStyle="Red";
-            // ctx.fillText(xV, 100, 100);
-            // ctx.fillText(yV, 100,200);
         }
+        var playerNameCount = this.player.name.length; 
+        var cpuNameCount = this.opponent.name.length;
+        var totalCount = playerNameCount + cpuNameCount;
+        var middle = 524;
+        var vStart = 250 + ((middle - totalCount) / 2);
+
+        ctx.font = '15px "Press Start 2P"';
+        ctx.fillStyle = "Orange";
+        ctx.fillText(this.player.name, 255 , 60);
+        ctx.font = '20px "Press Start 2P"';
+        ctx.fillStyle = "Red";
+        ctx.fillText("VS.", vStart - ("VS.".length * 15)/2, 60);
+        ctx.font = '15px "Press Start 2P"';
+        ctx.fillStyle = "Orange";
+        ctx.fillText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
     };
 };

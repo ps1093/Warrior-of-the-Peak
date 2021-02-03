@@ -3,6 +3,8 @@ class KaratePlayer{
         Object.assign(this, {game, x, y});
         this.game.KaratePlayer = this;
 
+        this.name = "Daniel Larusso";
+
         //This is for walking and jumping, and kick
         this.height1 = 25;
 
@@ -52,7 +54,7 @@ class KaratePlayer{
         this.maxHitPoints  = 100;
 
         //Total hit points taken
-        this.hitPoints = 73;
+        this.hitPoints = 100;
 
         //Check to make sure this isnt the CPU
         this.CPU = false;
@@ -83,7 +85,9 @@ class KaratePlayer{
             x:0, 
             y:0
         };
-        
+
+        //Creating the Health Bar
+        this.healthbar = new HealthBar(this);
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
 
@@ -331,6 +335,7 @@ class KaratePlayer{
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         };
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
+        this.healthbar.draw(ctx);
     };
 };
 
