@@ -13,10 +13,7 @@ class SceneManager{
 		this.game = game;
         this.game.camera = this;
 
-        
-        //this.loadLevel2();
-        this.loadLevel();
-        
+             
 
         //Loading Levels
         this.loadLevel2();
