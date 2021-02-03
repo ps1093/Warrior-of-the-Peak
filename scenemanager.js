@@ -16,11 +16,17 @@ class SceneManager{
             PLAYER: "KarateKid",
             OPPONENT: "CPU"
         }
-             
-
-        //Loading Levels
-        this.loadLevel2();
-        //this.loadLevel();
+        this.LEVEL = {
+            MAP: 0
+        }
+        switch(this.LEVEL.MAP){
+            case 0:
+                this.loadLevel();
+                break;
+            case 1:
+                this.loadLevel2();
+                break;
+        }
 
 	};
     clearEntities(){
@@ -29,30 +35,6 @@ class SceneManager{
     loadLevel(){
         this.bkground = new BackGround(this.game, 0, 0);
         this.game.addEntity(this.bkground);
-        this.catplayer = new catplayer(this.game, 400, 435 );
-        this.game.addEntity(this.catplayer);
-        this.karateplayer = new KaratePlayer(this.game, 0,550);
-        this.game.addEntity(this.karateplayer);
-        this.chunLi = new ChunLi(this.game, 450, 375);
-        this.game.addEntity(this.chunLi);
-        this.billyLee = new BillyLee(this.game, 350, 435);
-        this.game.addEntity(this.billyLee);
-    };
-    loadLevel2(){
-        //Loading Background image
-        this.backscene = new BackScene(this.game,0,0, 1024, 672);
-        this.game.addEntity(this.backscene);
-        //Loading Platform to jump on
-        this.platform = new Platform(this.game, 360,390, 744);
-        this.game.addEntity(this.platform);
-
-         let ground = new Ground(this.game, 0, 736, 1024);
-         this.game.addEntity(ground);
-
-        //Loading the ground to fight on.
-        this.ground = new Ground(this.game, 0, 736, 1024);
-        this.game.addEntity(this.ground);
-        //Loading Player
         switch(this.Characters.PLAYER){
             case 'KarateKid':
                 this.player = new KaratePlayer(this.game, 0, 0);
@@ -69,7 +51,7 @@ class SceneManager{
         //loading CPU
         switch(this.Characters.OPPONENT){
             case 'CPU':
-                this.opponent = new CPU(this.game, 0, 0, this.player);
+                this.opponent = new CPU(this.game, 960, 0, this.player);
                 this.game.addEntity(this.opponent);
                 break;
             case 'ChunLi':
@@ -79,16 +61,52 @@ class SceneManager{
             case 'CatPlayer':
                 break;
         }
-
-
-
-        // this.catplayer = new catplayer(this.game, 0,550 );
+        // this.catplayer = new catplayer(this.game, 400, 435 );
         // this.game.addEntity(this.catplayer);
-        //AI KaratePlayer
-        this.cpu = new CPU(this.game, 960, 0, this.player);
-        this.game.addEntity(this.cpu);
+        // this.karateplayer = new KaratePlayer(this.game, 0,550);
+        // this.game.addEntity(this.karateplayer);
+        // this.chunLi = new ChunLi(this.game, 450, 375);
+        // this.game.addEntity(this.chunLi);
+        // this.billyLee = new BillyLee(this.game, 350, 435);
+        // this.game.addEntity(this.billyLee);
+    };
+    loadLevel2(){
+        //Loading Background image
+        this.backscene = new BackScene(this.game,0,0, 1024, 672);
+        this.game.addEntity(this.backscene);
+        //Loading Platform to jump on
+        this.platform = new Platform(this.game, 360,390, 744);
+        this.game.addEntity(this.platform);
 
+        let ground = new Ground(this.game, 0, 736, 1024);
+        this.game.addEntity(ground);
 
+        //Loading Player
+        switch(this.Characters.PLAYER){
+            case 'KarateKid':
+                this.player = new KaratePlayer(this.game, 0, 0);
+                this.game.addEntity(this.player);
+                break;
+            case 'ChunLi':
+                break;
+            case 'BillyLee':
+                break;
+            case 'CatPlayer':
+                break;
+        }
+        //loading CPU
+        switch(this.Characters.OPPONENT){
+            case 'CPU':
+                this.opponent = new CPU(this.game, 960, 0, this.player);
+                this.game.addEntity(this.opponent);
+                break;
+            case 'ChunLi':
+                break;
+            case 'BillyLee':
+                break;
+            case 'CatPlayer':
+                break;
+        }
     };
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
