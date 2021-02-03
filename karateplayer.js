@@ -83,7 +83,9 @@ class KaratePlayer{
             x:0, 
             y:0
         };
-        
+
+        //Creating the Health Bar
+        this.healthbar = new HealthBar(this);
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
 
@@ -331,6 +333,7 @@ class KaratePlayer{
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         };
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
+        this.healthbar.draw(ctx);
     };
 };
 
