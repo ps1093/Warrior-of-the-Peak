@@ -1,10 +1,3 @@
-/**
- * Author: Austin Scott
- * Karate Player: This character is self drawn by me, 
- * his states include jumping, idling, punching, ducking, back rolls, and kicking.
- */
-
-
 class KaratePlayer{
     constructor(game, x, y){
         Object.assign(this, {game, x, y});
