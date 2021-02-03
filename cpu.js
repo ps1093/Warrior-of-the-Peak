@@ -4,7 +4,7 @@ class CPU extends KaratePlayer{
         this.karatePlayer = karatePlayer;
         this.facing = this.FACING.LEFT;
         this.CPU = true;
-        this.hitPoints = 13;
+        this.hitPoints = 66;
         this.name = "Daniel Larusso";
                
     };

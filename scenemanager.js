@@ -102,14 +102,25 @@ class SceneManager{
         var middle = 524;
         var vStart = 250 + ((middle - totalCount) / 2);
 
+        ctx.strokeStyle = "DarkOrange";
         ctx.font = '15px "Press Start 2P"';
-        ctx.fillStyle = "Orange";
+        ctx.fillStyle = rgb(183,3,3);
         ctx.fillText(this.player.name, 255 , 60);
+        ctx.strokeText(this.player.name, 255 , 60);
+
+        ctx.strokeStyle = "Black";
         ctx.font = '20px "Press Start 2P"';
         ctx.fillStyle = "Red";
         ctx.fillText("VS.", vStart - ("VS.".length * 15)/2, 60);
+        ctx.strokeText("VS.", vStart - ("VS.".length * 15)/2, 60);
+        
+        ctx.strokeStyle = "DarkOrange";
         ctx.font = '15px "Press Start 2P"';
-        ctx.fillStyle = "Orange";
+        ctx.fillStyle = rgb(183,3,3);
         ctx.fillText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
+        ctx.strokeText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
     };
 };
+function rgb(r, g, b){
+    return "rgb(" + r + "," + g + "," + b + ")";
+}
