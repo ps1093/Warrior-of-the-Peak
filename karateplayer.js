@@ -1,4 +1,5 @@
 class KaratePlayer{
+
     constructor(game, x, y){
         Object.assign(this, {game, x, y});
         this.game.KaratePlayer = this;
@@ -21,10 +22,10 @@ class KaratePlayer{
         this.width1 = 19;
 
         //Attack Widths
-        this.attackPunchWidth = 14;
+        this.attackPunchWidth = 13;
 
         //Attack Widths
-        this.attackKickWidth = 16;
+        this.attackKickWidth = 12;
 
         //this is for jump
         this.width2 = 15;
@@ -58,6 +59,10 @@ class KaratePlayer{
 
         //Check to make sure this isnt the CPU
         this.CPU = false;
+
+        //Circle so the CPU can detect player
+        this.radius = 150;
+        this.cX = 0, this.xY = 0;
 
         //All the Karate Players movements
         this.STATE = {
@@ -162,11 +167,11 @@ class KaratePlayer{
         } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x+this.attackPunchWidth, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
+            this.BB = new BoundingBox(this.x+this.attackPunchWidth *2, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else if(this.state === this.STATE.KICK && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
         } else if(this.state === this.STATE.KICK && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x + this.attackKickWidth, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
+            this.BB = new BoundingBox(this.x + this.attackKickWidth *2, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
         } else if(this.state === this.STATE.DUCK){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height4 * PARAMS.SCALE));
         } else if(this.state === this.STATE.JUMP){
@@ -218,6 +223,10 @@ class KaratePlayer{
                 this.facing = this.FACING.RIGHT;
                 this.state = this.STATE.ROLL;
             }
+            //Kick
+            if(this.game.P){
+                this.state = this.STATE.KICK;
+            }
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
             //Jump
@@ -226,10 +235,7 @@ class KaratePlayer{
                 this.state = this.STATE.JUMP;
                 this.fallAcc = STOP_FALL;
              }  
-            //Kick
-            if(this.game.P){
-                this.state = this.STATE.KICK;
-            }
+
 
          //air physics     
         } else if(this.state === this.STATE.JUMP) {
@@ -248,6 +254,8 @@ class KaratePlayer{
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
+        this.cX = this.x + ((this.width1 / 2) * PARAMS.SCALE);
+        this.cY = this.y + ((this.height1 / 2) * PARAMS.SCALE);
         this.updateBB();
         this.collisions();
     };
@@ -331,8 +339,13 @@ class KaratePlayer{
     };
     draw(ctx){
         if(PARAMS.DEBUG){
-            ctx.strokeStyle = "Red";
+            ctx.beginPath();
+            ctx.strokeStyle = "Blue";
+            ctx.arc(this.cX, this.cY, this.radius, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.closePath();
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+            
         };
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
         this.healthbar.draw(ctx);

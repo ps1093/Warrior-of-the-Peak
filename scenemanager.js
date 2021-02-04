@@ -97,7 +97,7 @@ class SceneManager{
         //loading CPU
         switch(this.Characters.OPPONENT){
             case 'CPU':
-                this.opponent = new CPU(this.game, 960, 0, this.player);
+                this.opponent = new PlayerCPU(this.game, 960, 0, this.player);
                 this.game.addEntity(this.opponent);
                 break;
             case 'ChunLi':
