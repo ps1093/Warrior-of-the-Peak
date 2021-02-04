@@ -17,7 +17,7 @@ class SceneManager{
             OPPONENT: "CPU"
         }
         this.LEVEL = {
-            MAP: 0
+            MAP: 1
         }
         switch(this.LEVEL.MAP){
             case 0:
@@ -97,7 +97,7 @@ class SceneManager{
         //loading CPU
         switch(this.Characters.OPPONENT){
             case 'CPU':
-                this.opponent = new CPU(this.game, 960, 0, this.player);
+                this.opponent = new PlayerCPU(this.game, 960, 0, this.player);
                 this.game.addEntity(this.opponent);
                 break;
             case 'ChunLi':
