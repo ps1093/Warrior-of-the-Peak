@@ -17,7 +17,7 @@ class SceneManager{
             OPPONENT: "CPU"
         }
         this.LEVEL = {
-            MAP: 0
+            MAP: 1
         }
         switch(this.LEVEL.MAP){
             case 0:
