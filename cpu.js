@@ -13,6 +13,10 @@ class KaratePlayerCPU extends KaratePlayer{
         this.AtkRadius = 45;
 
         //Setting up Character
+        
+        this.SPRITE.sheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
+        this.loadAnimations();
+        console.log(this.SPRITE.sheet);
         this.name = "Johnny Lawrence";
         this.facing = this.FACING.LEFT;
         this.CPU = true;
@@ -50,7 +54,7 @@ class KaratePlayerCPU extends KaratePlayer{
             } else {
                 dx = Math.floor(this.other.BB.x - (this.BB.x + this.width1 * PARAMS.SCALE));
             }
-            console.log("dX: " + dx);
+            //console.log("dX: " + dx);
             if(dx == 0 && (this.other.midpoint - this.midpoint < 0)){
                 this.velocity.x = 0;
                 this.facing = this.FACING.LEFT;
@@ -73,6 +77,16 @@ class KaratePlayerCPU extends KaratePlayer{
                 this.state = this.STATE.WALK;
 
             }
+            var that = this;
+            this.game.entities.forEach(function(entity) {
+                if(entity instanceof KaratePlayer){
+                    if(that.AtkCircle()){
+                        that.other.hitPoints -= .25;
+                    }
+                    console.log("HitPoints: " + that.other.hitPoints);
+                }
+            });
+
 
 
 
@@ -86,6 +100,10 @@ class KaratePlayerCPU extends KaratePlayer{
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;               
         }
 
+        if(this.other.dead === true){
+            this.velocity.x = 0;
+            this.state = this.STATE.IDLE;
+        }
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;

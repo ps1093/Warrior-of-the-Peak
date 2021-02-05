@@ -58,13 +58,17 @@ class HealthBar{
     };
     draw(ctx){
         if(!this.player.CPU){
-            var ratio = this.player.hitPoints / this.player.maxHitPoints;
+            if(this.player.hitPoints === 0 || this.player.hitPoints < 0){
+                this.player.hitPoints = 0;
+            }
+            var ratio = Math.abs(this.player.hitPoints / this.player.maxHitPoints);
             ctx.strokeStyle = "Black";
             ctx.fillStyle = ratio < .25 ? "Red" : ratio < .75 ? "Yellow" : "Green";
             //Makes it so healthbar depltes fro right to left. 
             ctx.fillRect(this.pX, this.pY, this.pX * 4 * ratio, 10);
             ctx.strokeStyle = rgb(183,3,3);
             ctx.strokeRect(this.pX, this.pY, this.pX * 4, 10);
+            
         } else {
             var ratio = this.player.hitPoints / this.player.maxHitPoints;
             ctx.strokeStyle = "Black";
