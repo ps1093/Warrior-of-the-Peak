@@ -106,7 +106,7 @@ class GameEngine {
                     that.E = false;
                     console.log("puching");
                     break;
-                    case "KeyR":
+                case "KeyR":
                     that.R = false;
                     console.log("kicking");
                     break;

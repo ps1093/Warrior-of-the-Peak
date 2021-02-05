@@ -1,13 +1,65 @@
 class KaratePlayer{
-
-
     constructor(game, x, y){
         Object.assign(this, {game, x, y});
         this.game.KaratePlayer = this;
-  
-        this.width = 60;
-        this.height = 90;
 
+        this.name = "Daniel Larusso";
+
+        //This is for walking and jumping, and kick
+        this.height1 = 25;
+
+        //This is for punch, and idle
+        this.height2 = 24;
+
+        //Roll height and width,
+        this.heightWidth = 20;
+
+        //this height is for duck
+        this.height4 = 18;
+
+        //walking, punch, duck, idle, kick
+        this.width1 = 19;
+
+        //Attack Widths
+        this.attackPunchWidth = 14;
+
+        //Attack Widths
+        this.attackKickWidth = 16;
+
+        //this is for jump
+        this.width2 = 15;
+
+        //this is to adjust the player when he is updated
+        this.rollAdjust = 5;
+
+        //this is to adjust the player when he is updated
+        this.walkAdjust = 5;
+
+        //this is to adjust the player when he is updated
+        this.punchAdjust = 10;
+
+        //this is to adjust the player when he is updated
+        this.duckAdjust = 10;
+
+        //this is to adjust the player when he is kicking
+        this.kickAdjust = 12;
+
+        this.colAdj1 = 5;
+
+        this.colRollAdj2 = 1;
+
+        this.collAdj2 = 1;
+
+        //For the Health Bar
+        this.maxHitPoints  = 100;
+
+        //Total hit points taken
+        this.hitPoints = 100;
+
+        //Check to make sure this isnt the CPU
+        this.CPU = false;
+
+        //All the Karate Players movements
         this.STATE = {
             WALK: 0,
             IDLE: 1,
@@ -15,29 +67,35 @@ class KaratePlayer{
             KICK: 3,
             DUCK:  4,
             JUMP:  5,
-            FLIP: 6,
-            ROLL: 7
+            ROLL: 6
         };
-    
+
+        //Decides if Facing left or right
         this.FACING = {
             RIGHT:  0,
             LEFT: 1
         };
 
-        this.velocity = {x:0, y:0};
-        this.fallAcc = 562.5;
-        this.jumping = false;
+        //Starting off Falling to the right
+        this.facing = this.FACING.RIGHT;
+        this.state = this.STATE.JUMP;
+
+        //His velocity for movements.
+        this.velocity = {
+            x:0, 
+            y:0
+        };
+
+        //Creating the Health Bar
+        this.healthbar = new HealthBar(this);
+        //This is the falling acceleration for gravity.
+        this.fallAcc =100;
 
         this.updateBB();
 
-
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         
-        this.facing = this.FACING.RIGHT;
-        this.state = this.STATE.IDLE;
-       
         this.animations = [];
-  
         this.loadAnimations();
         
     };
@@ -45,237 +103,239 @@ class KaratePlayer{
 
 
     loadAnimations(){
-
-        for(var i = 0; i < 8; i++){
+        //Loads all the animations
+        for(var i = 0; i < 7; i++){
             this.animations.push([]);
             for(var j = 0; j < 2; j++){
                 this.animations[i].push([]);
             }
         }
 
-
         //****** IDLE LEFT & RIGHT *********
         this.animations[this.STATE.IDLE][this.FACING.RIGHT]
-            = new Animator(this.spritesheet, 2400,20, this.width,this.height ,2,.15,0,false, true);
+            = new Animator(this.spritesheet, 480,8, this.width1,this.height2 ,2,.175,0,false, true);
         this.animations[this.STATE.IDLE][this.FACING.LEFT]
-            = new Animator(this.spritesheet, 2525,20, this.width,this.height,2,.15,0,false, true);
+            = new Animator(this.spritesheet, 520,8, this.width1,this.height2,2,.175,0,false, true);
     
         //******* WALK LEFT & RIGHT *********
         this.animations[this.STATE.WALK][this.FACING.RIGHT]
-            = new Animator(this.spritesheet, 0,16, this.width,this.height ,4,.2,0,false, true);
+            = new Animator(this.spritesheet, 0,7, this.width1,this.height1 ,4,.2,0,false, true);
         this.animations[this.STATE.WALK][this.FACING.LEFT]
-            = new Animator(this.spritesheet, 240,16, this.width,this.height ,4,.2,0,false, true);
+            = new Animator(this.spritesheet, 80,7, this.width1,this.height1 ,4,.2,0,false, true);
     
          //******* Punch Right & LEFT ********
          this.animations[this.STATE.PUNCH][this.FACING.RIGHT] 
-             = new Animator(this.spritesheet, 482,22, this.width,this.height ,2,.2,0,false, true);
+             = new Animator(this.spritesheet, 159,9, this.width1,this.height2 ,2,.2,0,false, true);
          this.animations[this.STATE.PUNCH][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 603,22, this.width,this.height ,2,.2,0,false, true);
+             = new Animator(this.spritesheet, 200,9, this.width1,this.height2 ,2,.2,0,true, true);
     
          //******* Kick Right & Left *******
          this.animations[this.STATE.KICK][this.FACING.RIGHT]
-             = new Animator(this.spritesheet, 722,16, this.width,this.height ,6,.1,0,false, true);
+             = new Animator(this.spritesheet, 260,9, this.width1,this.height1 ,2,.15,0,false, true);
          this.animations[this.STATE.KICK][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 1083,16, this.width,this.height ,6,.1,0,false, true);
+             = new Animator(this.spritesheet, 320,9, this.width1,this.height1 ,2,.15,0,false, true);
     
          //****** Duck Left & Right ******
          this.animations[this.STATE.DUCK][this.FACING.RIGHT]
-             = new Animator(this.spritesheet, 1503,40, this.width,this.height ,1,.15,0,false, true);
+             = new Animator(this.spritesheet, 380,15, this.width1,this.height4 ,1,.15,0,false, true);
          this.animations[this.STATE.DUCK][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 1623,40, this.width,this.height ,1,.15,0,false, true);
+             = new Animator(this.spritesheet, 420,15, this.width1,this.height4 ,1,.15,0,false, true);
     
          //****** Jump Right & Left ******
          this.animations[this.STATE.JUMP][this.FACING.RIGHT]
-             = new Animator(this.spritesheet, 1980,16, this.width,this.height ,1,.15,0,false, true);
+             = new Animator(this.spritesheet, 440,7, this.width2,this.height1 ,1,.15,0,false, true);
          this.animations[this.STATE.JUMP][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 2342,22, this.width,this.height ,1,.15,0,false, true);
-
-        //****** Back Flip Left & Right ******
-        this.animations[this.STATE.FLIP][this.FACING.RIGHT]
-         = new Animator(this.spritesheet, 2880,19, this.width,this.height ,5,.1,0,false, true);
-        this.animations[this.STATE.FLIP][this.FACING.LEFT]
-         = new Animator(this.spritesheet, 3423,19, this.width,this.height ,5,.1,0,false, true);
+             = new Animator(this.spritesheet, 460,7, this.width2,this.height1 ,1,.15,0,false, true);
 
         //****** Roll Left & Right ******
         this.animations[this.STATE.ROLL][this.FACING.RIGHT]
-        = new Animator(this.spritesheet, 3780,31, this.width,this.height ,5,.1,0,false, true);
-       this.animations[this.STATE.ROLL][this.FACING.LEFT]
-        = new Animator(this.spritesheet, 4083,31, this.width,this.height ,5,.1,0,false, true);
+            = new Animator(this.spritesheet, 560,12, this.heightWidth, this.heightWidth ,5,.1,0,false, true);
+        this.animations[this.STATE.ROLL][this.FACING.LEFT]
+            = new Animator(this.spritesheet, 660,12, this.heightWidth, this.heightWidth ,5,.1,0,false, true);
     };
-
     updateBB(){
         this.lastBB = this.BB;
-        if(this.facing === this.FACING.RIGHT){
-            this.BB = new BoundingBox(this.x, this.y, this.width + 45, this.height * 1.75);
+        if(this.state === this.STATE.IDLE){
+            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.WALK){
+            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.RIGHT){
+            this.BB = new BoundingBox(this.x, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.LEFT){
+            this.BB = new BoundingBox(this.x+this.attackPunchWidth, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.KICK && this.facing === this.FACING.RIGHT){
+            this.BB = new BoundingBox(this.x, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.KICK && this.facing === this.FACING.LEFT){
+            this.BB = new BoundingBox(this.x + this.attackKickWidth, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.DUCK){
+            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height4 * PARAMS.SCALE));
+        } else if(this.state === this.STATE.JUMP){
+            this.BB = new BoundingBox(this.x, this.y, this.width2 * PARAMS.SCALE, this.height1 * (PARAMS.SCALE));
         } else {
-            this.BB = new BoundingBox(this.x+5, this.y, this.width + 45, this.height * 1.75);
+            this.BB = new BoundingBox(this.x, this.y + this.rollAdjust, this.heightWidth * PARAMS.SCALE, (this.heightWidth * PARAMS.SCALE));
         }
     };
-
     update(){
-        const RUN = 2;
-        const ROLL = 2.9;
-        const JUMPING = 3.5
-        const CLOCKSCALE = 120;
-        const TICK = this.game.clockTick * CLOCKSCALE;
-        const TICK1 = this.game.clockTick;
-        const STOP_FALL = 100;
+        //Variables to manipulate the X and Y velocity
+        const WALK = 75;
+        const FALL_WALK = 1;
+        const ROLL = 100;
+        const JUMPING = 500;
+        const STOP_FALL = 400;
+        const TICK = this.game.clockTick;
 
-        if(this.state !== this.STATE.JUMP || this.state !== this.STATE.FLIP){
-            //Walk
+        //Ground Physics
+        if(this.state !== this.STATE.JUMP){
+            //Walking
             if(this.game.D){
-                this.velocity.x += .8//RUN * TICK;
+                this.velocity.x = WALK;
                 this.state = this.STATE.WALK;
                 this.facing = this.FACING.RIGHT;
             } else if(this.game.A){
-                this.velocity.x -= .8//RUN * TICK;
-                this.state = this.STATE.WALK;
+
+                this.velocity.x = -WALK;
                 this.facing = this.FACING.LEFT;
+                this.state = this.STATE.WALK;
             } else {
                 this.velocity.x = 0;
                 this.state = this.STATE.IDLE;
             }
-
-            //DUCK
+            //Punch, direction does not matter.
+            if(this.game.C){
+                this.state = this.STATE.PUNCH;
+            }
+            //Duck
             if(this.game.S){
                 this.state = this.STATE.DUCK;
-            }
-
-            //BackRoll
-            if(this.game.A && this.game.S){
-                this.facing = this.FACING.RIGHT;
-                this.state = this.STATE.ROLL;
-                this.velocity.x -= .1* TICK;
-            } else if(this.game.D && this.game.S){
+            } 
+            //Rolling
+            if(this.game.S && this.game.D){
                 this.facing = this.FACING.LEFT;
                 this.state = this.STATE.ROLL;
-                this.velocity.x += .1* TICK;
-            }
-
-            //Punch
-            if(this.game.C && this.facing === this.FACING.RIGHT){
+                this.velocity.x = ROLL;
+            } else if(this.game.A && this.game.S){
+                this.velocity.x = -ROLL;
                 this.facing = this.FACING.RIGHT;
-                this.state = this.STATE.PUNCH;
-                
-            } else if(this.game.C && this.facing === this.FACING.LEFT){
-                this.facing = this.FACING.LEFT;
-                this.state = this.STATE.PUNCH;
-                
+                this.state = this.STATE.ROLL;
             }
-        }
-        this.velocity.y += this.fallAcc * TICK1;
-        //Jump
-        if((this.game.W && this.facing === this.FACING.RIGHT)){
-            
-            this.facing = this.FACING.RIGHT;
-            this.state = this.STATE.JUMP;
-            this.velocity.y = -1.75 * JUMPING * TICK;
-            this.fallAcc = STOP_FALL;
-        } else if((this.game.W && this.facing === this.FACING.LEFT)){
-            
-            this.facing = this.FACING.LEFT;
-            this.state = this.STATE.JUMP;
-            this.velocity.y = -1.75 * JUMPING * TICK;
-            this.fallAcc = STOP_FALL;
-        }
+            //Implementing gravity.
+            this.velocity.y += this.fallAcc * TICK;
+            //Jump
+            if(this.game.W ){
+                this.velocity.y = -JUMPING;
+                this.state = this.STATE.JUMP;
+                this.fallAcc = STOP_FALL;
+             }  
+            //Kick
+            if(this.game.P){
+                this.state = this.STATE.KICK;
+            }
 
-        //Back flip
-        if((this.game.W && this.game.A) && this.jumping === false){
-            this.jumping = true;
-            this.state = this.STATE.FLIP;
-            this.facing = this.FACING.RIGHT;
-            this.velocity.y = -1.75 * JUMPING * TICK;
-            this.fallAcc = STOP_FALL;
-        } 
-        if((this.game.W && this.game.D) && this.jumping === false){
-            this.jumping = true;
-            this.state = this.STATE.FLIP;
-            this.facing = this.FACING.LEFT;
-            this.velocity.y = -1.75 * JUMPING * TICK;
-            this.fallAcc = STOP_FALL;
-        } 
-
-        if(this.game.P && this.facing === this.FACING.RIGHT){
-            this.facing = this.FACING.RIGHT;
-            this.state = this.STATE.KICK;
-            this.velocity.y = -.9 * JUMPING * TICK;
-        } else if(this.game.P && this.facing === this.FACING.LEFT){
-            this.facing = this.FACING.LEFT;
-            this.state = this.STATE.KICK;
-            this.velocity.y = -.9 * JUMPING * TICK;
+         //air physics     
+        } else if(this.state === this.STATE.JUMP) {
+            this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
+            //horizontal air physics
+            if(this.game.D && !this.game.A){
+                this.facing = this.FACING.RIGHT;
+                this.velocity.x += FALL_WALK;
+            } else if(this.game.A && !this.game.D){
+                this.facing = this.FACING.LEFT;
+                this.velocity.x -= FALL_WALK;   
+            } else {
+            }               
         }
 
-
-
-        this.velocity.y *= .9 //friction
-        this.velocity.x *= .9 //friction
-
-
+        //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
-        this.jumping = false;
         this.updateBB();
+        this.collisions();
+    };
 
-
-
-
+    collisions(){
         //collisions
         var that = this;
         this.game.entities.forEach(function (entity) {
                 if (entity.BB && that.BB.collide(entity.BB)) {
-                    if (that.velocity.y > 0) { // falling                        
-                        if ((entity instanceof Ground) && (that.lastBB.bottom) >= entity.BB.top){
-                            that.velocity.y = 0; // landing
-                            that.y = entity.BB.top - that.height-40;   
+                    //Ground Collisions
+                     if (that.velocity.y > 0) {
+                        //Falling Logic - Level2  - Platform
+                        if((entity instanceof Platform) && that.lastBB.bottom >= entity.BB.top){
+                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
+                            if(that.state === that.STATE.IDLE) that.y = entity.BB.top - (that.height2 * PARAMS.SCALE-that.colAdj1);
+                            else if(that.state === that.STATE.WALK) that.y = entity.BB.top - (that.height1 * PARAMS.SCALE-that.walkAdjust);
+                            else if(that.state === that.STATE.ROLL) that.y = entity.BB.top - (that.heightWidth * PARAMS.SCALE-that.rollAdjust);
+                            else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - (that.height4 * PARAMS.SCALE-that.duckAdjust);
+                            else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - (that.height2 * PARAMS.SCALE-that.punchAdjust);  
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - (that.height1 * PARAMS.SCALE- that.kickAdjust);              
+                            that.velocity.y = 0;
+                            that.updateBB();                         
                         }
-                        if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE; // set state to idle
-                        that.updateBB();
-                        if((entity instanceof BackScene) && (that.lastBB.right) >= entity.BB.right){
-                            that.x = entity.BB.right - that.width-45;
-                            if(that.velocity.x > 0) that.velocity.x = 0;
-                            
+                        //Falling Logic - Level1 - Level2 - Ground
+                        if((entity instanceof BackGround || entity instanceof BackScene) && that.lastBB.bottom >= entity.BB.bottom){
+                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
+                            if(that.state === that.STATE.IDLE) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE-that.colAdj1);
+                            else if(that.state === that.STATE.WALK) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE-that.walkAdjust);
+                            else if(that.state === that.STATE.ROLL) that.y = entity.BB.bottom - (that.heightWidth * PARAMS.SCALE-that.rollAdjust);
+                            else if(that.state === that.STATE.DUCK) that.y = entity.BB.bottom - (that.height4 * PARAMS.SCALE-that.duckAdjust);
+                            else if(that.state === that.STATE.PUNCH) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE-that.punchAdjust);
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.kickAdjust);                           
+                            that.velocity.y = 0;
+                            that.updateBB();                         
                         }
-                        that.updateBB();
-                        if((entity instanceof BackScene) && (that.lastBB.left) <= entity.BB.left){
-                            console.log("Im guessing it collides with left");
-                            that.x = entity.BB.left + that.width-62;
-                            if(that.velocity.x < 0) that.velocity.x = 0;
+                        //Walking to Right Logic - Level1 - Level2
+                        if((entity instanceof BackScene || entity instanceof BackGround ) && that.BB.right >= entity.BB.right){
+                            if(that.state === that.STATE.WALK) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                            else if(that.state === that.STATE.ROLL) that.x = entity.BB.right - (that.heightWidth * PARAMS.SCALE+that.colRollAdj2);
+                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                            else if(that.state === that.STATE.JUMP) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE+5);
+                            else if(that.state === that.STATE.KICK) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                            that.velocity.x = 0;
+                            that.updateBB();
                         }
-                        that.updateBB();
-                        if(((entity instanceof BackScene) && (that.lastBB.top) <= entity.BB.top)){
-                            that.y = entity.BB.top + that.height;
-                            console.log("This means it is colliding witht the top");                            that.y = entity.BB.top + that.height+40;
-                            if(that.velocity.y < 0) that.velocity.y = 0;
+                        //Walking to Left Logic - Level1 - Level2
+                        if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.left <= entity.BB.left){
+                            if(that.state === that.STATE.WALK) that.x = entity.BB.left; 
+                            else if(that.state === that.STATE.ROLL) that.x = entity.BB.left;
+                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.left;
+                            else if(that.state === that.STATE.KICK) that.x = entity.BB.left;
+                            that.velocity.x = 0;
+                            that.updateBB();
                         }
-                        that.updateBB();
                     }
-                    
 
-                } 
-
-                       
-        });
- 
+                    //Air Collisions
+                    if(that.velocity.y < 0){
+                        //Jumping logic - Level2 - Platform
+                        if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
+                            if(that.state === that.STATE.JUMP) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                            that.velocity.y = 0;
+                            that.updateBB();
+                        }
+                        //Jumping & Kicking to Right - Level2 - Level1
+                        if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.right >= entity.BB.right){
+                            if(that.state === that.STATE.JUMP) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE);
+                             that.velocity.y =0;
+                             that.updateBB();
+                        }
+                        //Jumping & Kicking to Left - Level2 - Level1
+                        if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.left <= entity.BB.left){
+                            if(that.state === that.STATE.JUMP) that.x = entity.BB.left;
+                             that.velocity.y = 0;
+                             that.updateBB();
+                        }
+                    }
+                }       
+        });        
     };
-
-
     draw(ctx){
         if(PARAMS.DEBUG){
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         };
-        if(this.state === this.STATE.WALK){
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y-8, 2);
-        } else if(this.state === this.STATE.DUCK){
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y+40, 2);
-        } else if(this.state === this.STATE.KICK) {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y-8, 2);
-        } else if(this.state === this.STATE.PUNCH){
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y + 3, 2);
-        } else if(this.state === this.STATE.ROLL) {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y+15, 2);
-        } else {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, 2);
-        }
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
+        this.healthbar.draw(ctx);
     };
 };
+
