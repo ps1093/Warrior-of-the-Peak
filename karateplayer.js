@@ -55,13 +55,14 @@ class KaratePlayer{
         this.maxHitPoints  = 100;
 
         //Total hit points taken
-        this.hitPoints = 100;
+        this.hitPoints = 75;
 
         //Check to make sure this isnt the CPU
         this.CPU = false;
 
         //Circle so the CPU can detect player
-        this.radius = 150;
+        this.VisRadius = 135;
+        this.AtkRadius = 45;
         this.cX = 0, this.xY = 0;
 
         //All the Karate Players movements
@@ -136,7 +137,7 @@ class KaratePlayer{
     
          //******* Kick Right & Left *******
          this.animations[this.STATE.KICK][this.FACING.RIGHT]
-             = new Animator(this.spritesheet, 260,9, this.width1,this.height1 ,2,.15,0,false, true);
+             = new Animator(this.spritesheet, 261,9, this.width1,this.height1 ,2,.15,0,false, true);
          this.animations[this.STATE.KICK][this.FACING.LEFT]
              = new Animator(this.spritesheet, 320,9, this.width1,this.height1 ,2,.15,0,false, true);
     
@@ -339,11 +340,19 @@ class KaratePlayer{
     };
     draw(ctx){
         if(PARAMS.DEBUG){
+            //Visual CIrcle
             ctx.beginPath();
             ctx.strokeStyle = "Blue";
-            ctx.arc(this.cX, this.cY, this.radius, 0, Math.PI * 2, false);
+            ctx.arc(this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
             ctx.stroke();
             ctx.closePath();
+            //Attack Circle
+            ctx.beginPath();
+            ctx.strokeStyle = "White";
+            ctx.arc(this.cX, this.cY, this.AtkRadius, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
             
         };
