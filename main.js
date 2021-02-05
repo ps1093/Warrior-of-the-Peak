@@ -16,12 +16,6 @@ ASSET_MANAGER.queueDownload("./sprites/backdrop.png");
 ASSET_MANAGER.queueDownload("./sprites/ChunLi.png");
 
 ASSET_MANAGER.queueDownload("./sprites/BillyLee.png");
-<<<<<<< HEAD
-=======
-ASSET_MANAGER.queueDownload("./sprites/round1.png");
-ASSET_MANAGER.queueDownload("./sprites/waterfallsprite.png");
-
->>>>>>> 461e57501954c3c733fd342b2edad54c306c70a7
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
