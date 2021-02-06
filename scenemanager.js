@@ -107,7 +107,7 @@ class SceneManager{
             case 'CatPlayer':
                 break;
         }
-    };
+       };
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
     };
