@@ -17,6 +17,9 @@ class GameEngine {
         this.D = false;
         this.P = false;
         this.C = false;
+        this.E = false;
+        this.R = false; 
+
     };
 
     init(ctx) {
@@ -61,6 +64,16 @@ class GameEngine {
                 case "Period":
                     that.P = true;
                     break;
+
+                case "KeyE":
+                    that.E = true;
+                    console.log("puching");
+                    break;
+                case "KeyR":
+                    that.R = true;
+                    console.log("kicking");
+                    break;
+
             }
         }, false);
 
@@ -88,6 +101,16 @@ class GameEngine {
                 case "Period":
                     that.P = false;
                     break;
+
+                case "KeyE":
+                    that.E = false;
+                    console.log("puching");
+                    break;
+                case "KeyR":
+                    that.R = false;
+                    console.log("kicking");
+                    break;
+
             }
         }, false);
 
