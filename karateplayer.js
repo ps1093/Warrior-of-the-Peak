@@ -1,9 +1,11 @@
 class KaratePlayer{
+
     constructor(game, x, y){
         Object.assign(this, {game, x, y});
         this.game.KaratePlayer = this;
 
         this.name = "Daniel Larusso";
+        this.dead = false;
 
         //This is for walking and jumping, and kick
         this.height1 = 25;
@@ -21,10 +23,10 @@ class KaratePlayer{
         this.width1 = 19;
 
         //Attack Widths
-        this.attackPunchWidth = 14;
+        this.attackPunchWidth = 13;
 
         //Attack Widths
-        this.attackKickWidth = 16;
+        this.attackKickWidth = 12;
 
         //this is for jump
         this.width2 = 15;
@@ -59,6 +61,11 @@ class KaratePlayer{
         //Check to make sure this isnt the CPU
         this.CPU = false;
 
+        //Circle so the CPU can detect player
+        this.VisRadius = 135;
+        this.AtkRadius = 45;
+        this.cX = 0, this.xY = 0;
+
         //All the Karate Players movements
         this.STATE = {
             WALK: 0,
@@ -67,7 +74,8 @@ class KaratePlayer{
             KICK: 3,
             DUCK:  4,
             JUMP:  5,
-            ROLL: 6
+            ROLL: 6,
+            DEAD: 7
         };
 
         //Decides if Facing left or right
@@ -92,8 +100,10 @@ class KaratePlayer{
         this.fallAcc =100;
 
         this.updateBB();
+        this.SPRITE = {
+            sheet: ASSET_MANAGER.getAsset("./sprites/spritesheet.png")
+        }
 
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         
         this.animations = [];
         this.loadAnimations();
@@ -104,7 +114,7 @@ class KaratePlayer{
 
     loadAnimations(){
         //Loads all the animations
-        for(var i = 0; i < 7; i++){
+        for(var i = 0; i < 8; i++){
             this.animations.push([]);
             for(var j = 0; j < 2; j++){
                 this.animations[i].push([]);
@@ -113,45 +123,51 @@ class KaratePlayer{
 
         //****** IDLE LEFT & RIGHT *********
         this.animations[this.STATE.IDLE][this.FACING.RIGHT]
-            = new Animator(this.spritesheet, 480,8, this.width1,this.height2 ,2,.175,0,false, true);
+            = new Animator(this.SPRITE.sheet, 480,8, this.width1,this.height2 ,2,.175,0,false, true);
         this.animations[this.STATE.IDLE][this.FACING.LEFT]
-            = new Animator(this.spritesheet, 520,8, this.width1,this.height2,2,.175,0,false, true);
+            = new Animator(this.SPRITE.sheet, 520,8, this.width1,this.height2,2,.175,0,false, true);
     
         //******* WALK LEFT & RIGHT *********
         this.animations[this.STATE.WALK][this.FACING.RIGHT]
-            = new Animator(this.spritesheet, 0,7, this.width1,this.height1 ,4,.2,0,false, true);
+            = new Animator(this.SPRITE.sheet, 0,7, this.width1,this.height1 ,4,.2,0,false, true);
         this.animations[this.STATE.WALK][this.FACING.LEFT]
-            = new Animator(this.spritesheet, 80,7, this.width1,this.height1 ,4,.2,0,false, true);
+            = new Animator(this.SPRITE.sheet, 80,7, this.width1,this.height1 ,4,.2,0,false, true);
     
          //******* Punch Right & LEFT ********
          this.animations[this.STATE.PUNCH][this.FACING.RIGHT] 
-             = new Animator(this.spritesheet, 159,9, this.width1,this.height2 ,2,.2,0,false, true);
+             = new Animator(this.SPRITE.sheet, 159,9, this.width1,this.height2 ,2,.2,0,false, true);
          this.animations[this.STATE.PUNCH][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 200,9, this.width1,this.height2 ,2,.2,0,true, true);
+             = new Animator(this.SPRITE.sheet, 200,9, this.width1,this.height2 ,2,.2,0,true, true);
     
          //******* Kick Right & Left *******
          this.animations[this.STATE.KICK][this.FACING.RIGHT]
-             = new Animator(this.spritesheet, 260,9, this.width1,this.height1 ,2,.15,0,false, true);
+             = new Animator(this.SPRITE.sheet, 261,9, this.width1,this.height1 ,2,.15,0,false, true);
          this.animations[this.STATE.KICK][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 320,9, this.width1,this.height1 ,2,.15,0,false, true);
+             = new Animator(this.SPRITE.sheet, 320,9, this.width1,this.height1 ,2,.15,0,false, true);
     
          //****** Duck Left & Right ******
          this.animations[this.STATE.DUCK][this.FACING.RIGHT]
-             = new Animator(this.spritesheet, 380,15, this.width1,this.height4 ,1,.15,0,false, true);
+             = new Animator(this.SPRITE.sheet, 380,15, this.width1,this.height4 ,1,.15,0,false, true);
          this.animations[this.STATE.DUCK][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 420,15, this.width1,this.height4 ,1,.15,0,false, true);
+             = new Animator(this.SPRITE.sheet, 420,15, this.width1,this.height4 ,1,.15,0,false, true);
     
          //****** Jump Right & Left ******
          this.animations[this.STATE.JUMP][this.FACING.RIGHT]
-             = new Animator(this.spritesheet, 440,7, this.width2,this.height1 ,1,.15,0,false, true);
+             = new Animator(this.SPRITE.sheet, 440,7, this.width2,this.height1 ,1,.15,0,false, true);
          this.animations[this.STATE.JUMP][this.FACING.LEFT]
-             = new Animator(this.spritesheet, 460,7, this.width2,this.height1 ,1,.15,0,false, true);
+             = new Animator(this.SPRITE.sheet, 460,7, this.width2,this.height1 ,1,.15,0,false, true);
 
         //****** Roll Left & Right ******
         this.animations[this.STATE.ROLL][this.FACING.RIGHT]
-            = new Animator(this.spritesheet, 560,12, this.heightWidth, this.heightWidth ,5,.1,0,false, true);
+            = new Animator(this.SPRITE.sheet, 560,12, this.heightWidth, this.heightWidth ,5,.1,0,false, true);
         this.animations[this.STATE.ROLL][this.FACING.LEFT]
-            = new Animator(this.spritesheet, 660,12, this.heightWidth, this.heightWidth ,5,.1,0,false, true);
+            = new Animator(this.SPRITE.sheet, 660,12, this.heightWidth, this.heightWidth ,5,.1,0,false, true);
+
+        //****** Dead Left & Right ******
+        this.animations[this.STATE.DEAD][this.FACING.RIGHT]
+            = new Animator(this.SPRITE.sheet, 779,9, this.heightWidth, this.height1 ,8,.2,0,false, false);
+        this.animations[this.STATE.DEAD][this.FACING.LEFT]
+            = new Animator(this.SPRITE.sheet, 939,9, this.heightWidth, this.height1 ,8,.2,0,false, false);
     };
     updateBB(){
         this.lastBB = this.BB;
@@ -162,11 +178,11 @@ class KaratePlayer{
         } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x+this.attackPunchWidth, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
+            this.BB = new BoundingBox(this.x+this.attackPunchWidth *2, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else if(this.state === this.STATE.KICK && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
         } else if(this.state === this.STATE.KICK && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x + this.attackKickWidth, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
+            this.BB = new BoundingBox(this.x + this.attackKickWidth *2, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
         } else if(this.state === this.STATE.DUCK){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height4 * PARAMS.SCALE));
         } else if(this.state === this.STATE.JUMP){
@@ -182,7 +198,9 @@ class KaratePlayer{
         const ROLL = 100;
         const JUMPING = 500;
         const STOP_FALL = 400;
+        const DEAD_X = 50;
         const TICK = this.game.clockTick;
+
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP){
@@ -218,6 +236,10 @@ class KaratePlayer{
                 this.facing = this.FACING.RIGHT;
                 this.state = this.STATE.ROLL;
             }
+            //Kick
+            if(this.game.P){
+                this.state = this.STATE.KICK;
+            }
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
             //Jump
@@ -226,13 +248,10 @@ class KaratePlayer{
                 this.state = this.STATE.JUMP;
                 this.fallAcc = STOP_FALL;
              }  
-            //Kick
-            if(this.game.P){
-                this.state = this.STATE.KICK;
-            }
+
 
          //air physics     
-        } else if(this.state === this.STATE.JUMP) {
+        } else if(this.state === this.STATE.JUMP || this.state === this.STATE.DEAD) {
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
             //horizontal air physics
             if(this.game.D && !this.game.A){
@@ -244,10 +263,23 @@ class KaratePlayer{
             } else {
             }               
         }
+        if(this.hitPoints === 0){
+            this.state = this.STATE.DEAD;
+            this.velocity.y = -100;
+            this.dead = true;
+         } 
+        // else if((this.hitPoints === 0 && this.velocity.x >= 0) || (this.hitPoints === 0 &&  this.facing === this.FACING.LEFT)){
+        //     this.state = this.STATE.DEAD;
+        //     this.velocity.x = DEAD_X;
+        //     this.dead = true;
+        // }
+
 
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
+        this.cX = this.x + ((this.width1 / 2) * PARAMS.SCALE);
+        this.cY = this.y + ((this.height1 / 2) * PARAMS.SCALE);
         this.updateBB();
         this.collisions();
     };
@@ -331,8 +363,21 @@ class KaratePlayer{
     };
     draw(ctx){
         if(PARAMS.DEBUG){
+            //Visual CIrcle
+            ctx.beginPath();
+            ctx.strokeStyle = "Blue";
+            ctx.arc(this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.closePath();
+            //Attack Circle
+            ctx.beginPath();
+            ctx.strokeStyle = "White";
+            ctx.arc(this.cX, this.cY, this.AtkRadius, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.closePath();
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+            
         };
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
         this.healthbar.draw(ctx);
