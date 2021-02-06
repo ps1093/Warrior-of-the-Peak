@@ -3,7 +3,8 @@
  *          Paras Sharma
  *          Suk Won
  *          Tyler Phippen
- * Austin: Made Scene Manager and Level Two
+ * Austin: Made Scene Manager and Level Two, HUD, OBJECTS for
+ * map, player, and CPU loads. 
  * Paras: Put Level one together and added his player.
  * Suk: Loaded his player into level 1.
  * Tyelr: Loaded his player into level 1.
@@ -106,6 +107,7 @@ class SceneManager{
     draw(ctx){
         if(PARAMS.DEBUG){
         }
+        //Prints the HUD
         var playerNameCount = this.player.name.length; 
         var cpuNameCount = this.opponent.name.length;
         var totalCount = playerNameCount + cpuNameCount;

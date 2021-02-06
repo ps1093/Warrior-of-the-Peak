@@ -266,6 +266,7 @@ class KaratePlayer{
         if(this.hitPoints === 0){
             this.state = this.STATE.DEAD;
             this.velocity.y = -100;
+            this.velocity.x = 0;
             this.dead = true;
          } 
         // else if((this.hitPoints === 0 && this.velocity.x >= 0) || (this.hitPoints === 0 &&  this.facing === this.FACING.LEFT)){
