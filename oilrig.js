@@ -112,7 +112,7 @@ class Sky{
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
-        ctx.drawImage(this.spritesheet, this.x, this.y, 1024,719, this.x, this.y, 1024,719);
+        ctx.drawImage(this.spritesheet, this.x, this.y, 1024,719, this.x, this.y, 1024,720);
 
     };
 
