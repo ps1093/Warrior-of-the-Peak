@@ -293,7 +293,7 @@ class KaratePlayer{
                     //Ground Collisions
                      if (that.velocity.y > 0) {
                         //Falling Logic - Level2  - Platform
-                        if((entity instanceof Platform) && that.lastBB.bottom >= entity.BB.top){
+                        if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
                             if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
                             if(that.state === that.STATE.IDLE) that.y = entity.BB.top - (that.height2 * PARAMS.SCALE-that.colAdj1);
                             else if(that.state === that.STATE.WALK) that.y = entity.BB.top - (that.height1 * PARAMS.SCALE-that.walkAdjust);
@@ -305,7 +305,7 @@ class KaratePlayer{
                             that.updateBB();                         
                         }
                         //Falling Logic - Level1 - Level2 - Ground
-                        if((entity instanceof BackGround || entity instanceof BackScene) && that.lastBB.bottom >= entity.BB.bottom){
+                        if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && that.lastBB.bottom >= entity.BB.bottom){
                             if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
                             if(that.state === that.STATE.IDLE) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE-that.colAdj1);
                             else if(that.state === that.STATE.WALK) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE-that.walkAdjust);
@@ -317,7 +317,7 @@ class KaratePlayer{
                             that.updateBB();                         
                         }
                         //Walking to Right Logic - Level1 - Level2
-                        if((entity instanceof BackScene || entity instanceof BackGround ) && that.BB.right >= entity.BB.right){
+                        if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.BB.right >= entity.BB.right){
                             if(that.state === that.STATE.WALK) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
                             else if(that.state === that.STATE.ROLL) that.x = entity.BB.right - (that.heightWidth * PARAMS.SCALE+that.colRollAdj2);
                             else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
@@ -327,7 +327,7 @@ class KaratePlayer{
                             that.updateBB();
                         }
                         //Walking to Left Logic - Level1 - Level2
-                        if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.left <= entity.BB.left){
+                        if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
                             if(that.state === that.STATE.WALK) that.x = entity.BB.left; 
                             else if(that.state === that.STATE.ROLL) that.x = entity.BB.left;
                             else if(that.state === that.STATE.PUNCH) that.x = entity.BB.left;
@@ -346,14 +346,21 @@ class KaratePlayer{
                             that.velocity.y = 0;
                             that.updateBB();
                         }
+                        if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
+                            if(that.state === that.STATE.JUMP) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                            that.hitPoints -= 2;
+                            that.velocity.y = 0;
+                            that.updateBB(); 
+                        }
                         //Jumping & Kicking to Right - Level2 - Level1
-                        if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.right >= entity.BB.right){
+                        if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
                             if(that.state === that.STATE.JUMP) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE);
                              that.velocity.y =0;
                              that.updateBB();
                         }
                         //Jumping & Kicking to Left - Level2 - Level1
-                        if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.left <= entity.BB.left){
+                        if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
                             if(that.state === that.STATE.JUMP) that.x = entity.BB.left;
                              that.velocity.y = 0;
                              that.updateBB();
