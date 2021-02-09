@@ -3,7 +3,8 @@
  *          Paras Sharma
  *          Suk Won
  *          Tyler Phippen
- * Austin: Made Scene Manager and Level Two
+ * Austin: Made Scene Manager and Level Two, HUD, OBJECTS for
+ * map, player, and CPU loads. 
  * Paras: Put Level one together and added his player.
  * Suk: Loaded his player into level 1.
  * Tyelr: Loaded his player into level 1.
@@ -17,7 +18,7 @@ class SceneManager{
             OPPONENT: "CPU"
         }
         this.LEVEL = {
-            MAP: 0
+            MAP: 2
         }
         switch(this.LEVEL.MAP){
             case 0:
@@ -26,6 +27,8 @@ class SceneManager{
             case 1:
                 this.loadLevel2();
                 break;
+            case 2:
+                this.loadlevel3();
         }
 
 	};
@@ -100,12 +103,56 @@ class SceneManager{
                 break;
         }
     };
+
+    loadlevel3(){
+        this.sky = new Sky(this.game, 0,0);
+        this.game.addEntity(this.sky);
+
+        this.propeller = new Propeller(this.game, 75, 50);
+        this.game.addEntity(this.propeller);
+
+        this.oilrig = new OilRig(this.game, 0, 446);
+        this.game.addEntity(this.oilrig);
+
+        this.ocean = new Ocean(this.game, 0, 719);
+        this.game.addEntity(this.ocean);
+        //Loading Player
+        switch(this.Characters.PLAYER){
+            case 'KarateKid':
+                this.player = new KaratePlayer(this.game, 50, 0);
+                this.game.addEntity(this.player);
+                break;
+            case 'ChunLi':
+                break;
+            case 'BillyLee':
+                break;
+            case 'CatPlayer':
+                break;
+        }
+        // //loading CPU
+        switch(this.Characters.OPPONENT){
+            case 'CPU':
+                this.opponent = new KaratePlayerCPU(this.game, 960, 0, this.player);
+                this.game.addEntity(this.opponent);
+                break;
+            case 'ChunLi':
+                break;
+            case 'BillyLee':
+                break;
+            case 'CatPlayer':
+                break;
+        }
+
+    };
+
+
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
     };
     draw(ctx){
         if(PARAMS.DEBUG){
         }
+        // Prints the HUD
         var playerNameCount = this.player.name.length; 
         var cpuNameCount = this.opponent.name.length;
         var totalCount = playerNameCount + cpuNameCount;

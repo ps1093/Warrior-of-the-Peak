@@ -16,7 +16,6 @@ class KaratePlayerCPU extends KaratePlayer{
         
         this.SPRITE.sheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.loadAnimations();
-        console.log(this.SPRITE.sheet);
         this.name = "Johnny Lawrence";
         this.facing = this.FACING.LEFT;
         this.CPU = true;
