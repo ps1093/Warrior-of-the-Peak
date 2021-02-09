@@ -6,7 +6,7 @@ class KaratePlayerCPU extends KaratePlayer{
 
         //Hit Points
         this.maxHitPoints = 100;
-        this.hitPoints = 69;
+        this.hitPoints = 100;
         
         //Setting up circle
         this.VisRadius = 280;
@@ -85,19 +85,18 @@ class KaratePlayerCPU extends KaratePlayer{
                     console.log("HitPoints: " + that.other.hitPoints);
                 }
             });
-
-
-
-
-
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
-
-
         //air physics     
         } else if(this.state === this.STATE.JUMP) {
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;               
         }
+        if(this.hitPoints === 0){
+            this.state = this.STATE.DEAD;
+            this.velocity.y = -100;
+            this.velocity.x = 0;
+            this.dead = true;
+         } 
 
         if(this.other.dead === true){
             this.velocity.x = 0;

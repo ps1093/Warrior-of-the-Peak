@@ -4,7 +4,7 @@ class OilRig{
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/OILRIG.png");
         this.animations =[];
-        this.animations.push(new Animator(this.spritesheet, 0,446, 1024,321,2,.1,10,false, true));
+        this.animations.push(new Animator(this.spritesheet, 0,446, 1024,321,5,.1,10,false, true));
         this.BB = new BoundingBox(0, 463, 1024, 304);
 
     };
@@ -55,6 +55,15 @@ class Propeller{
                 //this.velocity.y += this.fallAcc * TICK;
             }
         }
+
+        var that = this;
+        this.game.entities.forEach(function(entity) {
+            if (entity.BB && that.BB.collide(entity.BB)) {
+                if((entity instanceof KaratePlayer) && that.lastBB.bottom <= entity.BB.top){
+                    entity.hitPoints -= 2;
+                }
+            }
+        });
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.updateBB();

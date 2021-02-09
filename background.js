@@ -70,6 +70,9 @@ class HealthBar{
             ctx.strokeRect(this.pX, this.pY, this.pX * 4, 10);
             
         } else {
+            if(this.player.hitPoints === 0 || this.player.hitPoints < 0){
+                this.player.hitPoints = 0;
+            }
             var ratio = this.player.hitPoints / this.player.maxHitPoints;
             ctx.strokeStyle = "Black";
             ctx.fillStyle = ratio < .25 ? "Red" : ratio < .75 ? "Yellow" : "Green";
