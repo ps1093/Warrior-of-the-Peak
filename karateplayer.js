@@ -203,7 +203,7 @@ class KaratePlayer{
 
         
         //Ground Physics
-        if(this.state !== this.STATE.JUMP){
+        if(this.state !== this.STATE.JUMP && this.state !== this.STATE.DEAD){
             //Walking
             if(this.game.D){
                 this.velocity.x = WALK;
@@ -251,7 +251,7 @@ class KaratePlayer{
 
 
          //air physics     
-        } else if(this.state === this.STATE.JUMP || this.state === this.STATE.DEAD) {
+        } else if(this.state === this.STATE.JUMP && this.state !== this.STATE.DEAD) {
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
             //horizontal air physics
             if(this.game.D && !this.game.A){
@@ -265,7 +265,7 @@ class KaratePlayer{
         }
         if(this.hitPoints === 0){
             this.state = this.STATE.DEAD;
-            this.velocity.y = -100;
+            this.velocity.y = - 100;
             this.velocity.x = 0;
             this.dead = true;
          } 
@@ -346,7 +346,7 @@ class KaratePlayer{
                         if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
                             if(that.state === that.STATE.JUMP) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
                             else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
-                            //that.hitPoints -= 2;
+                            that.hitPoints -= 2;
                             that.velocity.y = 0;
                             that.updateBB(); 
                         }

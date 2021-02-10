@@ -19,6 +19,27 @@ class OilRig{
     };
 };
 
+class Crane{
+    constructor(game, x, y){
+        Object.assign(this, {game, x, y});
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/CRANE.png");
+        this.animations =[];
+        this.animations.push(new Animator(this.spritesheet, 97,10, 402,309,4,.25,98,false, true));
+        this.BB = new BoundingBox(this.x, this.y, 402, 309);
+
+    };
+    update(){
+    };
+    draw(ctx){
+        if(PARAMS.DEBUG){
+            ctx.strokeStyle = "Red";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
+        this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1);
+    };
+};
+
 class Propeller{
     constructor(game, x, y){
         Object.assign(this, {game, x, y});
@@ -60,14 +81,13 @@ class Propeller{
         this.game.entities.forEach(function(entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if((entity instanceof KaratePlayer) && that.lastBB.bottom <= entity.BB.top){
-                    entity.hitPoints -= 2;
+                    entity.hitPoints -= 5;
                 }
             }
         });
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.updateBB();
-
     };
     draw(ctx){
         if(PARAMS.DEBUG){
@@ -95,7 +115,6 @@ class Ocean{
         }
     };
 };
-
 class Sky{
     constructor(game, x, y){
         Object.assign(this, {game,x,y});
@@ -105,7 +124,6 @@ class Sky{
         
     };
     update(){
-
     };
     draw(ctx){
         if(PARAMS.DEBUG){
@@ -115,5 +133,4 @@ class Sky{
         ctx.drawImage(this.spritesheet, this.x, this.y, 1024,719, this.x, this.y, 1024,720);
 
     };
-
-}
+};

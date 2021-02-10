@@ -111,11 +111,9 @@ class SceneManager{
         this.propeller = new Propeller(this.game, 75, 50);
         this.game.addEntity(this.propeller);
 
-        this.oilrig = new OilRig(this.game, 0, 446);
-        this.game.addEntity(this.oilrig);
+        this.crane = new Crane(this.game, 620, 159);
+        this.game.addEntity(this.crane);
 
-        this.ocean = new Ocean(this.game, 0, 719);
-        this.game.addEntity(this.ocean);
         //Loading Player
         switch(this.Characters.PLAYER){
             case 'KarateKid':
@@ -142,6 +140,12 @@ class SceneManager{
             case 'CatPlayer':
                 break;
         }
+
+        this.oilrig = new OilRig(this.game, 0, 446);
+        this.game.addEntity(this.oilrig);
+
+        this.ocean = new Ocean(this.game, 0, 719);
+        this.game.addEntity(this.ocean);
 
     };
 
