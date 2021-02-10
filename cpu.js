@@ -19,7 +19,7 @@ class KaratePlayerCPU extends KaratePlayer{
         this.name = "Johnny Lawrence";
         this.facing = this.FACING.LEFT;
         this.CPU = true;
-        this.healthbar = new HealthBar(this);
+        //this.healthbar = new HealthBar(this);
         
     };
 
@@ -34,7 +34,7 @@ class KaratePlayerCPU extends KaratePlayer{
         const TICK = this.game.clockTick;
 
         //Ground Physics
-        if(this.state !== this.STATE.JUMP){
+        if(this.state !== this.STATE.JUMP  && this.state !== this.STATE.DEAD){
             var dx, dy;
 
             this.midpoint = this.x + ((this.width1 * PARAMS.SCALE) / 2);
@@ -88,19 +88,19 @@ class KaratePlayerCPU extends KaratePlayer{
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
         //air physics     
-        } else if(this.state === this.STATE.JUMP) {
+        } else if(this.state === this.STATE.JUMP && this.state !== this.STATE.DEAD) {
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;               
         }
         if(this.hitPoints === 0){
+            console.log("This is the death scene, and the state is: " + this.state);
             this.state = this.STATE.DEAD;
             this.velocity.y = -100;
             this.velocity.x = 0;
-            this.dead = true;
+            //this.dead = true;
          } 
 
         if(this.other.dead === true){
             this.velocity.x = 0;
-            this.state = this.STATE.IDLE;
         }
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
@@ -130,7 +130,7 @@ class KaratePlayerCPU extends KaratePlayer{
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         };
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
-        this.healthbar.draw(ctx);
+        //this.healthbar.draw(ctx);
     };
 
     VisCircle() {

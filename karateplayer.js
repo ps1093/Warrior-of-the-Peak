@@ -95,7 +95,7 @@ class KaratePlayer{
         };
 
         //Creating the Health Bar
-        this.healthbar = new HealthBar(this);
+        //this.healthbar = new HealthBar(this);
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
 
@@ -187,7 +187,7 @@ class KaratePlayer{
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height4 * PARAMS.SCALE));
         } else if(this.state === this.STATE.JUMP){
             this.BB = new BoundingBox(this.x, this.y, this.width2 * PARAMS.SCALE, this.height1 * (PARAMS.SCALE));
-        } else {
+        } else{
             this.BB = new BoundingBox(this.x, this.y + this.rollAdjust, this.heightWidth * PARAMS.SCALE, (this.heightWidth * PARAMS.SCALE));
         }
     };
@@ -263,6 +263,7 @@ class KaratePlayer{
             } else {
             }               
         }
+
         if(this.hitPoints === 0){
             this.state = this.STATE.DEAD;
             this.velocity.y = - 100;
@@ -363,7 +364,7 @@ class KaratePlayer{
                              that.updateBB();
                         }
                     }
-                }       
+                } 
         });        
     };
     draw(ctx){
@@ -385,7 +386,7 @@ class KaratePlayer{
             
         };
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
-        this.healthbar.draw(ctx);
+        //this.healthbar.draw(ctx);
     };
 };
 
