@@ -4,8 +4,29 @@ class OilRig{
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/OILRIG.png");
         this.animations =[];
-        this.animations.push(new Animator(this.spritesheet, 0,446, 1024,321,2,.1,10,false, true));
+        this.animations.push(new Animator(this.spritesheet, 0,446, 1024,321,5,.1,10,false, true));
         this.BB = new BoundingBox(0, 463, 1024, 304);
+
+    };
+    update(){
+    };
+    draw(ctx){
+        if(PARAMS.DEBUG){
+            ctx.strokeStyle = "Red";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
+        this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 1);
+    };
+};
+
+class Crane{
+    constructor(game, x, y){
+        Object.assign(this, {game, x, y});
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/CRANE.png");
+        this.animations =[];
+        this.animations.push(new Animator(this.spritesheet, 97,10, 402,309,4,.25,98,false, true));
+        this.BB = new BoundingBox(this.x, this.y, 402, 309);
 
     };
     update(){
@@ -55,10 +76,18 @@ class Propeller{
                 //this.velocity.y += this.fallAcc * TICK;
             }
         }
+
+        var that = this;
+        this.game.entities.forEach(function(entity) {
+            if (entity.BB && that.BB.collide(entity.BB)) {
+                if((entity instanceof KaratePlayer) && that.lastBB.bottom <= entity.BB.top){
+                    entity.hitPoints -= 25;
+                }
+            }
+        });
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.updateBB();
-
     };
     draw(ctx){
         if(PARAMS.DEBUG){
@@ -86,7 +115,6 @@ class Ocean{
         }
     };
 };
-
 class Sky{
     constructor(game, x, y){
         Object.assign(this, {game,x,y});
@@ -96,15 +124,13 @@ class Sky{
         
     };
     update(){
-
     };
     draw(ctx){
         if(PARAMS.DEBUG){
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
-        ctx.drawImage(this.spritesheet, this.x, this.y, 1024,719, this.x, this.y, 1024,719);
+        ctx.drawImage(this.spritesheet, this.x, this.y, 1024,719, this.x, this.y, 1024,720);
 
     };
-
-}
+};

@@ -95,7 +95,7 @@ class KaratePlayer{
         };
 
         //Creating the Health Bar
-        this.healthbar = new HealthBar(this);
+        //this.healthbar = new HealthBar(this);
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
 
@@ -187,7 +187,7 @@ class KaratePlayer{
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height4 * PARAMS.SCALE));
         } else if(this.state === this.STATE.JUMP){
             this.BB = new BoundingBox(this.x, this.y, this.width2 * PARAMS.SCALE, this.height1 * (PARAMS.SCALE));
-        } else {
+        } else{
             this.BB = new BoundingBox(this.x, this.y + this.rollAdjust, this.heightWidth * PARAMS.SCALE, (this.heightWidth * PARAMS.SCALE));
         }
     };
@@ -201,9 +201,9 @@ class KaratePlayer{
         const DEAD_X = 50;
         const TICK = this.game.clockTick;
 
-
+        
         //Ground Physics
-        if(this.state !== this.STATE.JUMP){
+        if(this.state !== this.STATE.JUMP && this.state !== this.STATE.DEAD){
             //Walking
             if(this.game.D){
                 this.velocity.x = WALK;
@@ -251,7 +251,7 @@ class KaratePlayer{
 
 
          //air physics     
-        } else if(this.state === this.STATE.JUMP || this.state === this.STATE.DEAD) {
+        } else if(this.state === this.STATE.JUMP && this.state !== this.STATE.DEAD) {
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
             //horizontal air physics
             if(this.game.D && !this.game.A){
@@ -263,17 +263,13 @@ class KaratePlayer{
             } else {
             }               
         }
+
         if(this.hitPoints === 0){
             this.state = this.STATE.DEAD;
-            this.velocity.y = -100;
+            this.velocity.y = - 100;
             this.velocity.x = 0;
             this.dead = true;
          } 
-        // else if((this.hitPoints === 0 && this.velocity.x >= 0) || (this.hitPoints === 0 &&  this.facing === this.FACING.LEFT)){
-        //     this.state = this.STATE.DEAD;
-        //     this.velocity.x = DEAD_X;
-        //     this.dead = true;
-        // }
 
 
         //updating
@@ -300,10 +296,12 @@ class KaratePlayer{
                             else if(that.state === that.STATE.ROLL) that.y = entity.BB.top - (that.heightWidth * PARAMS.SCALE-that.rollAdjust);
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - (that.height4 * PARAMS.SCALE-that.duckAdjust);
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - (that.height2 * PARAMS.SCALE-that.punchAdjust);  
-                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - (that.height1 * PARAMS.SCALE- that.kickAdjust);              
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - (that.height1 * PARAMS.SCALE- that.kickAdjust);  
+                            //that.fallAcc = that.STOP_FALL;            
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }
+
                         //Falling Logic - Level1 - Level2 - Ground
                         if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && that.lastBB.bottom >= entity.BB.bottom){
                             if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
@@ -317,7 +315,7 @@ class KaratePlayer{
                             that.updateBB();                         
                         }
                         //Walking to Right Logic - Level1 - Level2
-                        if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.BB.right >= entity.BB.right){
+                        if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
                             if(that.state === that.STATE.WALK) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
                             else if(that.state === that.STATE.ROLL) that.x = entity.BB.right - (that.heightWidth * PARAMS.SCALE+that.colRollAdj2);
                             else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
@@ -366,7 +364,7 @@ class KaratePlayer{
                              that.updateBB();
                         }
                     }
-                }       
+                } 
         });        
     };
     draw(ctx){
@@ -388,7 +386,7 @@ class KaratePlayer{
             
         };
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
-        this.healthbar.draw(ctx);
+        //this.healthbar.draw(ctx);
     };
 };
 
