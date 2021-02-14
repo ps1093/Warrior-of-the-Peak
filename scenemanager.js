@@ -19,7 +19,7 @@ class SceneManager{
             OPPONENT: "CPU"
         }
         this.LEVEL = {
-            MAP: 2
+            MAP: 1
         }
         switch(this.Characters.PLAYER){
             case 'KarateKid':
