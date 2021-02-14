@@ -4,6 +4,11 @@ class KaratePlayerCPU extends KaratePlayer{
         Object.assign(this,{game,x,y});
         this.other = player;
 
+        //Setting up Character
+        this.name = "Johnny Lawrence";
+        this.facing = this.FACING.LEFT;
+        this.CPU = true;
+
         //Hit Points
         this.maxHitPoints = 100;
         this.hitPoints = 100;
@@ -12,14 +17,11 @@ class KaratePlayerCPU extends KaratePlayer{
         this.VisRadius = 280;
         this.AtkRadius = 45;
 
-        //Setting up Character
-        
-        this.SPRITE.sheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
+        this.updateBB();
         this.loadAnimations();
-        this.name = "Johnny Lawrence";
-        this.facing = this.FACING.LEFT;
-        this.CPU = true;
-        //this.healthbar = new HealthBar(this);
+
         
     };
 
@@ -37,21 +39,21 @@ class KaratePlayerCPU extends KaratePlayer{
         if(this.state !== this.STATE.JUMP  && this.state !== this.STATE.DEAD){
             var dx, dy;
 
-            this.midpoint = this.x + ((this.width1 * PARAMS.SCALE) / 2);
-            this.other.midpoint = this.other.x + ((this.width1 * PARAMS.SCALE) / 2);
+            this.midpoint = this.x + KPstate.RIDLE[0].w / 2;
+            this.other.midpoint = this.other.x + KPstate.RIDLE[0].w / 2;
 
             //If negative, CPU is on the right side
             if((this.other.midpoint - this.midpoint) < 0){
                 if(this.state === this.STATE.PUNCH){
-                    dx = Math.floor((this.other.BB.x + this.other.attackPunchWidth * PARAMS.SCALE) - this.BB.x);
+                    dx = Math.floor((this.other.BB.x + KPstate.RPUNCH[0].w * PARAMS.SCALE) - this.BB.x);
                 } else if(this.state === this.STATE.KICK){
-                    dx = Math.floor((this.other.BB.x + this.other.attackKickWidth * PARAMS.SCALE) - this.BB.x);
+                    dx = Math.floor((this.other.BB.x + KPstate.RKICK[0].w * PARAMS.SCALE) - this.BB.x);
                 } else {
-                    dx = Math.floor((this.other.BB.x + this.other.width1 * PARAMS.SCALE) - this.BB.x);
+                    dx = Math.floor((this.other.BB.x + KPstate.RIDLE[0].w * PARAMS.SCALE) - this.BB.x);
                 }
                 
             } else {
-                dx = Math.floor(this.other.BB.x - (this.BB.x + this.width1 * PARAMS.SCALE));
+                dx = Math.floor(this.other.BB.x - (this.BB.x + KPstate.RIDLE[0].w * PARAMS.SCALE));
             }
             //console.log("dX: " + dx);
             if(dx == 0 && (this.other.midpoint - this.midpoint < 0)){
@@ -105,8 +107,8 @@ class KaratePlayerCPU extends KaratePlayer{
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
-        this.cX = this.x + ((this.width1 / 2) * PARAMS.SCALE);
-        this.cY = this.y + ((this.height1 / 2) * PARAMS.SCALE);
+        this.cX = this.x + KPstate.RWALK[0].w / 2 * PARAMS.SCALE;
+        this.cY = this.y + KPstate.RWALK[0].h / 2 * PARAMS.SCALE;
         this.updateBB();
         this.collisions();
     };
