@@ -83,6 +83,8 @@ class SceneManager{
                 this.game.addEntity(this.player);
                 break;
             case 'ChunLi':
+                this.player = new ChunLi(this.game, 400, 0);
+                this.game.addEntity(this.player);
                 break;
             case 'BillyLee':
                 break;

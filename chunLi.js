@@ -3,6 +3,7 @@ class ChunLi {
         Object.assign(this, { game, x, y});
 
         this.game.ChunLi = this;
+        this.count = 0;
 
         this.name = "Chun Li";
 
@@ -89,13 +90,14 @@ class ChunLi {
         this.block = [{x: 0, y: 481, w: 49, h: 75}, {x: 57, y: 496, w: 45, h: 60}];
 
 
-        this.updateBB();
+       // this.updateBB();
 
         
 
          // player animations
          this.animations = [];
          this.loadAnimations();
+         this.updateBB();
     };
 
 
@@ -106,9 +108,6 @@ class ChunLi {
                     this.animations[i].push([]);
                 }
              }
-
-
-        
             
              /*
 
@@ -177,16 +176,16 @@ class ChunLi {
         this.animations[1][1] = new Animator2(this.spritesheet, this.walk, 8, .1, false, true);
         this.animations[2][0] = new Animator2(this.spritesheet, this.jump, 4, .1, false, true);
         this.animations[2][1] = new Animator2(this.spritesheet, this.jump, 4, .1, false, true);
-        this.animations[3][0] = new Animator2(this.spritesheet, this.punch, 3, .5, false, true);
-        this.animations[3][1] = new Animator2(this.spritesheet, this.punch, 3, .5, false, true);
-        this.animations[4][0] = new Animator2(this.spritesheet, this.kick, 4, .5, false, true);
-        this.animations[4][1] = new Animator2(this.spritesheet, this.kick, 4, .5, false, true);
+        this.animations[3][0] = new Animator2(this.spritesheet, this.punch, 3, .2, false, true);
+        this.animations[3][1] = new Animator2(this.spritesheet, this.punch, 3, .2, false, true);
+        this.animations[4][0] = new Animator2(this.spritesheet, this.kick, 4, .2, false, true);
+        this.animations[4][1] = new Animator2(this.spritesheet, this.kick, 4, .2, false, true);
         this.animations[5][0] = new Animator2(this.spritesheet, this.jKick, 6, .1, false, true);
         this.animations[5][1] = new Animator2(this.spritesheet, this.jKick, 6, .1, false, true);
         this.animations[6][0] = new Animator2(this.spritesheet, this.sKick, 7, .1, false, true);
         this.animations[6][1] = new Animator2(this.spritesheet, this.sKick, 7, .1, false, true);
-        this.animations[7][0] = new Animator2(this.spritesheet, this.walk, 16, .1, false, true);
-        this.animations[7][1] = new Animator2(this.spritesheet, this.walk, 16, .1, false, true);
+        this.animations[7][0] = new Animator2(this.spritesheet, this.bKick, 16, .1, false, true);
+        this.animations[7][1] = new Animator2(this.spritesheet, this.bKick, 16, .1, false, true);
         this.animations[8][0] = new Animator2(this.spritesheet, this.gHit, 2, .1, false, true);
         this.animations[8][1] = new Animator2(this.spritesheet, this.gHit, 2, .1, false, true);
         this.animations[9][0] = new Animator2(this.spritesheet, this.duck, 2, .2, false, true);
@@ -200,30 +199,58 @@ class ChunLi {
   
     updateBB(){
         this.lastBB = this.BB;
+
+        if (this.facing === 0) {
+            if (this.state === 0) {
+                this.BB = new BoundingBox (this.x, this.y, this.idle[this.animations[0][0].currentFrame()].w, this.idle[this.animations[0][0].currentFrame()].h);
+            } else if (this.state === 1) {
+                this.BB = new BoundingBox (this.x, this.y, this.walk[this.animations[1][0].currentFrame()].w, this.walk[this.animations[1][0].currentFrame()].h);
+            } else if (this.state === 2) {
+                this.BB = new BoundingBox(this.x, this.y, this.jump[this.animations[2][0].currentFrame()].w, this.jump[this.animations[2][0].currentFrame()].h);
+            } else if (this.state === 3) {
+                this.BB = new BoundingBox(this.x, this.y, this.punch[this.animations[3][0].currentFrame()].w, this.punch[this.animations[3][0].currentFrame()].h);
+            } else if (this.state === 4) {
+                this.BB = new BoundingBox(this.x, this.y, this.kick[this.animations[4][0].currentFrame()].w, this.kick[this.animations[4][0].currentFrame()].h);
+            } else if (this.state === 5) {
+                this.BB = new BoundingBox(this.x, this.y, this.jKick[this.animations[5][0].currentFrame()].w, this.jKick[this.animations[5][0].currentFrame()].h);
+            } else if (this.state === 6) {
+                this.BB = new BoundingBox(this.x, this.y, this.sKick[this.animations[6][0].currentFrame()].w, this.sKick[this.animations[6][0].currentFrame()].h);
+            } else if (this.state === 7) {
+                this.BB = new BoundingBox(this.x, this.y, this.bKick[this.animations[7][0].currentFrame()].w, this.bKick[this.animations[7][0].currentFrame()].h);
+            } else if (this.state === 8) {
+                this.BB = new BoundingBox(this.x, this.y, this.gHit[this.animations[8][0].currentFrame()].w, this.gHit[this.animations[8][0].currentFrame()].h);
+            } else if (this.state === 9) {
+                this.BB = new BoundingBox(this.x, this.y, this.duck[this.animations[9][0].currentFrame()].w, this.duck[this.animations[9][0].currentFrame()].h);
+            } else if (this.state === 10) {
+                this.BB = new BoundingBox(this.x, this.y, this.block[this.animations[10][0].currentFrame()].w, this.block[this.animations[10][0].currentFrame()].h);
+            } 
+        } else {
+                if (this.state === 0){
+                this.BB = new BoundingBox (this.x, this.y, -this.idle[this.animations[0][1].currentFrame()].w, this.idle[this.animations[0][1].currentFrame()].h);
+            } else if (this.state === 1) {
+                this.BB = new BoundingBox (this.x, this.y, -this.walk[this.animations[1][1].currentFrame()].w, this.walk[this.animations[1][1].currentFrame()].h);
+            } else if (this.state === 2) {
+                this.BB = new BoundingBox(this.x, this.y, -this.jump[this.animations[2][1].currentFrame()].w, this.jump[this.animations[2][1].currentFrame()].h);
+            } else if (this.state === 3) {
+                this.BB = new BoundingBox(this.x, this.y, -this.punch[this.animations[3][1].currentFrame()].w, this.punch[this.animations[3][1].currentFrame()].h);
+            } else if (this.state === 4) {
+                this.BB = new BoundingBox(this.x, this.y, -this.kick[this.animations[4][1].currentFrame()].w, this.kick[this.animations[4][1].currentFrame()].h);
+            } else if (this.state === 5) {
+                this.BB = new BoundingBox(this.x, this.y, -this.jKick[this.animations[5][1].currentFrame()].w, this.jKick[this.animations[5][1].currentFrame()].h);
+            } else if (this.state === 6) {
+                this.BB = new BoundingBox(this.x, this.y, -this.sKick[this.animations[6][1].currentFrame()].w, this.sKick[this.animations[6][1].currentFrame()].h);
+            } else if (this.state === 7) {
+                this.BB = new BoundingBox(this.x, this.y, -this.bKick[this.animations[7][1].currentFrame()].w, this.bKick[this.animations[7][1].currentFrame()].h);
+            } else if (this.state === 8) {
+                this.BB = new BoundingBox(this.x, this.y, -this.gHit[this.animations[8][1].currentFrame()].w, this.gHit[this.animations[8][1].currentFrame()].h);
+            } else if (this.state === 9) {
+                this.BB = new BoundingBox(this.x, this.y, -this.duck[this.animations[9][1].currentFrame()].w, this.duck[this.animations[9][1].currentFrame()].h);
+            } else if (this.state === 10) {
+                this.BB = new BoundingBox(this.x, this.y, -this.block[this.animations[10][1].currentFrame()].w, this.block[this.animations[10][1].currentFrame()].h);
+            } 
+        }
         
-        if (this.state === 0) {
-            this.BB = new BoundingBox (this.x, this.y, this.idle[0].w, this.idle[0].h);
-        } else if (this.state === 1) {
-            this.BB = new BoundingBox (this.x, this.y, this.walk[0].w, this.walk[0].h);
-        } else if (this.state === 2) {
-            this.BB = new BoundingBox(this.x, this.y, this.jump[0].w, this.jump[0].h);
-        } else if (this.state === 3) {
-            this.BB = new BoundingBox(this.x, this.y, this.punch[0].w, this.punch[0].h);
-        } else if (this.state === 4) {
-            this.BB = new BoundingBox(this.x, this.y, this.kick[0].w, this.kick[0].h);
-        } else if (this.state === 5) {
-            this.BB = new BoundingBox(this.x, this.y, this.jKick[0].w, this.jKick[0].h);
-        } else if (this.state === 6) {
-            this.BB = new BoundingBox(this.x, this.y, this.sKick[0].w, this.sKick[0].h);
-        } else if (this.state === 7) {
-            this.BB = new BoundingBox(this.x, this.y, this.bKick[0].w, this.bKick[0].h);
-        } else if (this.state === 8) {
-            this.BB = new BoundingBox(this.x, this.y, this.gHit[0].w, this.gHit[0].h);
-        } else if (this.state === 9) {
-            this.BB = new BoundingBox(this.x, this.y, this.duck[0].w, this.duck[0].h);
-        } else if (this.state === 10) {
-            this.BB = new BoundingBox(this.x, this.y, this.block[0].w, this.block[0].h);
-        } 
+    
     };
 
     die(){
@@ -235,13 +262,16 @@ class ChunLi {
 
     update(){
 
+        const TICK = this.game.clockTick;
+
         //Variables to manipulate the X and Y velocity
         const WALK = 150;
         const FALL_WALK = 1;
-        const ROLL = 100;
         const JUMPING = 500;
-        const STOP_FALL = 400;
-        const TICK = this.game.clockTick;
+        const STOP_FALL = 800;
+       
+
+        
 
         //Ground Physics
         if(this.state !== 2){
@@ -282,12 +312,13 @@ class ChunLi {
             //Jump
             if(this.game.W ){
                 this.velocity.y = -JUMPING;
-                this.state = 2;
                 this.fallAcc = STOP_FALL;
-             }  
+                this.state = 2;
+             } 
+            
             //Kick
             if(this.game.P){
-                this.state = 4;
+                this.state = 6;
             }
 
          //air physics     
@@ -305,7 +336,7 @@ class ChunLi {
         }
 
         //updating
-        this.x += this.velocity.x * TICK * 1.25;
+        this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
         this.y += this.velocity.y * TICK * 1.25;
         this.updateBB();
         this.collisions();
@@ -322,29 +353,45 @@ class ChunLi {
                         //Falling Logic - Level1 - Level2 - Ground
                         if((entity instanceof BackGround || entity instanceof BackScene) && that.lastBB.bottom >= entity.BB.bottom){
                             if(that.state === that.state[2]) that.state = that.state[0];
-                            if(that.state === that.state[0]) that.y = entity.BB.top - (that.idle[0].h);
-                            else if(that.state === that.state[1]) that.y = entity.BB.top - (that.walk[1].h);
-                            else if(that.state === that.state[9]) that.y = entity.BB.top - (that.duck[9].h);
-                            else if(that.state === that.state[3]) that.y = entity.BB.top - (that.punch[3].h);  
-                            else if(that.state === that.state[4]) that.y = entity.BB.top - (that.kick[4].h);              
+                            if(that.state === that.state[0]) that.y = entity.BB.bottom - (this.idle[this.animations[0][0].currentFrame().h]);
+                            else if(that.state === that.state[1]) that.y = entity.BB.bottom - this.walk[this.animations[1][0].currentFrame()].h;
+                            else if(that.state === that.state[2]) that.y = entity.BB.bottom  - this.jump[this.animations[2][0].currentFrame()].h;
+                            else if(that.state === that.state[3]) that.y = entity.BB.bottom - this.punch[this.animations[3][0].currentFrame()].h;  
+                            else if(that.state === that.state[4]) that.y = entity.BB.bottom - this.kick[this.animations[4][0].currentFrame()].h;
+                            else if(that.state === that.state[5]) that.y = entity.BB.bottom - this.jKick[this.animations[5][0].currentFrame()].h;
+                            else if(that.state === that.state[6]) that.y = entity.BB.bottom - this.sKick[this.animations[6][0].currentFrame()].h;
+                            else if(that.state === that.state[7]) that.y = entity.BB.bottom - this.bKick[this.animations[7][0].currentFrame()].h;  
+                            else if(that.state === that.state[8]) that.y = entity.BB.bottom - this.gHit[this.animations[8][0].currentFrame()].h; 
+                            else if(that.state === that.state[9]) that.y = entity.BB.bottom - this.duck[this.animations[9][0].currentFrame()].h;
+                            else if(that.state === that.state[10]) that.y = entity.BB.bottom  - this.block[this.animations[10][0].currentFrame()].h;           
                             that.velocity.y = 0;
-                            that.updateBB();                         
-                        }
-                         //Jumping & Kicking to Right - Level2 - Level1
-                         if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.right >= entity.BB.right){
-                            if(that.state === that.state[0]) that.x = entity.BB.right - (that.jump[0].h);
-                             that.velocity.y =0;
-                             that.updateBB();
+                            that.updateBB();   
+                                                 
                         }
                     }
+
+                         //Air Collisions
+                         if(that.velocity.y < 0){
+                            //Jumping logic - Level1 - Platform
+                            if((entity instanceof BackGround) && that.lastBB.top >= entity.BB.bottom){
+                                if(that.state === that.state[2]) that.y = entity.BB.bottom + this.jump[this.animations[2][0].currentFrame()].h;
+                                else if(that.state === that.state[4]) that.y = entity.BB.bottom + this.jump[this.animations[4][0].currentFrame()].h;
+                                that.velocity.y = 0;
+                                that.updateBB();
+                            }
+                            //Jumping & Kicking to Right - Level2 - Level1
+                            if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.right >= entity.BB.right){
+                                if(that.state === that.state[2]) that.x = entity.BB.right - this.jump[this.animations[2][0].currentFrame()].h;
+                                 that.velocity.y =0;
+                                 that.updateBB();
+                            }
+                           
+                        }
                 }
             })
         };
 
     
-
-    
-
     draw(ctx) {
 
         /*
@@ -360,20 +407,22 @@ class ChunLi {
 
         if(PARAMS.DEBUG){
             ctx.strokeStyle = "Red";
-            if (this.facing === 0){
-                ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width * 1.25, this.BB.height * 1.25);
-            } else {
-                ctx.save();
-                ctx.scale(-1, 1);
-                ctx.strokeRect(-(this.BB.x) - 30, this.BB.y, this.BB.width * 1.25, this.BB.height * 1.25);
-            }
-        };
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width * 1.25, this.BB.height * 1.25);
+        } else {
+            ctx.save();
+            ctx.scale(-1, 1);
+            ctx.strokeStyle = "Red";
+            ctx.strokeRect(-(this.BB.x) - 30, this.BB.y, this.BB.width * 1.25, this.BB.height * 1.25);
+        }
+
+       
 
         if (this.dead) {
             this.die.drawFrame(this.game.clockTick,ctx, this.x, this.y, 1.25);
         } else if (this.facing === 0) {
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, 1.25);
         this.healthbar.draw(ctx);
+       // console.log(this.animations[0][0].currentFrame());
 
         } else {
             ctx.save();
