@@ -15,7 +15,7 @@ class SceneManager{
         this.game.camera = this;
         
         this.Characters = {
-            PLAYER: "KarateKid",
+            PLAYER: "CatPlayer",
             OPPONENT: "CPU"
         }
         this.LEVEL = {
@@ -30,6 +30,7 @@ class SceneManager{
             case 'BillyLee':
                 break;
             case 'CatPlayer':
+                this.player = new catplayer(this.game, 0, 0);
                 break;
         }
         switch(this.Characters.OPPONENT){
