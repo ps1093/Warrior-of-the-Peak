@@ -14,17 +14,13 @@ class KaratePlayerCPU extends KaratePlayer{
         this.hitPoints = 100;
         
         //Setting up circle
-        this.VisRadius = 280;
+        this.VisRadius = 200;
         this.AtkRadius = 45;
-
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.updateBB();
         this.loadAnimations();
-
-        
     };
-
     update(){
         //Variables to manipulate the X and Y velocity
         const BLIND_WALK = 50;
@@ -134,7 +130,6 @@ class KaratePlayerCPU extends KaratePlayer{
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
         //this.healthbar.draw(ctx);
     };
-
     VisCircle() {
         var dx = this.cX - this.other.cX;
         var dy = this.cY - this.other.cY;

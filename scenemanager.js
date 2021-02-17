@@ -19,7 +19,7 @@ class SceneManager{
             OPPONENT: "CPU"
         }
         this.LEVEL = {
-            MAP: 1
+            MAP: 0
         }
         switch(this.Characters.PLAYER){
             case 'KarateKid':
@@ -30,6 +30,7 @@ class SceneManager{
             case 'BillyLee':
                 break;
             case 'CatPlayer':
+                this.player = new catplayer(this.game, 0, 0);
                 break;
         }
         switch(this.Characters.OPPONENT){
@@ -159,9 +160,7 @@ class SceneManager{
         ctx.fillText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
         ctx.strokeText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
     };
-    
-
 };
 function rgb(r, g, b){
     return "rgb(" + r + "," + g + "," + b + ")";
-}
+};
