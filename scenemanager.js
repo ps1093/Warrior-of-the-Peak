@@ -15,7 +15,7 @@ class SceneManager{
         this.game.camera = this;
         
         this.Characters = {
-            PLAYER: "KarateKid",
+            PLAYER: "CatPlayer",
             OPPONENT: "CPU"
         }
         this.LEVEL = {
