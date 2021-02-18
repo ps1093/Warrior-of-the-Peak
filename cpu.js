@@ -17,7 +17,6 @@ class KaratePlayerCPU extends KaratePlayer{
         this.VisRadius = 200;
         this.AtkRadius = 45;
 
-        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.updateBB();
         this.loadAnimations();
     };

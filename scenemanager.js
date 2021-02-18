@@ -8,7 +8,7 @@
  * Paras: Put Level one together and added his player.
  * Suk: Loaded his player into level 1.
  * Tyelr: Loaded his player into level 1.
- */
+ **/
 class SceneManager{
 	constructor(game){
 		this.game = game;
