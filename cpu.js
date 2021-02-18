@@ -1,6 +1,6 @@
 class KaratePlayerCPU extends KaratePlayer{
-    constructor(game, x, y, player){
-        super(game,x,y);
+    constructor(game, x, y, player, blue){
+        super(game,x,y, blue);
         Object.assign(this,{game,x,y});
         this.other = player;
 
@@ -17,7 +17,7 @@ class KaratePlayerCPU extends KaratePlayer{
         this.VisRadius = 200;
         this.AtkRadius = 45;
 
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
+        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.updateBB();
         this.loadAnimations();
     };

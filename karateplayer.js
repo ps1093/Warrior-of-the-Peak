@@ -1,6 +1,6 @@
 class KaratePlayer{
-    constructor(game, x, y){
-        Object.assign(this, {game, x, y});
+    constructor(game, x, y, blue){
+        Object.assign(this, {game, x, y, blue});
         this.game.KaratePlayer = this;
 
         //Character Details for HUD and game
@@ -50,7 +50,11 @@ class KaratePlayer{
         };
 
         this.updateBB();
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png")
+        if(this.blue){
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
+        } else {
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png")
+        }
         this.animations = [];
         this.loadAnimations();
     };
