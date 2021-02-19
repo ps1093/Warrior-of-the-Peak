@@ -204,7 +204,13 @@ class SceneManager{
             }
     
             if(((this.game.click.y >= 700-30) && (this.game.click.y <= 700 +3) && (this.game.click.x > 300) && (this.game.click.x < 750))){
-                this.loadgame(true, false);
+                if((this.PlayersChoice.PLAYER === null) || (this.PlayersChoice.OPPONENT === null) || (this.Level.MAP === null) || (this.Level.MAP === null)){
+
+                } else {
+                    this.loadgame(true, false);
+                }
+                
+
             }
         }
     };
@@ -219,7 +225,7 @@ class SceneManager{
             var middle = 524;
             var vStart = 250 + ((middle - totalCount) / 2);
             ctx.strokeStyle = "DarkOrange";
-            ctx.font = '15px "Press Start 2P"';
+            ctx.font = '14px "Press Start 2P"';
             ctx.fillStyle = rgb(183,3,3);
             ctx.fillText(this.player.name, 255 , 60);
             ctx.strokeText(this.player.name, 255 , 60);
@@ -231,7 +237,7 @@ class SceneManager{
             ctx.strokeText("VS.", vStart - ("VS.".length * 15)/2, 60);
             
             ctx.strokeStyle = "DarkOrange";
-            ctx.font = '15px "Press Start 2P"';
+            ctx.font = '14px "Press Start 2P"';
             ctx.fillStyle = rgb(183,3,3);
             ctx.fillText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
             ctx.strokeText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
@@ -322,7 +328,7 @@ class TransitionScreen{
     };
     update(){
         console.log("Elapsed Time: " + this.elapsed);
-        this.elapsed += this.game.clockTick * PARAMS.SCALE;
+        this.elapsed += this.game.clockTick;
         if(this.elapsed > 2) this.game.camera.loadgame(false, false);
     };
     draw(ctx){
