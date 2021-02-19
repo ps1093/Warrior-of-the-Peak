@@ -1,10 +1,10 @@
 class KaratePlayer{
-    constructor(game, x, y, blue){
-        Object.assign(this, {game, x, y, blue});
+    constructor(game, x, y, blue, theName){
+        Object.assign(this, {game, x, y, blue, theName});
         this.game.KaratePlayer = this;
 
         //Character Details for HUD and game
-        this.name = "Daniel Larusso";
+        this.name = this.theName;
         this.dead = false;
         this.CPU = false;
 

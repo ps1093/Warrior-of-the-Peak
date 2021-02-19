@@ -1,11 +1,11 @@
 class KaratePlayerCPU extends KaratePlayer{
-    constructor(game, x, y, player, blue){
+    constructor(game, x, y, player, blue, theName){
         super(game,x,y, blue);
-        Object.assign(this,{game,x,y});
+        Object.assign(this,{game,x,y, theName});
         this.other = player;
 
         //Setting up Character
-        this.name = "Johnny Lawrence";
+        this.name = this.theName;
         this.facing = this.FACING.LEFT;
         this.CPU = true;
 

@@ -25,7 +25,7 @@ class SceneManager{
             MAP: null
         }
         this.Players = {
-            CHARACTERS: ["Daniel Larusso (White Gi)", "Daniel Larusso (Blue Gi)",
+            CHARACTERS: ["Daniel Larusso", "Johnny Lawrence",
                          "Yodha", "Chun Li", "Billy Lee"]
         }
         this.LevelChoice = {
@@ -41,13 +41,13 @@ class SceneManager{
         this.clearEntities();
 
         switch(this.PlayersChoice.PLAYER){
-            //Daniel Larusso (white Gi)
+            //Daniel Larusso
             case this.Players.CHARACTERS[0]:
-                this.player = new KaratePlayer(this.game, 50, 0, false);
+                this.player = new KaratePlayer(this.game, 50, 0, false, this.Players.CHARACTERS[0]);
                 break;
-            //Daniel Larusso (Blue Gi)
+            //Johnny Lawrence
             case this.Players.CHARACTERS[1]:
-                this.player = new KaratePlayer(this.game, 50, 0, true);
+                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1]);
                 break;
             //Yodha
             case this.Players.CHARACTERS[2]:
@@ -63,11 +63,11 @@ class SceneManager{
         switch(this.PlayersChoice.OPPONENT){
             //Daniel Larusso (white Gi)
             case this.Players.CHARACTERS[0]:
-                this.opponent = new KaratePlayerCPU(this.game, 960, 0, this.player, false);
+                this.opponent = new KaratePlayerCPU(this.game, 960, 0, this.player, false, this.Players.CHARACTERS[0]);
                 break;
             //Daniel Larusso (Blue Gi)
             case this.Players.CHARACTERS[1]:
-                this.opponent = new KaratePlayerCPU(this.game, 960, 0, this.player, true);
+                this.opponent = new KaratePlayerCPU(this.game, 960, 0, this.player, true, this.Players.CHARACTERS[1]);
                 break;
             //Yodha
             case this.Players.CHARACTERS[2]:
