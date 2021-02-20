@@ -16,6 +16,13 @@ class SceneManager{
         this.title = true;
         this.titleName = "Warrior of the Peak";
         this.edition = "Frantic Coder Edition";
+        this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
+        this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
+        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
+        this.animations = [];
+        this.animations[0] = (new Animator2(this.DLspritesheet, KPstate.RIDLE, 2, .75, false, true));
+        this.animations[1] = (new Animator2(this.JLspritesheet, KPstate.RIDLE, 2, .75, false, true));
+        this.animations[2] = new Animator (this.CPspritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true );
 
         this.PlayersChoice = {
             PLAYER: null,
@@ -254,6 +261,10 @@ class SceneManager{
             ctx.fillText(this.edition, 300, 150);
             ctx.strokeText(this.edition, 300, 150);
     
+            this.animations[0].drawFrame(this.game.clockTick, ctx, 100, 200, PARAMS.SCALE);
+            this.animations[1].drawFrame(this.game.clockTick, ctx, 250, 200, PARAMS.SCALE);
+            this.animations[2].drawFrame(this.game.clockTick, ctx, 400, 200, 3);
+
             //ctx.font = '20px "Press Start 2P"';
             ctx.fillStyle = rgb(183, 3, 3);
             ctx.fillText("---Players---", 0, 350);
