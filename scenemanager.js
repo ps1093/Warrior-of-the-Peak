@@ -149,7 +149,7 @@ class SceneManager{
         this.healthbar = new HealthBar(this.opponent);
         this.game.addEntity(this.healthbar);
 
-        tthis.game.addEntity(new VS(this.game, this.player, this.opponent));
+        this.game.addEntity(new VS(this.game, this.player, this.opponent));
 
         this.game.addEntity(this.player);
 
