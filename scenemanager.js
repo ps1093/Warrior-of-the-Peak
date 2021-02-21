@@ -26,7 +26,7 @@ class SceneManager{
         this.animations[1] = (new Animator2(this.JLspritesheet, KPstate.RIDLE, 2, .75, false, true));
         this.animations[2] = new Animator (this.CPspritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true );
         this.animations[3] = new Animator2(this.CLspritesheet, ChunLiState.IDLE, 4, .35, false, true );
-        this.animations[4] = new Animator2(this.BLspritesheet, BillyLeeState.IDLE, 1, .75, false, true );
+        this.animations[4] = new Animator2(this.BLspritesheet, BillyLeeState.WALK, 4, .75, false, true );
 
 
         this.PlayersChoice = {
@@ -231,8 +231,6 @@ class SceneManager{
                 } else {
                     this.loadgame(true, false);
                 }
-                
-
             }
         }
     };
@@ -258,9 +256,8 @@ class SceneManager{
             this.animations[1].drawFrame(this.game.clockTick, ctx, 350, 200, PARAMS.SCALE);
             this.animations[2].drawFrame(this.game.clockTick, ctx, 500, 200, 3);
             this.animations[3].drawFrame(this.game.clockTick, ctx, 650, 200, 1.20);
-            this.animations[4].drawFrame(this.game.clockTick, ctx, 800, 200, 1.65);
+            this.animations[4].drawFrame(this.game.clockTick, ctx, 800, 200, 1.55);
             
-
             //ctx.font = '20px "Press Start 2P"';
             ctx.fillStyle = rgb(183, 3, 3);
             ctx.fillText("---Players---", 0, 350);
@@ -315,7 +312,6 @@ class SceneManager{
                 ctx.fillText(this.LevelChoice.LEVEL[i], 750, counter);
                 ctx.strokeText(this.LevelChoice.LEVEL[i], 750, counter);
             }
-    
             ctx.font = '30px "Press Start 2P"';
             ctx.fillStyle = this.game.mouse && (this.game.mouse.y >= 700-30) && (this.game.mouse.y <= 700 +3) && (this.game.mouse.x > 300) && (this.game.mouse.x < 750)? "White" : rgb(183, 3, 3);
             ctx.fillText("--- FIGHT! ---", 300, 700);
