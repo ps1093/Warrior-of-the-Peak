@@ -479,6 +479,41 @@ class BillyLee {
                 }
 
                      //Air Collisions
+                     //Air Collisions
+                     if(that.velocity.y < 0){
+                        //Jumping logic - Level1 - Platform
+                        if((entity instanceof BackGround) && that.lastBB.bottom <= entity.BB.top){
+                            if(that.state === 8) that.y = entity.BB.bottom - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL;
+                            that.velocity.y = 0;                              
+                            that.updateBB();
+                        }
+                        //Jumping & Kicking to Right - Level2 - Level1
+                        if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.right >= entity.BB.right){
+                            if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL;
+                             that.velocity.y = 0;
+                             that.updateBB();
+                        }
+                        // jumping on propeller oil righ
+                        if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
+                            if(that.state === 8) that.y = entity.BB.bottom + that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL;
+                            else if(that.state === 5) that.y = entity.BB.bottom + that.sKick[that.animations[5][0].currentFrame()].h * PARAMS.BL;
+                            that.hitPoints -= 2;
+                            that.velocity.y = 0;
+                            that.updateBB(); 
+                        }
+
+                        //Jumping & Kicking to Right - any level
+                        if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
+                            if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.CHUNLI;
+                            that.velocity.y =0;
+                            that.updateBB();
+                    }
+                        //Jumping & Kicking to Left - any level
+                        if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
+                            if(that.state === 8) that.x = entity.BB.left;
+                            that.velocity.y = 0;
+                            that.updateBB();
+                    }
 
                      
                     /* if(that.velocity.y < 0){
@@ -497,6 +532,7 @@ class BillyLee {
                     } */
 
                     
+                }
             }
         })
     };
