@@ -336,6 +336,21 @@ class ChunLi {
     
     draw(ctx) {
 
+        if(!this.CPU){
+            ctx.strokeStyle = "DarkOrange";
+            ctx.font = '14px "Press Start 2P"';
+            ctx.fillStyle = rgb(183,3,3);
+            ctx.fillText(this.name, 255 , 60);
+            ctx.strokeText(this.name, 255 , 60);
+        } else if (this.CPU){
+            this.cpuNameCount = this.name.length;
+            ctx.strokeStyle = "DarkOrange";
+            ctx.font = '14px "Press Start 2P"';
+            ctx.fillStyle = rgb(183,3,3);
+            ctx.fillText(this.name, 759 - (cpuNameCount * 14), 60);
+            ctx.strokeText(this.name, 759 - (cpuNameCount * 14), 60);
+        }
+
         /*
         ctx.strokeStyle = "White";
         ctx.strokeRect(300, 300, 43 * 3, 80 * 3);

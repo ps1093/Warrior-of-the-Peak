@@ -16,6 +16,18 @@ class SceneManager{
         this.title = true;
         this.titleName = "Warrior of the Peak";
         this.edition = "Frantic Coder Edition";
+        this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
+        this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
+        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
+        this.CLspritesheet = ASSET_MANAGER.getAsset("./sprites/ChunLi.png");
+        this.BLspritesheet = ASSET_MANAGER.getAsset("./sprites/BillyLee.png");
+        this.animations = [];
+        this.animations[0] = (new Animator2(this.DLspritesheet, KPstate.RIDLE, 2, .75, false, true));
+        this.animations[1] = (new Animator2(this.JLspritesheet, KPstate.RIDLE, 2, .75, false, true));
+        this.animations[2] = new Animator (this.CPspritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true );
+        this.animations[3] = new Animator2(this.CLspritesheet, ChunLiState.IDLE, 4, .35, false, true );
+        this.animations[4] = new Animator2(this.BLspritesheet, BillyLeeState.IDLE, 1, .75, false, true );
+
 
         this.PlayersChoice = {
             PLAYER: null,
@@ -116,6 +128,8 @@ class SceneManager{
         //Opponent HealthBar
         this.healthbar = new HealthBar(this.opponent);
         this.game.addEntity(this.healthbar);
+
+        this.game.addEntity(new VS(this.game, this.player, this.opponent));
         
         this.game.addEntity(this.player);
 
@@ -140,6 +154,8 @@ class SceneManager{
         this.healthbar = new HealthBar(this.opponent);
         this.game.addEntity(this.healthbar);
 
+        this.game.addEntity(new VS(this.game, this.player, this.opponent));
+
         this.game.addEntity(this.player);
 
         this.game.addEntity(this.opponent);
@@ -161,6 +177,8 @@ class SceneManager{
         //Opponent HealthBar
         this.healthbar = new HealthBar(this.opponent);
         this.game.addEntity(this.healthbar);
+
+        this.game.addEntity(new VS(this.game, this.player, this.opponent));
 
         this.game.addEntity(this.player);
 
@@ -222,29 +240,7 @@ class SceneManager{
         if(PARAMS.DEBUG){
         }
         if(!this.title){
-            //Prints the HUD
-            var playerNameCount = this.player.name.length; 
-            var cpuNameCount = this.opponent.name.length;
-            var totalCount = playerNameCount + cpuNameCount;
-            var middle = 524;
-            var vStart = 250 + ((middle - totalCount) / 2);
-            ctx.strokeStyle = "DarkOrange";
-            ctx.font = '14px "Press Start 2P"';
-            ctx.fillStyle = rgb(183,3,3);
-            ctx.fillText(this.player.name, 255 , 60);
-            ctx.strokeText(this.player.name, 255 , 60);
-
-            ctx.strokeStyle = "Black";
-            ctx.font = '20px "Press Start 2P"';
-            ctx.fillStyle = "Red";
-            ctx.fillText("VS.", vStart - ("VS.".length * 15)/2, 60);
-            ctx.strokeText("VS.", vStart - ("VS.".length * 15)/2, 60);
             
-            ctx.strokeStyle = "DarkOrange";
-            ctx.font = '14px "Press Start 2P"';
-            ctx.fillStyle = rgb(183,3,3);
-            ctx.fillText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
-            ctx.strokeText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
         } else if(this.title) {
             ctx.fillStyle = "Black";
             ctx.strokeStyle = "Black";
@@ -258,6 +254,13 @@ class SceneManager{
             ctx.fillText(this.edition, 300, 150);
             ctx.strokeText(this.edition, 300, 150);
     
+            this.animations[0].drawFrame(this.game.clockTick, ctx, 200, 200, PARAMS.SCALE);
+            this.animations[1].drawFrame(this.game.clockTick, ctx, 350, 200, PARAMS.SCALE);
+            this.animations[2].drawFrame(this.game.clockTick, ctx, 500, 200, 3);
+            this.animations[3].drawFrame(this.game.clockTick, ctx, 650, 200, 1.20);
+            this.animations[4].drawFrame(this.game.clockTick, ctx, 800, 200, 1.65);
+            
+
             //ctx.font = '20px "Press Start 2P"';
             ctx.fillStyle = rgb(183, 3, 3);
             ctx.fillText("---Players---", 0, 350);
@@ -354,3 +357,23 @@ class TransitionScreen{
         }
     };
 };
+
+class VS{
+    constructor(game, player, opponent){
+        Object.assign(this, {game, player, opponent});
+    };
+    update(){
+    };
+    draw(ctx){
+        var playerNameCount = this.player.name.length; 
+        var cpuNameCount = this.opponent.name.length;
+        var totalCount = playerNameCount + cpuNameCount;
+        var middle = 524;
+        var vStart = 250 + ((middle - totalCount) / 2);
+        ctx.strokeStyle = "Black";
+        ctx.font = '20px "Press Start 2P"';
+        ctx.fillStyle = "Red";
+        ctx.fillText("VS.", vStart - ("VS.".length * 15)/2, 60);
+        ctx.strokeText("VS.", vStart - ("VS.".length * 15)/2, 60);
+    };
+}
