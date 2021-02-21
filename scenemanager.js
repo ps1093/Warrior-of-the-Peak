@@ -119,6 +119,8 @@ class SceneManager{
         //Opponent HealthBar
         this.healthbar = new HealthBar(this.opponent);
         this.game.addEntity(this.healthbar);
+
+        this.game.addEntity(new VS(this.game, this.player, this.opponent));
         
         this.game.addEntity(this.player);
 
@@ -143,6 +145,8 @@ class SceneManager{
         this.healthbar = new HealthBar(this.opponent);
         this.game.addEntity(this.healthbar);
 
+        tthis.game.addEntity(new VS(this.game, this.player, this.opponent));
+
         this.game.addEntity(this.player);
 
         this.game.addEntity(this.opponent);
@@ -164,6 +168,8 @@ class SceneManager{
         //Opponent HealthBar
         this.healthbar = new HealthBar(this.opponent);
         this.game.addEntity(this.healthbar);
+
+        this.game.addEntity(new VS(this.game, this.player, this.opponent));
 
         this.game.addEntity(this.player);
 
@@ -225,29 +231,7 @@ class SceneManager{
         if(PARAMS.DEBUG){
         }
         if(!this.title){
-            //Prints the HUD
-            var playerNameCount = this.player.name.length; 
-            var cpuNameCount = this.opponent.name.length;
-            var totalCount = playerNameCount + cpuNameCount;
-            var middle = 524;
-            var vStart = 250 + ((middle - totalCount) / 2);
-            ctx.strokeStyle = "DarkOrange";
-            ctx.font = '14px "Press Start 2P"';
-            ctx.fillStyle = rgb(183,3,3);
-            ctx.fillText(this.player.name, 255 , 60);
-            ctx.strokeText(this.player.name, 255 , 60);
-
-            ctx.strokeStyle = "Black";
-            ctx.font = '20px "Press Start 2P"';
-            ctx.fillStyle = "Red";
-            ctx.fillText("VS.", vStart - ("VS.".length * 15)/2, 60);
-            ctx.strokeText("VS.", vStart - ("VS.".length * 15)/2, 60);
             
-            ctx.strokeStyle = "DarkOrange";
-            ctx.font = '14px "Press Start 2P"';
-            ctx.fillStyle = rgb(183,3,3);
-            ctx.fillText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
-            ctx.strokeText(this.opponent.name, 759 - (cpuNameCount * 15), 60);
         } else if(this.title) {
             ctx.fillStyle = "Black";
             ctx.strokeStyle = "Black";
@@ -361,3 +345,23 @@ class TransitionScreen{
         }
     };
 };
+
+class VS{
+    constructor(game, player, opponent){
+        Object.assign(this, {game, player, opponent});
+    };
+    update(){
+    };
+    draw(ctx){
+        var playerNameCount = this.player.name.length; 
+        var cpuNameCount = this.opponent.name.length;
+        var totalCount = playerNameCount + cpuNameCount;
+        var middle = 524;
+        var vStart = 250 + ((middle - totalCount) / 2);
+        ctx.strokeStyle = "Black";
+        ctx.font = '20px "Press Start 2P"';
+        ctx.fillStyle = "Red";
+        ctx.fillText("VS.", vStart - ("VS.".length * 15)/2, 60);
+        ctx.strokeText("VS.", vStart - ("VS.".length * 15)/2, 60);
+    };
+}
