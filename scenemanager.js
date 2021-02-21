@@ -14,7 +14,8 @@ class SceneManager{
         this.game.camera = this;
         this.Characters = {
          //   PLAYER: "KarateKid",
-            PLAYER: "ChunLi",
+         //   PLAYER: "ChunLi",
+            PLAYER: "BillyLee",
             OPPONENT: "CPU"
         }
         this.LEVEL = {
@@ -46,6 +47,8 @@ class SceneManager{
                 this.game.addEntity(this.player);
                 break;
             case 'BillyLee':
+                this.player = new BillyLee(this.game, 0, 0);
+                this.game.addEntity(this.player);
                 break;
             case 'CatPlayer':
                 break;
@@ -87,6 +90,8 @@ class SceneManager{
                 this.game.addEntity(this.player);
                 break;
             case 'BillyLee':
+                this.player = new BillyLee(this.game, 400, 0);
+                this.game.addEntity(this.player);
                 break;
             case 'CatPlayer':
                 break;
