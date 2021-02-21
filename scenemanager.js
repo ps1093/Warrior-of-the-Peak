@@ -77,9 +77,11 @@ class SceneManager{
                 break;
             //Chun Li
             case this.Players.CHARACTERS[3]:
+                this.opponent = new ChunLi(this.game, 960, 0, this.Players.CHARACTERS[3]);
                 break;
             //Billy Lee
             case this.Players.CHARACTERS[4]:
+                this.opponent = new BillyLee(this.game, 960, 0, this.Players.CHARACTERS[4]);
                 break;
         }
         this.title = title;

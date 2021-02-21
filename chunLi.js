@@ -2,9 +2,14 @@ class ChunLi {
     constructor(game, x, y, theName) {
         Object.assign(this, { game, x, y, theName});
 
-        this.game.ChunLi = this;
+      //  this.game.ChunLi = this;
         
-        this.name = "Chun Li";
+      //  this.name = "Chun Li";
+
+        //Character Details for HUD and game
+        this.name = this.theName;
+        this.dead = false;
+        this.CPU = false;
 
         //For the Health Bar
         this.maxHitPoints  = 100;
@@ -20,7 +25,7 @@ class ChunLi {
         // ChunLi state variables
         this.state = 0; // 0 = idle, 1 = walking, 2 = jump, 3 = punch, 4 = kick, 5 = jump kick, 6 = super kick, 7 = bird kick, 8 = get hit, 9 = duck, 10 = block
         this.facing = 0; // 0 = right, 1 = left
-        this.dead = false;
+       // this.dead = false;
 
          //Her velocity for movements.
         this.velocity = {
@@ -94,6 +99,7 @@ class ChunLi {
         // player animations
         this.animations = [];
         this.loadAnimations();
+        this.updateBB();
          
     };
 
@@ -109,8 +115,8 @@ class ChunLi {
         this.animations[0][1] = new Animator2(this.spritesheet, this.idle, 4, .1, false, true);
         this.animations[1][0] = new Animator2(this.spritesheet, this.walk, 8, .1, false, true);
         this.animations[1][1] = new Animator2(this.spritesheet, this.walk, 8, .1, false, true);
-        this.animations[2][0] = new Animator2(this.spritesheet, this.jump, 4, .1, false, true);
-        this.animations[2][1] = new Animator2(this.spritesheet, this.jump, 4, .1, false, true);
+        this.animations[2][0] = new Animator2(this.spritesheet, this.jump, 4, .7, false, true);
+        this.animations[2][1] = new Animator2(this.spritesheet, this.jump, 4, .7, false, true);
         this.animations[3][0] = new Animator2(this.spritesheet, this.punch, 3, .2, false, true);
         this.animations[3][1] = new Animator2(this.spritesheet, this.punch, 3, .2, false, true);
         this.animations[4][0] = new Animator2(this.spritesheet, this.kick, 4, .2, false, true);

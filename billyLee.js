@@ -2,9 +2,14 @@ class BillyLee {
     constructor(game, x, y, theName) {
         Object.assign(this, { game, x, y, theName });
   
-        this.game.BillyLee = this;
+      //  this.game.BillyLee = this;
 
-        this.name = "Billy Lee";
+      //  this.name = "Billy Lee";
+
+        //Character Details for HUD and game
+        this.name = this.theName;
+        this.dead = false;
+        this.CPU = false;
 
         //For the Health Bar
         this.maxHitPoints  = 100;
@@ -19,7 +24,7 @@ class BillyLee {
         // DDPlayer state variables
         this.state = 0; // 0 = idle, 1 = walking, 2 = right punch, 3 = left punch, 4 = super punch, 5 = kick, 6 = super kick, 7 = get hit, 8 = jump, 9 = duck 
         this.facing = 0; // 0 = right, 1 = left
-        this.dead = false;
+       // this.dead = false;
 
         this.velocity = {x:0, y:0};
 
