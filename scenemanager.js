@@ -13,13 +13,6 @@ class SceneManager{
 	constructor(game){
 		this.game = game;
         this.game.camera = this;
-<<<<<<< HEAD
-        this.Characters = {
-         //   PLAYER: "KarateKid",
-         //   PLAYER: "ChunLi",
-            PLAYER: "BillyLee",
-            OPPONENT: "CPU"
-=======
         this.title = true;
         this.titleName = "Warrior of the Peak";
         this.edition = "Frantic Coder Edition";
@@ -27,7 +20,6 @@ class SceneManager{
         this.PlayersChoice = {
             PLAYER: null,
             OPPONENT: null
->>>>>>> 16b4a6a54677cbaa7045b18d0dcf656ddfb6f2e2
         }
         this.Level = {
             MAP: null
@@ -53,15 +45,6 @@ class SceneManager{
             case this.Players.CHARACTERS[0]:
                 this.player = new KaratePlayer(this.game, 50, 0, false, this.Players.CHARACTERS[0]);
                 break;
-<<<<<<< HEAD
-            case 'ChunLi':
-                this.player = new ChunLi(this.game, 0, 0);
-                this.game.addEntity(this.player);
-                break;
-            case 'BillyLee':
-                this.player = new BillyLee(this.game, 0, 0);
-                this.game.addEntity(this.player);
-=======
             //Johnny Lawrence
             case this.Players.CHARACTERS[1]:
                 this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1]);
@@ -69,7 +52,6 @@ class SceneManager{
             //Yodha
             case this.Players.CHARACTERS[2]:
                 this.player = new catplayer(this.game, 0, 0);
->>>>>>> 16b4a6a54677cbaa7045b18d0dcf656ddfb6f2e2
                 break;
             //Chun Li
             case this.Players.CHARACTERS[3]:
@@ -146,39 +128,6 @@ class SceneManager{
         let ground = new Ground(this.game, 0, 736, 1024);
         this.game.addEntity(ground);
 
-<<<<<<< HEAD
-        //Loading Player
-        switch(this.Characters.PLAYER){
-            case 'KarateKid':
-                this.player = new KaratePlayer(this.game, 0, 0);
-                this.game.addEntity(this.player);
-                break;
-            case 'ChunLi':
-                this.player = new ChunLi(this.game, 400, 0);
-                this.game.addEntity(this.player);
-                break;
-            case 'BillyLee':
-                this.player = new BillyLee(this.game, 400, 0);
-                this.game.addEntity(this.player);
-                break;
-            case 'CatPlayer':
-                break;
-        }
-        //loading CPU
-        switch(this.Characters.OPPONENT){
-            case 'CPU':
-                this.opponent = new KaratePlayerCPU(this.game, 960, 0, this.player);
-                this.game.addEntity(this.opponent);
-                break;
-            case 'ChunLi':
-                break;
-            case 'BillyLee':
-                break;
-            case 'CatPlayer':
-                break;
-        }
-       };
-=======
         //Player HealthBar
         this.healthbar = new HealthBar(this.player);
         this.game.addEntity(this.healthbar);
@@ -219,7 +168,6 @@ class SceneManager{
         this.ocean = new Ocean(this.game, 0, 719);
         this.game.addEntity(this.ocean);
     };
->>>>>>> 16b4a6a54677cbaa7045b18d0dcf656ddfb6f2e2
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
         if(this.game.click){
