@@ -1,6 +1,6 @@
 class ChunLi {
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y});
+    constructor(game, x, y, theName) {
+        Object.assign(this, { game, x, y, theName});
 
         this.game.ChunLi = this;
         
@@ -27,6 +27,7 @@ class ChunLi {
             x:0, 
             y:0
         };
+        
 
         //Creating the Health Bar
         this.healthbar = new HealthBar(this);
@@ -328,7 +329,7 @@ class ChunLi {
 
     
     draw(ctx) {
-var that = this;
+
         /*
         ctx.strokeStyle = "White";
         ctx.strokeRect(300, 300, 43 * 3, 80 * 3);
@@ -341,6 +342,7 @@ var that = this;
       //  this.animations[6][0].drawFrame(this.game.clockTick, ctx, -535, 429, 1);
 
         if(PARAMS.DEBUG){
+            ctx.stroke();
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
             

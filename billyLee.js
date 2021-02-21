@@ -1,6 +1,6 @@
 class BillyLee {
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
+    constructor(game, x, y, theName) {
+        Object.assign(this, { game, x, y, theName });
   
         this.game.BillyLee = this;
 
@@ -103,8 +103,8 @@ class BillyLee {
         this.animations[6][1] = new Animator2(this.spritesheet, this.sKick, 5, .1, false, true);
         this.animations[7][0] = new Animator2(this.spritesheet, this.gHit, 2, .1, false, true);
         this.animations[7][1] = new Animator2(this.spritesheet, this.gHit, 2, .1, false, true);
-        this.animations[8][0] = new Animator2(this.spritesheet, this.jump, 2, .1, false, true);
-        this.animations[8][1] = new Animator2(this.spritesheet, this.jump, 2, .1, false, true);
+        this.animations[8][0] = new Animator2(this.spritesheet, this.jump, 2, .5, false, true);
+        this.animations[8][1] = new Animator2(this.spritesheet, this.jump, 2, .5, false, true);
         this.animations[9][0] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
         

@@ -55,9 +55,11 @@ class SceneManager{
                 break;
             //Chun Li
             case this.Players.CHARACTERS[3]:
+                this.player = new ChunLi(this.game, 0, 0, this.Players.CHARACTERS[3]);
                 break;
             //Billy Lee
             case this.Players.CHARACTERS[4]:
+                this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4]);
                 break;
         }
         switch(this.PlayersChoice.OPPONENT){
