@@ -19,10 +19,15 @@ class SceneManager{
         this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
+        this.CLspritesheet = ASSET_MANAGER.getAsset("./sprites/ChunLi.png");
+        this.BLspritesheet = ASSET_MANAGER.getAsset("./sprites/BillyLee.png");
         this.animations = [];
         this.animations[0] = (new Animator2(this.DLspritesheet, KPstate.RIDLE, 2, .75, false, true));
         this.animations[1] = (new Animator2(this.JLspritesheet, KPstate.RIDLE, 2, .75, false, true));
         this.animations[2] = new Animator (this.CPspritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true );
+        this.animations[3] = new Animator2(this.CLspritesheet, ChunLiState.IDLE, 4, .35, false, true );
+        this.animations[4] = new Animator2(this.BLspritesheet, BillyLeeState.IDLE, 1, .75, false, true );
+
 
         this.PlayersChoice = {
             PLAYER: null,
@@ -249,9 +254,12 @@ class SceneManager{
             ctx.fillText(this.edition, 300, 150);
             ctx.strokeText(this.edition, 300, 150);
     
-            this.animations[0].drawFrame(this.game.clockTick, ctx, 100, 200, PARAMS.SCALE);
-            this.animations[1].drawFrame(this.game.clockTick, ctx, 250, 200, PARAMS.SCALE);
-            this.animations[2].drawFrame(this.game.clockTick, ctx, 400, 200, 3);
+            this.animations[0].drawFrame(this.game.clockTick, ctx, 200, 200, PARAMS.SCALE);
+            this.animations[1].drawFrame(this.game.clockTick, ctx, 350, 200, PARAMS.SCALE);
+            this.animations[2].drawFrame(this.game.clockTick, ctx, 500, 200, 3);
+            this.animations[3].drawFrame(this.game.clockTick, ctx, 650, 200, 1.20);
+            this.animations[4].drawFrame(this.game.clockTick, ctx, 800, 200, 1.65);
+            
 
             //ctx.font = '20px "Press Start 2P"';
             ctx.fillStyle = rgb(183, 3, 3);
