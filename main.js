@@ -17,6 +17,8 @@ ASSET_MANAGER.queueDownload("./sprites/backdrop.png");
 ASSET_MANAGER.queueDownload("./sprites/ChunLi.png"); 
 
 ASSET_MANAGER.queueDownload("./sprites/BillyLee.png");
+<<<<<<< HEAD
+=======
 ASSET_MANAGER.queueDownload("./sprites/round1.png");
 ASSET_MANAGER.queueDownload("./sprites/waterfallsprite.png");
 
@@ -27,6 +29,7 @@ ASSET_MANAGER.queueDownload("./sprites/Propeller.png");
 ASSET_MANAGER.queueDownload("./sprites/sky.png");
 ASSET_MANAGER.queueDownload("./sprites/CRANE.png");
 
+>>>>>>> 16b4a6a54677cbaa7045b18d0dcf656ddfb6f2e2
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
