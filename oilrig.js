@@ -6,7 +6,6 @@ class OilRig{
         this.animations =[];
         this.animations.push(new Animator(this.spritesheet, 0,446, 1024,321,5,.1,10,false, true));
         this.BB = new BoundingBox(0, 463, 1024, 304);
-
     };
     update(){
     };
