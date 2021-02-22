@@ -55,3 +55,17 @@ var BillyLeeState = {
         DIE: [{x: 250, y: 153, w: 30, h: 42}, {x: 300, y: 161, w: 36, y: 34}, {x: 361, y: 166, w: 47, h: 30}, {x: 400, y: 167, w: 48, y: 30}]
 
 };
+
+var GokuState = {
+        IDLE:[{}],
+        WALK: [{}],
+        RPUNCH: [{}],
+        LPUNCH: [{}],
+        RKICK: [{}],
+        DUCK: [{}],
+        JUMP: [{}],
+        POWER: [{}],
+        BLASH: [{}],
+        DEAD: [{}]
+
+}
