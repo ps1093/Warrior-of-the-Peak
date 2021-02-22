@@ -16,6 +16,14 @@ class SceneManager{
         this.title = true;
         this.titleName = "Warrior of the Peak";
         this.edition = "Frantic Coder Edition";
+        this.clicked = false;
+        this.clickX;
+        this.clickY;
+        this.pclickX;
+        this.pclickY;
+        this.mclickX;
+        this.mclickY;
+        this.clickCounter = 0;
         this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
@@ -194,34 +202,73 @@ class SceneManager{
         PARAMS.DEBUG = document.getElementById("debug").checked;
         if(this.game.click){
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[0].length * 12))){
+                this.clicked = true;
+                this.pclickX = this.game.click.x;
+                this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[0];  
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[1].length * 12))){
+                this.clicked = true;
+                this.pclickX = this.game.click.x;
+                this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[1]; 
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[2].length * 12))){
+                this.clicked = true;
+                this.pclickX = this.game.click.x;
+                this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[2]; 
             } else if(((this.game.click.y >= 550-12) && (this.game.click.y <= 550 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[3].length * 12))){
+                this.clicked = true;
+                this.pclickX = this.game.click.x;
+                this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[3]; 
             } else if(((this.game.click.y >= 600-12) && (this.game.click.y <= 600 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[4].length * 12))){
+                this.clicked = true;
+                this.pclickX = this.game.click.x;
+                this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4]; 
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[0].length * 12))){
+                this.clicked = true;
+                this.oclickX = this.game.click.x;
+                this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[0];  
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[1].length * 12))){
+                this.clicked = true;
+                this.oclickX = this.game.click.x;
+                this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[1]; 
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[2].length * 12))){
+                this.clicked = true;
+                this.oclickX = this.game.click.x;
+                this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[2]; 
             } else if(((this.game.click.y >= 550-12) && (this.game.click.y <= 550 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[3].length * 12))){
+                this.clicked = true;
+                this.oclickX = this.game.click.x;
+                this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[3]; 
             } else if(((this.game.click.y >= 600-12) && (this.game.click.y <= 600 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[4].length * 12))){
+                this.clicked = true;
+                this.oclickX = this.game.click.x;
+                this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[4]; 
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[0].length * 12))){
+                this.clicked = true;
+                this.oclickX = this.game.click.x;
+                this.oclickY = this.game.click.y;
                 this.Level.MAP = this.LevelChoice.LEVEL[0];  
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[1].length * 12))){
+                this.clicked = true;
+                this.clickX = this.game.click.x;
+                this.clickY = this.game.click.y;
                 this.Level.MAP = this.LevelChoice.LEVEL[1]; 
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[2].length * 12))){
+                this.clicked = true;
+                this.mclickX = this.game.click.x;
+                this.mclickY = this.game.click.y;
                 this.Level.MAP = this.LevelChoice.LEVEL[2]; 
             }
     
@@ -266,7 +313,7 @@ class SceneManager{
             ctx.font = '12px "Press Start 2P"';
             for(var i = 0; i < 5; i++){
                 counter += 50;
-                if(this.game.click && (this.game.click.y >= counter-12) && (this.game.click.y <= counter +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[i].length * 12)){
+                if(this.clicked && (this.pclickY >= counter-12) && (this.pclickY <= counter +3) && (this.pclickX > 0) && (this.pclickX < this.Players.CHARACTERS[i].length * 12)){
                     ctx.fillStyle = "White";
                 } else if(this.game.mouse && (this.game.mouse.y >= counter-12) && (this.game.mouse.y <= counter +3) && (this.game.mouse.x > 0) && (this.game.mouse.x < this.Players.CHARACTERS[i].length * 12)){
                     ctx.fillStyle = "White";
@@ -284,7 +331,7 @@ class SceneManager{
             var counter = 350;
             for(var i = 0; i < 5; i++){
                 counter += 50;
-                if(this.game.click && (this.game.click.y >= counter-12) && (this.game.click.y <= counter +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[i].length * 12)){
+                if(this.clicked && (this.oclickY >= counter-12) && (this.oclickY <= counter +3) && (this.oclickX > 400) && (this.oclickX < 400 + this.Players.CHARACTERS[i].length * 12)){
                     ctx.fillStyle = "White";
                 } else if(this.game.mouse && (this.game.mouse.y >= counter-12) && (this.game.mouse.y <= counter +3) && (this.game.mouse.x > 400) && (this.game.mouse.x < 400 + this.Players.CHARACTERS[i].length * 12)){
                     ctx.fillStyle = "White";
@@ -302,7 +349,7 @@ class SceneManager{
             var counter = 350;
             for(var i = 0; i < 3; i++){
                 counter += 50;
-                if(this.game.click && (this.game.click.y >= counter-12) && (this.game.click.y <= counter +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[i].length * 12)){
+                if(this.clicked && (this.mclickY >= counter-12) && (this.mclickY <= counter +3) && (this.mclickX > 750) && (this.mclickX < 750 + this.LevelChoice.LEVEL[i].length * 12)){
                     ctx.fillStyle = "White";
                 } else if(this.game.mouse && (this.game.mouse.y >= counter-12) && (this.game.mouse.y <= counter +3) && (this.game.mouse.x > 750) && (this.game.mouse.x < 750 + this.LevelChoice.LEVEL[i].length * 12)){
                     ctx.fillStyle = "White";
