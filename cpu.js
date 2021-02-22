@@ -79,7 +79,7 @@ class KaratePlayerCPU extends KaratePlayer{
                     if(that.AtkCircle()){
                         that.other.hitPoints -= .25;
                     }
-                    console.log("HitPoints: " + that.other.hitPoints);
+                    // console.log("HitPoints: " + that.other.hitPoints);
                 }
             });
             //Implementing gravity.
