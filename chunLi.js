@@ -133,7 +133,7 @@ class ChunLi {
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .2, false, true);
         this.animations[10][0] = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
         this.animations[10][1] = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
-        this.deadScene = new Animator2(this.spritesheet, this.die, 3, .1, false, true);
+        this.deadScene = new Animator2(this.spritesheet, this.die, 3, 1, false, true);
             
     };
 
@@ -242,7 +242,10 @@ class ChunLi {
 
              //Kick
             if(this.game.P){
+                ASSET_MANAGER.playAsset("./audio/burstkick.wav");
                 this.state = 6;
+                
+                
             }
             
             //Implementing gravity.

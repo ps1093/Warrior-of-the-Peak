@@ -24,6 +24,8 @@ class SceneManager{
         this.mclickX;
         this.mclickY;
         this.clickCounter = 0;
+        this.roundCount = 1;
+        this.deathCount=0;
         this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
@@ -52,22 +54,23 @@ class SceneManager{
             LEVEL: ["Falls", "Welcome to The Jungle", "Olympus Oil Rig"]
         }
 	};
+
     clearEntities(){
         this.game.entities.forEach(function (entity){
             entity.removeFromWorld = true;
         });
     };
-    loadgame(transition, title){
+    loadgame(transition, title, roundTransition, roundCount, gameOver){
         this.clearEntities();
 
         switch(this.PlayersChoice.PLAYER){
             //Daniel Larusso
             case this.Players.CHARACTERS[0]:
-                this.player = new KaratePlayer(this.game, 50, 0, false, this.Players.CHARACTERS[0]);
+                this.player = new KaratePlayer(this.game, 50, 0, false, this.Players.CHARACTERS[0], this.roundCount, this.PlayersChoice.OPPONENT, this.Level.MAP, this.deathCount);
                 break;
             //Johnny Lawrence
             case this.Players.CHARACTERS[1]:
-                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1]);
+                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1], this.roundCount, this.PlayersChoice.OPPONENT, this.Level.MAP, this.deathCount);
                 break;
             //Yodha
             case this.Players.CHARACTERS[2]:
@@ -107,6 +110,11 @@ class SceneManager{
         this.title = title;
         if(transition){
             this.game.addEntity(new TransitionScreen(this.game, this.Level.MAP));
+        } else if(roundTransition){
+            this.game.addEntity(new roundTransitionScreen(this.game, roundCount));
+        } else if (gameOver){
+            console.log("Is Death screen called?");
+            this.game.addEntity(new GameOver(this.game));
         } else {
             switch(this.Level.MAP){
                 //Water falls
@@ -124,8 +132,14 @@ class SceneManager{
                     break;
             }
         }
+
+      
     };
     loadLevel1(){
+        this.music = "./music/Dr. Wily's Castle.mp3";
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset(this.music);
+
         this.bkground = new BackGround(this.game, 0, 0);
         this.game.addEntity(this.bkground);
 
@@ -144,6 +158,10 @@ class SceneManager{
         this.game.addEntity(this.opponent);
     };
     loadLevel2(){
+        this.music = "./music/Welcome to the Jungle.mp3";
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset(this.music);
+
         //Loading Background image
         this.backscene = new BackScene(this.game,0,0, 1024, 672);
         this.game.addEntity(this.backscene);
@@ -169,6 +187,10 @@ class SceneManager{
         this.game.addEntity(this.opponent);
     };
     loadlevel3(){
+        this.music = "./music/KenStage.mp3";
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset(this.music);
+
         this.sky = new Sky(this.game, 0,0);
         this.game.addEntity(this.sky);
 
@@ -198,75 +220,78 @@ class SceneManager{
         this.ocean = new Ocean(this.game, 0, 719);
         this.game.addEntity(this.ocean);
     };
+
+    // add audio
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    };
+
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
+
+        this.updateAudio();
+
+        if(this.game.click){
+            this.clicked = true;
+        }
         if(this.game.click){
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[0].length * 12))){
-                this.clicked = true;
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[0];  
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[1].length * 12))){
-                this.clicked = true;
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[1]; 
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[2].length * 12))){
-                this.clicked = true;
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[2]; 
             } else if(((this.game.click.y >= 550-12) && (this.game.click.y <= 550 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[3].length * 12))){
-                this.clicked = true;
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[3]; 
             } else if(((this.game.click.y >= 600-12) && (this.game.click.y <= 600 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[4].length * 12))){
-                this.clicked = true;
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4]; 
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[0].length * 12))){
-                this.clicked = true;
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[0];  
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[1].length * 12))){
-                this.clicked = true;
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[1]; 
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[2].length * 12))){
-                this.clicked = true;
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[2]; 
             } else if(((this.game.click.y >= 550-12) && (this.game.click.y <= 550 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[3].length * 12))){
-                this.clicked = true;
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[3]; 
             } else if(((this.game.click.y >= 600-12) && (this.game.click.y <= 600 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[4].length * 12))){
-                this.clicked = true;
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[4]; 
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[0].length * 12))){
-                this.clicked = true;
                 this.mclickX = this.game.click.x;
                 this.mclickY = this.game.click.y;
                 this.Level.MAP = this.LevelChoice.LEVEL[0];  
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[1].length * 12))){
-                this.clicked = true;
                 this.mclickX = this.game.click.x;
                 this.mclickY = this.game.click.y;
                 this.Level.MAP = this.LevelChoice.LEVEL[1]; 
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[2].length * 12))){
-                this.clicked = true;
                 this.mclickX = this.game.click.x;
                 this.mclickY = this.game.click.y;
                 this.Level.MAP = this.LevelChoice.LEVEL[2]; 
@@ -276,7 +301,7 @@ class SceneManager{
                 if((this.PlayersChoice.PLAYER === null) || (this.PlayersChoice.OPPONENT === null) || (this.Level.MAP === null) || (this.Level.MAP === null)){
 
                 } else {
-                    this.loadgame(true, false);
+                    this.loadgame(true, false, false, 1, false);
                 }
             }
         }
@@ -377,7 +402,6 @@ class TransitionScreen{
         this.elapsed = 0;
     };
     update(){
-        console.log("Elapsed Time: " + this.elapsed);
         this.elapsed += this.game.clockTick;
         if(this.elapsed > 2) this.game.camera.loadgame(false, false);
     };
@@ -398,6 +422,8 @@ class TransitionScreen{
             ctx.fillText(this.level, this.midpoint - ((this.level.length * 45) / 2), 400);
             ctx.strokeText(this.level, this.midpoint - ((this.level.length * 45) / 2), 400);
         }
+        ctx.fillText("Round 1", this.midpoint - (("Round 1".length * 45) / 2), 550);
+        ctx.strokeText("Round 1", this.midpoint - (("Round 1".length * 45) / 2), 550);
     };
 };
 
@@ -419,4 +445,79 @@ class VS{
         ctx.fillText("VS.", vStart - ("VS.".length * 15)/2, 60);
         ctx.strokeText("VS.", vStart - ("VS.".length * 15)/2, 60);
     };
-}
+};
+
+class RoundManager extends SceneManager{
+    constructor(game, roundCount, player, opponent, map, deathCount){
+        super(game);
+        console.log("Death Count: " + deathCount);
+        Object.assign(this, {game});
+        this.deathCount = deathCount;
+        this.roundCount = roundCount;
+        this.roundCount+=1;
+        if(this.deathCount === 3){
+            
+            this.loadgame(false, false, false, this.roundCount, true);
+        } else {
+            this.PlayersChoice = {PLAYER: player, OPPONENT: opponent};
+            this.Level = {MAP: map};
+            this.title = false;
+            this.loadgame(false, false, true, this.roundCount, false);
+        }
+    };
+    update(){
+    };
+    draw(ctx){
+    };
+};
+
+class roundTransitionScreen{
+    constructor(game, roundCount){
+        Object.assign(this, {game});
+        this.roundCount = roundCount;
+        this.elapsed = 0;
+        this.midpoint = 1024 / 2;
+        console.log("Round in TS: " + this.roundCount);
+        if(this.roundCount === 2){
+            this.round = "Round 2";
+        } else if (this.roundCount === 3) {
+            this.round = "Round 3";
+        }
+    };
+    update(){
+        this.elapsed += this.game.clockTick;
+        if(this.elapsed > 2) this.game.camera.loadgame(false, false, false, this.roundCount);
+    };
+    draw(ctx){
+        ctx.fillStyle = "Black";
+        ctx.strokeStyle = "Black";
+        ctx.fillRect(0,0,1024, 768);
+        ctx.strokeStyle = "DarkOrange";
+        ctx.font = '90px  "Press Start 2P:';
+        ctx.fillStyle = rgb(183, 3, 3);
+        ctx.fillText(this.round, this.midpoint - ((this.round.length * 45) / 2), 400);
+        ctx.strokeText(this.round, this.midpoint - ((this.round.length * 45) / 2), 400);
+
+    };
+};
+
+class GameOver{
+    constructor(game){
+        Object.assign(this, {game});
+        this.midpoint = 1024 / 2;
+
+    };
+    update(){
+    };
+    draw(ctx){
+        ctx.fillStyle = "Black";
+        ctx.strokeStyle = "Black";
+        ctx.fillRect(0,0,1024, 768);
+        ctx.strokeStyle = "DarkOrange";
+        ctx.font = '90px  "Press Start 2P:';
+        ctx.fillStyle = rgb(183, 3, 3);
+        ctx.fillText("GAME OVER", this.midpoint - (("GAME OVER".length * 60) / 2), 400);
+        ctx.strokeText("GAME OVER", this.midpoint - (("GAME OVER".length * 60) / 2), 400);
+
+    };
+};
