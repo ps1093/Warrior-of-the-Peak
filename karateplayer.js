@@ -1,12 +1,14 @@
 class KaratePlayer{
-    constructor(game, x, y, blue, theName){
-        Object.assign(this, {game, x, y, blue, theName});
+    constructor(game, x, y, blue, theName, roundCount, opponent, map, deathCount){
+        Object.assign(this, {game, x, y, blue, theName, roundCount, opponent, map, deathCount});
         this.game.KaratePlayer = this;
 
         //Character Details for HUD and game
         this.name = this.theName;
         this.dead = false;
         this.CPU = false;
+        this.deathCount = deathCount;
+        this.elapsed = 0;
 
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
@@ -224,6 +226,17 @@ class KaratePlayer{
             this.velocity.x = 0;
             this.dead = true;
          } 
+         if(this.dead){
+            while(this.elapsed < 2){
+                this.elapsed += TICK;
+            }
+            if(this.roundCount <= 3 && this.deathCount++ <= 3){
+                if(this.elapsed > 2){
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount));
+                }
+            }
+             
+         }
 
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
