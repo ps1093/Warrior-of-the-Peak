@@ -257,13 +257,13 @@ class SceneManager{
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[0].length * 12))){
                 this.clicked = true;
-                this.oclickX = this.game.click.x;
-                this.oclickY = this.game.click.y;
+                this.mclickX = this.game.click.x;
+                this.mclickY = this.game.click.y;
                 this.Level.MAP = this.LevelChoice.LEVEL[0];  
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[1].length * 12))){
                 this.clicked = true;
-                this.clickX = this.game.click.x;
-                this.clickY = this.game.click.y;
+                this.mclickX = this.game.click.x;
+                this.mclickY = this.game.click.y;
                 this.Level.MAP = this.LevelChoice.LEVEL[1]; 
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[2].length * 12))){
                 this.clicked = true;
