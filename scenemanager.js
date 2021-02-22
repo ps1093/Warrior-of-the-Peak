@@ -27,6 +27,8 @@ class SceneManager{
         this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
+        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheet.png");
+        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheetmirror.png");
         this.CLspritesheet = ASSET_MANAGER.getAsset("./sprites/ChunLi.png");
         this.BLspritesheet = ASSET_MANAGER.getAsset("./sprites/BillyLee.png");
         this.animations = [];
@@ -46,7 +48,7 @@ class SceneManager{
         }
         this.Players = {
             CHARACTERS: ["Daniel Larusso", "Johnny Lawrence",
-                         "Yodha", "Chun Li", "Billy Lee"]
+                         "Yodha", "Chun Li", "Billy Lee", "Goku"]
         }
         this.LevelChoice = {
             LEVEL: ["Falls", "Welcome to The Jungle", "Olympus Oil Rig"]
@@ -81,6 +83,10 @@ class SceneManager{
             case this.Players.CHARACTERS[4]:
                 this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4]);
                 break;
+            //Goku
+            case this.Players.CHARACTERS[4]:
+                this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[5]);
+                break;
         }
         switch(this.PlayersChoice.OPPONENT){
             //Daniel Larusso (white Gi)
@@ -102,6 +108,10 @@ class SceneManager{
             //Billy Lee
             case this.Players.CHARACTERS[4]:
                 this.opponent = new BillyLee(this.game, 960, 0, this.Players.CHARACTERS[4]);
+                break;
+              //Goku
+            case this.Players.CHARACTERS[4]:
+                this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[5]);
                 break;
         }
         this.title = title;
