@@ -116,8 +116,14 @@ class SceneManager{
                     break;
             }
         }
+
+      
     };
     loadLevel1(){
+        this.music = "./music/Dr. Wily's Castle.mp3";
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset(this.music);
+
         this.bkground = new BackGround(this.game, 0, 0);
         this.game.addEntity(this.bkground);
 
@@ -136,6 +142,10 @@ class SceneManager{
         this.game.addEntity(this.opponent);
     };
     loadLevel2(){
+        this.music = "./music/Welcome to the Jungle.mp3";
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset(this.music);
+
         //Loading Background image
         this.backscene = new BackScene(this.game,0,0, 1024, 672);
         this.game.addEntity(this.backscene);
@@ -161,6 +171,10 @@ class SceneManager{
         this.game.addEntity(this.opponent);
     };
     loadlevel3(){
+        this.music = "./music/KenStage.mp3";
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset(this.music);
+
         this.sky = new Sky(this.game, 0,0);
         this.game.addEntity(this.sky);
 
@@ -190,8 +204,21 @@ class SceneManager{
         this.ocean = new Ocean(this.game, 0, 719);
         this.game.addEntity(this.ocean);
     };
+
+    // add audio
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    };
+
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
+
+        this.updateAudio();
+
         if(this.game.click){
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[0].length * 12))){
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[0];  

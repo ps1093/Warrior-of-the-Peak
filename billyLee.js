@@ -112,6 +112,7 @@ class BillyLee {
         this.animations[8][1] = new Animator2(this.spritesheet, this.jump, 2, .5, false, true);
         this.animations[9][0] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
+        this.deadScene = new Animator2(this.spritesheet, this.die, 4, 1, false, true);
         
   
 
@@ -313,7 +314,7 @@ class BillyLee {
   
   
         die(){
-            if (this.maxHitPoints === 0){
+            if (this.hitPoints === 0){
                 this.dead === true;
             }
     
@@ -383,10 +384,14 @@ class BillyLee {
                 this.facing = 1;
                 this.velocity.x -= FALL_WALK;   
             } else {
-            }               
+            }
+            
+    
+        if (this.hitPoints === 0){
+            this.dead === true;
         }
 
-
+        }
          //updating
          this.x += this.velocity.x * TICK;
          this.y += this.velocity.y * TICK;
@@ -561,7 +566,7 @@ class BillyLee {
        
 
         if (this.dead) {
-            this.die.drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.BL);
+            this.deadScene.drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.BL);
         } else if (this.facing === 0) {
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.BL);
         this.healthbar.draw(ctx);

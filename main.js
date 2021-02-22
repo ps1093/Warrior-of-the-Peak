@@ -2,7 +2,21 @@ var gameEngine = new GameEngine();
 
 var ASSET_MANAGER = new AssetManager();
 
+// sound effects
+ASSET_MANAGER.queueDownload("./audio/burstkick.wav");
 
+
+// music
+ASSET_MANAGER.queueDownload("./music/Damn.mp4");
+ASSET_MANAGER.queueDownload("./music/ChunLi.mp3");
+ASSET_MANAGER.queueDownload("./music/Dr. Wily's Castle.mp3");
+ASSET_MANAGER.queueDownload("./music/tecmoBowl.mp3");
+ASSET_MANAGER.queueDownload("./music/Welcome to the Jungle.mp3");
+ASSET_MANAGER.queueDownload("./music/KenStage.mp3");
+
+
+
+// spritesheets
 ASSET_MANAGER.queueDownload("./sprites/spritesheet.png");
 ASSET_MANAGER.queueDownload("./sprites/spritesheet1.png");
 
@@ -29,6 +43,12 @@ ASSET_MANAGER.queueDownload("./sprites/CRANE.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
+
+ASSET_MANAGER.autoRepeat("./music/Damn.mp4");
+ASSET_MANAGER.autoRepeat("./music/ChunLi.mp3");
+ASSET_MANAGER.autoRepeat("./music/Dr. Wily's Castle.mp3");
+ASSET_MANAGER.autoRepeat("./music/tecmoBowl.mp3");
+
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 
