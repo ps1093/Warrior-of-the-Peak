@@ -1,7 +1,7 @@
 class OilRig{
     constructor(game, x, y){
         Object.assign(this, {game, x, y});
-
+        
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/OILRIG.png");
         this.animations =[];
         this.animations.push(new Animator(this.spritesheet, 0,446, 1024,321,5,.1,10,false, true));
