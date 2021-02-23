@@ -8,7 +8,6 @@ class KaratePlayer{
         this.dead = false;
         this.CPU = false;
         this.deathCount = deathCount;
-        this.countDown = false;
         this.elapsed = 0;
 
         //This is the falling acceleration for gravity.
@@ -227,20 +226,15 @@ class KaratePlayer{
             this.velocity.y = - 100;
             this.velocity.x = 0;
             this.dead = true;
-            this.countDown = true;
          } 
-         if(this.countDown){
-            this.elapsed += TICK;
-         }
          if(this.dead){
-            //console.log("Does it ever make it here?");
             if(this.roundCount <= 3 && this.deathCount <= 3){
+                this.elapsed += TICK;
                 if(this.elapsed > 2){
                     this.deathCount++;
                     this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount));
                 }
-            }
-             
+            } 
          }
 
         //updating
