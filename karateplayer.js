@@ -158,6 +158,7 @@ class KaratePlayer{
         const STOP_FALL = 400;
         const DEAD_X = 50;
         const TICK = this.game.clockTick;
+        
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP && this.state !== this.STATE.DEAD){
@@ -227,15 +228,13 @@ class KaratePlayer{
             this.dead = true;
          } 
          if(this.dead){
-            while(this.elapsed < 2){
+            if(this.roundCount <= 3 && this.deathCount <= 3){
                 this.elapsed += TICK;
-            }
-            if(this.roundCount <= 3 && this.deathCount++ <= 3){
                 if(this.elapsed > 2){
+                    this.deathCount++;
                     this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount));
                 }
-            }
-             
+            } 
          }
 
         //updating
