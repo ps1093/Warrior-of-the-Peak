@@ -29,7 +29,11 @@ class SceneManager{
         opponentDeathCount = 0;
         this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
+        this.Gokuspritesheet = ASSET_MANAGER.queueDownload("./sprites/goku_spritesheet.png");
+        this.GokuMirrorspritesheet = ASSET_MANAGER.queueDownload("./sprites/goku_spritesheetmirror.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
+        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheet.png");
+        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheetmirror.png");
         this.CLspritesheet = ASSET_MANAGER.getAsset("./sprites/ChunLi.png");
         this.BLspritesheet = ASSET_MANAGER.getAsset("./sprites/BillyLee.png");
         this.animations = [];
@@ -38,6 +42,7 @@ class SceneManager{
         this.animations[2] = new Animator (this.CPspritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true );
         this.animations[3] = new Animator2(this.CLspritesheet, ChunLiState.IDLE, 4, .35, false, true );
         this.animations[4] = new Animator2(this.BLspritesheet, BillyLeeState.WALK, 4, .75, false, true );
+        this.animations[5] = new Animator2(this.Gokuspritesheet, GokuState.RWALK, 2, .75, false, true );
 
 
         this.PlayersChoice = {
@@ -89,6 +94,10 @@ class SceneManager{
             case this.Players.CHARACTERS[5]:
                 this.player = new Goku();
                 break;
+            //Goku
+            case this.Players.CHARACTERS[5]:
+                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5]);
+                break;
         }
         switch(this.PlayersChoice.OPPONENT){
             //Daniel Larusso (white Gi)
@@ -111,8 +120,9 @@ class SceneManager{
             case this.Players.CHARACTERS[4]:
                 this.opponent = new BillyLee(this.game, 960, 0, this.Players.CHARACTERS[4]);
                 break;
+              //Goku
             case this.Players.CHARACTERS[5]:
-                this.opponent = new Goku();
+                this.player = new Goku(this.game, 960, 0, this.Players.CHARACTERS[5]);
                 break;
         }
         this.title = title;
