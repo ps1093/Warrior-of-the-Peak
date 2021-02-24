@@ -28,6 +28,8 @@ class SceneManager{
         this.deathCount=0;
         this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
+        this.Gokuspritesheet = ASSET_MANAGER.queueDownload("./sprites/goku_spritesheet.png");
+        this.GokuMirrorspritesheet = ASSET_MANAGER.queueDownload("./sprites/goku_spritesheetmirror.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheet.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheetmirror.png");
@@ -39,6 +41,7 @@ class SceneManager{
         this.animations[2] = new Animator (this.CPspritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true );
         this.animations[3] = new Animator2(this.CLspritesheet, ChunLiState.IDLE, 4, .35, false, true );
         this.animations[4] = new Animator2(this.BLspritesheet, BillyLeeState.WALK, 4, .75, false, true );
+        this.animations[5] = new Animator2(this.Gokuspritesheet, GokuState.RWALK, 2, .75, false, true );
 
 
         this.PlayersChoice = {
@@ -87,8 +90,8 @@ class SceneManager{
                 this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4]);
                 break;
             //Goku
-            case this.Players.CHARACTERS[4]:
-                this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[5]);
+            case this.Players.CHARACTERS[5]:
+                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5]);
                 break;
         }
         switch(this.PlayersChoice.OPPONENT){
@@ -113,8 +116,8 @@ class SceneManager{
                 this.opponent = new BillyLee(this.game, 960, 0, this.Players.CHARACTERS[4]);
                 break;
               //Goku
-            case this.Players.CHARACTERS[4]:
-                this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[5]);
+            case this.Players.CHARACTERS[5]:
+                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5]);
                 break;
         }
         this.title = title;
@@ -269,7 +272,12 @@ class SceneManager{
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4]; 
+            } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[5].length * 12))){
+                this.pclickX = this.game.click.x;
+                this.pclickY = this.game.click.y;
+                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[5]; 
             }
+            
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[0].length * 12))){
                 this.oclickX = this.game.click.x;
@@ -291,6 +299,10 @@ class SceneManager{
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[4]; 
+            } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[5].length * 12))){
+                this.pclickX = this.game.click.x;
+                this.pclickY = this.game.click.y;
+                this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[5]; 
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[0].length * 12))){
