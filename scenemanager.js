@@ -32,8 +32,6 @@ class SceneManager{
         this.Gokuspritesheet = ASSET_MANAGER.queueDownload("./sprites/goku_spritesheet.png");
         this.GokuMirrorspritesheet = ASSET_MANAGER.queueDownload("./sprites/goku_spritesheetmirror.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
-        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheet.png");
-        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheetmirror.png");
         this.CLspritesheet = ASSET_MANAGER.getAsset("./sprites/ChunLi.png");
         this.BLspritesheet = ASSET_MANAGER.getAsset("./sprites/BillyLee.png");
         this.animations = [];
@@ -91,12 +89,9 @@ class SceneManager{
             case this.Players.CHARACTERS[4]:
                 this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
-            case this.Players.CHARACTERS[5]:
-                this.player = new Goku();
-                break;
             //Goku
             case this.Players.CHARACTERS[5]:
-                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5]);
+                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
         }
         switch(this.PlayersChoice.OPPONENT){
