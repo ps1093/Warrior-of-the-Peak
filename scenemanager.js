@@ -117,7 +117,7 @@ class SceneManager{
                 break;
               //Goku
             case this.Players.CHARACTERS[5]:
-                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5]);
+                this.player = new Goku();
                 break;
         }
         this.title = title;
@@ -272,11 +272,7 @@ class SceneManager{
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4]; 
-            } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[4].length * 12))){
-                this.pclickX = this.game.click.x;
-                this.pclickY = this.game.click.y;
-                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4]; 
-            }
+            } 
             
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[0].length * 12))){
@@ -299,11 +295,7 @@ class SceneManager{
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[4]; 
-            } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[4].length * 12))){
-                this.pclickX = this.game.click.x;
-                this.pclickY = this.game.click.y;
-                this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[5]; 
-            }
+            } 
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[0].length * 12))){
                 this.mclickX = this.game.click.x;
