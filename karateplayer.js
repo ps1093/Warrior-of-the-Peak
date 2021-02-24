@@ -5,6 +5,7 @@ class KaratePlayer{
 
         //Character Details for HUD and game
         this.name = this.theName;
+        console.log("Player: " + this.theName);
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
