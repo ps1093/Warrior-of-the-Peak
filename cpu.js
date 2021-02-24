@@ -11,16 +11,21 @@ class KaratePlayerCPU extends KaratePlayer{
 
         //Hit Points
         this.maxHitPoints = 100;
-        this.hitPoints = 100;
+        opponentHitPoints = 100;
+        this.hitPoints = opponentHitPoints;
+        opponentBlock = false;
+
         
         //Setting up circle
         this.VisRadius = 200;
         this.AtkRadius = 45;
+        opponentAtkRadius = this.AtkRadius;
 
         this.updateBB();
         this.loadAnimations();
     };
     update(){
+        this.hitPoints = opponentHitPoints;
         //Variables to manipulate the X and Y velocity
         const BLIND_WALK = 50;
         const WALK = 75;
@@ -77,7 +82,7 @@ class KaratePlayerCPU extends KaratePlayer{
             this.game.entities.forEach(function(entity) {
                 if(entity instanceof KaratePlayer){
                     if(that.AtkCircle()){
-                        if(that.other.state !== that.other.STATE.BLOCK)that.other.hitPoints -= .25;
+                        if(that.other.state !== that.other.STATE.BLOCK)that.other.hitPoints -= 0;
                     }
                 }
             });
@@ -105,6 +110,8 @@ class KaratePlayerCPU extends KaratePlayer{
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.cX = this.x + KPstate.RWALK[0].w / 2 * PARAMS.SCALE;
         this.cY = this.y + KPstate.RWALK[0].h / 2 * PARAMS.SCALE;
+        opponentcX = this.cX;
+        opponentcY = this.cY;
         this.updateBB();
         this.collisions();
     };
