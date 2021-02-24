@@ -26,6 +26,7 @@ class SceneManager{
         this.clickCounter = 0;
         this.roundCount = 1;
         this.deathCount=0;
+        opponentDeathCount = 0;
         this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
@@ -60,8 +61,9 @@ class SceneManager{
             entity.removeFromWorld = true;
         });
     };
-    loadgame(transition, title, roundTransition, roundCount, gameOver){
+    loadgame(transition, title, roundTransition, roundCount, gameOver, winner){
         this.clearEntities();
+        opponentDeath = false;
 
         switch(this.PlayersChoice.PLAYER){
             //Daniel Larusso
@@ -70,19 +72,19 @@ class SceneManager{
                 break;
             //Johnny Lawrence
             case this.Players.CHARACTERS[1]:
-                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
+                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[0], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
             //Yodha
             case this.Players.CHARACTERS[2]:
-                this.player = new catplayer(this.game, 0, 0);
+                this.player = new catplayer(this.game, 0, 0, this.Players.CHARACTERS[2], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
             //Chun Li
             case this.Players.CHARACTERS[3]:
-                this.player = new ChunLi(this.game, 0, 0, this.Players.CHARACTERS[3]);
+                this.player = new ChunLi(this.game, 0, 0, this.Players.CHARACTERS[3], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
             //Billy Lee
             case this.Players.CHARACTERS[4]:
-                this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4]);
+                this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
             case this.Players.CHARACTERS[5]:
                 this.player = new Goku();
@@ -121,6 +123,8 @@ class SceneManager{
         } else if (gameOver){
             console.log("Is Death screen called?");
             this.game.addEntity(new GameOver(this.game));
+        } else if(winner){
+            this.game.addEntity(new Winner(this.game));
         } else {
             switch(this.Level.MAP){
                 //Water falls
@@ -315,7 +319,7 @@ class SceneManager{
                 if((this.PlayersChoice.PLAYER === null) || (this.PlayersChoice.OPPONENT === null) || (this.Level.MAP === null) || (this.Level.MAP === null)){
 
                 } else {
-                    this.loadgame(true, false, false, 1, false);
+                    this.loadgame(true, false, false, 1, false, false);
                 }
             }
         }
@@ -462,20 +466,26 @@ class VS{
 };
 
 class RoundManager extends SceneManager{
-    constructor(game, roundCount, player, opponent, map, deathCount){
+    constructor(game, roundCount, player, opponent, map, deathCount, opponentDeathCount){
         super(game);
-        console.log("Death Count: " + deathCount);
         Object.assign(this, {game});
         this.deathCount = deathCount;
         this.roundCount = roundCount;
+        opponentDeathCount = opponentDeathCount;
+        //True if won, and false if lost.
+        this.result;
+        console.log("Player Death: " + this.deathCount + "VS. Opponent Death count: " + opponentDeathCount);
+        if(this.deathCount < opponentDeathCount) this.result = true;
+        if(this.deathCount > opponentDeathCount) this.result = false;
         this.roundCount+=1;
-        if(this.deathCount === 3){
-            this.loadgame(false, false, false, this.roundCount, true);
+        if(this.roundCount === 4){
+            if(this.result)this.loadgame(false, false, false, this.roundCount, false, true);
+            if(!this.result)this.loadgame(false, false, false, this.roundCount, true, false);
         } else {
             this.PlayersChoice = {PLAYER: player, OPPONENT: opponent};
             this.Level = {MAP: map};
             this.title = false;
-            this.loadgame(false, false, true, this.roundCount, false);
+            this.loadgame(false, false, true, this.roundCount, false, false);
         }
     };
     update(){
@@ -490,7 +500,6 @@ class roundTransitionScreen{
         this.roundCount = roundCount;
         this.elapsed = 0;
         this.midpoint = 1024 / 2;
-        console.log("Round in TS: " + this.roundCount);
         if(this.roundCount === 2){
             this.round = "Round 2";
         } else if (this.roundCount === 3) {
@@ -531,6 +540,27 @@ class GameOver{
         ctx.fillStyle = rgb(183, 3, 3);
         ctx.fillText("GAME OVER", this.midpoint - (("GAME OVER".length * 60) / 2), 400);
         ctx.strokeText("GAME OVER", this.midpoint - (("GAME OVER".length * 60) / 2), 400);
+
+    };
+};
+
+class Winner{
+    constructor(game){
+        Object.assign(this, {game});
+        this.midpoint = 1024 / 2;
+
+    };
+    update(){
+    };
+    draw(ctx){
+        ctx.fillStyle = "Black";
+        ctx.strokeStyle = "Black";
+        ctx.fillRect(0,0,1024, 768);
+        ctx.strokeStyle = "DarkOrange";
+        ctx.font = '90px  "Press Start 2P:';
+        ctx.fillStyle = rgb(183, 3, 3);
+        ctx.fillText("Winner!", this.midpoint - (("Winner!".length * 60) / 2), 400);
+        ctx.strokeText("Winner!", this.midpoint - (("Winner!".length * 60) / 2), 400);
 
     };
 };

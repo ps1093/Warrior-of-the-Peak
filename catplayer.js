@@ -1,12 +1,14 @@
 class catplayer{
-    constructor(game, x, y){
-        Object.assign(this,{game, x, y});
+    constructor(game, x, y, theName, roundCount, map, deathCount, opponent){
+        Object.assign(this,{game, x, y, theName, roundCount, map, deathCount, opponent});
 
-        this.name = "Yodha";
+        this.name = theName;
         this.CPU = false;
         this.dead = false;
         this.maxHitPoints = 100;
         this.hitPoints = 100;
+        this.deathCount = deathCount;
+        this.elapsed = 0;
 
         this.VisRadius = 100;
         this.AtkRadius = 45;
@@ -207,8 +209,27 @@ class catplayer{
             this.state = 7;
             this.velocity.y = - 100;
             this.velocity.x = 0;
-            this.dead = true;
         } 
+        if(opponentDeath){
+            console.log("Does opponent dying get logged?");
+            if(this.roundCount <= 3 && opponentDeathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    opponentDeathCount++;
+                    console.log("Death count for opponent" + opponentDeathCount);
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+         }
+         if(this.state === 7){
+            if(this.roundCount <= 3 && this.deathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    this.deathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+         }
 
         //updating 
         this.x += this.velocity.x * TICK * PARAMS.SCALE;

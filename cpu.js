@@ -91,6 +91,9 @@ class KaratePlayerCPU extends KaratePlayer{
             this.state = this.STATE.DEAD;
             this.velocity.y = -100;
             this.velocity.x = 0;
+            console.log("Opponent Death being set in CPU");
+            opponentDeath = true;
+            
          } 
          
 

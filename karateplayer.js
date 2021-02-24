@@ -242,14 +242,23 @@ class KaratePlayer{
             this.velocity.y = - 100;
             this.velocity.x = 0;
          } 
+
+         if(opponentDeath){
+            if(this.roundCount <= 3 && opponentDeathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    opponentDeathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+         }
+
          if(this.state === this.STATE.DEAD){
-            //console.log("Round: " + this.roundCount + "Death Count" + this.deathCount);
             if(this.roundCount <= 3 && this.deathCount <= 3){
-                //console.log("Does he enter this");
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
                     this.deathCount++;
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount));
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
                 }
             } 
          }
