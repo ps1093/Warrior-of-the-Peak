@@ -83,9 +83,9 @@ class KaratePlayer{
 
          //******* Punch Right & LEFT ********
          this.animations[this.STATE.PUNCH][this.FACING.RIGHT] 
-             = new Animator2(this.spritesheet, KPstate.RPUNCH, 2, .2, false, true);
+             = new Animator2(this.spritesheet, KPstate.RPUNCH, 2, .1, false, true);
          this.animations[this.STATE.PUNCH][this.FACING.LEFT]
-             = new Animator2(this.spritesheet, KPstate.LPUNCH, 2, .2, true, true);
+             = new Animator2(this.spritesheet, KPstate.LPUNCH, 2, .1, true, true);
     
          //******* Kick Right & Left *******
          this.animations[this.STATE.KICK][this.FACING.RIGHT]
@@ -262,6 +262,14 @@ class KaratePlayer{
                 }
             } 
          }
+         var that = this;
+         this.game.entities.forEach(function(entity) {
+             if(entity instanceof KaratePlayerCPU){
+                if(that.AtkCircle()){
+                    if(that.state === that.STATE.PUNCH && !opponentBlock) opponentHitPoints -= 2;
+                }
+             }
+         });
 
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
@@ -355,6 +363,12 @@ class KaratePlayer{
                     }
                 } 
         });        
+    };
+    AtkCircle() {
+        var dx = this.cX - opponentcX;
+        var dy = this.cY - opponentcY;
+        var dist = Math.floor(Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2)));
+        return (dist < this.AtkRadius + opponentAtkRadius);
     };
     draw(ctx){
         if(PARAMS.DEBUG){
