@@ -86,3 +86,5 @@ var opponentBlock;
 var opponentAtkRadius;
 var opponentcX;
 var opponentcY;
+
+

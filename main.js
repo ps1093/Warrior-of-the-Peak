@@ -20,6 +20,9 @@ ASSET_MANAGER.queueDownload("./music/KenStage.mp3");
 ASSET_MANAGER.queueDownload("./sprites/spritesheet.png");
 ASSET_MANAGER.queueDownload("./sprites/spritesheet1.png");
 
+ASSET_MANAGER.queueDownload("./sprites/goku_spritesheet.png");
+ASSET_MANAGER.queueDownload("./sprites/goku_spritesheetmirror.png");
+
 ASSET_MANAGER.queueDownload("./sprites/tilesetsprite.png");
 
 ASSET_MANAGER.queueDownload("./sprites/fighterLR.png");
