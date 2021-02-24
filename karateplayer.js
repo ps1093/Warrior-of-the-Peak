@@ -1,11 +1,10 @@
 class KaratePlayer{
-    constructor(game, x, y, blue, theName, roundCount, opponent, map, deathCount){
-        Object.assign(this, {game, x, y, blue, theName, roundCount, opponent, map, deathCount});
+    constructor(game, x, y, blue, theName, roundCount, map, deathCount, opponent){
+        Object.assign(this, {game, x, y, blue, theName, roundCount, map, deathCount, opponent});
         this.game.KaratePlayer = this;
 
         //Character Details for HUD and game
         this.name = this.theName;
-        this.dead = false;
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
@@ -32,7 +31,8 @@ class KaratePlayer{
             DUCK:  4,
             JUMP:  5,
             ROLL: 6,
-            DEAD: 7
+            DEAD: 7,
+            BLOCK: 8
         };
 
         //Decides if Facing left or right
@@ -63,7 +63,7 @@ class KaratePlayer{
 
     loadAnimations(){
         //Loads all the animations
-        for(var i = 0; i < 8; i++){
+        for(var i = 0; i < 9; i++){
             this.animations.push([]);
             for(var j = 0; j < 2; j++){
                 this.animations[i].push([]);
@@ -116,6 +116,12 @@ class KaratePlayer{
             = new Animator2(this.spritesheet, KPstate.RDIE, 8, .2, false, false);
         this.animations[this.STATE.DEAD][this.FACING.LEFT]
             = new Animator2(this.spritesheet, KPstate.LDIE, 8, .2, false, false);
+        
+        //****** Dead Left & Right ******
+        this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, KPstate.RBLOCK, 1, .2, false, true);
+        this.animations[this.STATE.BLOCK][this.FACING.LEFT]
+            = new Animator2(this.spritesheet, KPstate.LBLOCK, 1, .2, false, true);
     };
     updateBB(){
         this.lastBB = this.BB;
@@ -147,7 +153,11 @@ class KaratePlayer{
             this.BB = new BoundingBox(this.x, this.y, KPstate.RROLL[0].w * PARAMS.SCALE, KPstate.RROLL[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.ROLL && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, KPstate.LROLL[0].w * PARAMS.SCALE, KPstate.LROLL[0].h * PARAMS.SCALE);
-        } 
+        } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.RIGHT){
+            this.BB = new BoundingBox(this.x, this.y, KPstate.RBLOCK[0].w * PARAMS.SCALE, KPstate.RBLOCK[0].h * PARAMS.SCALE);
+        } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.LEFT){
+            this.BB = new BoundingBox(this.x, this.y, KPstate.LBLOCK[0].w * PARAMS.SCALE, KPstate.LBLOCK[0].h * PARAMS.SCALE);
+        }
     };
     update(){
         //Variables to manipulate the X and Y velocity
@@ -198,6 +208,10 @@ class KaratePlayer{
             if(this.game.P){
                 this.state = this.STATE.KICK;
             }
+
+            if(this.game.E){
+                this.state = this.STATE.BLOCK;
+            }
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
             //Jump
@@ -221,14 +235,17 @@ class KaratePlayer{
             }               
         }
 
+
+        
         if(this.hitPoints === 0){
             this.state = this.STATE.DEAD;
             this.velocity.y = - 100;
             this.velocity.x = 0;
-            this.dead = true;
          } 
-         if(this.dead){
+         if(this.state === this.STATE.DEAD){
+            //console.log("Round: " + this.roundCount + "Death Count" + this.deathCount);
             if(this.roundCount <= 3 && this.deathCount <= 3){
+                //console.log("Does he enter this");
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
                     this.deathCount++;
@@ -260,7 +277,8 @@ class KaratePlayer{
                             else if(that.state === that.STATE.ROLL) that.y = entity.BB.top - KPstate.RROLL[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - KPstate.RDUCK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - KPstate.RPUNCH[0].h * PARAMS.SCALE;  
-                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - KPstate.RKICK[0].h * PARAMS.SCALE;             
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - KPstate.RKICK[0].h * PARAMS.SCALE; 
+                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.top - KPstate.RBLOCK[0].h * PARAMS.SCALE;            
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }
@@ -272,7 +290,8 @@ class KaratePlayer{
                             else if(that.state === that.STATE.ROLL) that.y = entity.BB.bottom - KPstate.RROLL[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.bottom - KPstate.RDUCK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.bottom - KPstate.RPUNCH[0].h * PARAMS.SCALE;
-                            else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom - KPstate.RKICK[0].h * PARAMS.SCALE;                           
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom - KPstate.RKICK[0].h * PARAMS.SCALE; 
+                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.bottom - KPstate.RBLOCK[0].h * PARAMS.SCALE;                           
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }

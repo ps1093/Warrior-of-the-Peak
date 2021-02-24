@@ -48,7 +48,7 @@ class SceneManager{
         }
         this.Players = {
             CHARACTERS: ["Daniel Larusso", "Johnny Lawrence",
-                         "Yodha", "Chun Li", "Billy Lee"]
+                         "Yodha", "Chun Li", "Billy Lee", "Goku"]
         }
         this.LevelChoice = {
             LEVEL: ["Falls", "Welcome to The Jungle", "Olympus Oil Rig"]
@@ -66,11 +66,11 @@ class SceneManager{
         switch(this.PlayersChoice.PLAYER){
             //Daniel Larusso
             case this.Players.CHARACTERS[0]:
-                this.player = new KaratePlayer(this.game, 50, 0, false, this.Players.CHARACTERS[0], this.roundCount, this.PlayersChoice.OPPONENT, this.Level.MAP, this.deathCount);
+                this.player = new KaratePlayer(this.game, 50, 0, false, this.Players.CHARACTERS[0], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
             //Johnny Lawrence
             case this.Players.CHARACTERS[1]:
-                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1], this.roundCount, this.PlayersChoice.OPPONENT, this.Level.MAP, this.deathCount);
+                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
             //Yodha
             case this.Players.CHARACTERS[2]:
@@ -83,6 +83,9 @@ class SceneManager{
             //Billy Lee
             case this.Players.CHARACTERS[4]:
                 this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4]);
+                break;
+            case this.Players.CHARACTERS[5]:
+                this.player = new Goku();
                 break;
         }
         switch(this.PlayersChoice.OPPONENT){
@@ -105,6 +108,9 @@ class SceneManager{
             //Billy Lee
             case this.Players.CHARACTERS[4]:
                 this.opponent = new BillyLee(this.game, 960, 0, this.Players.CHARACTERS[4]);
+                break;
+            case this.Players.CHARACTERS[5]:
+                this.opponent = new Goku();
                 break;
         }
         this.title = title;
@@ -259,6 +265,10 @@ class SceneManager{
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4]; 
+            } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[4].length * 12))){
+                this.pclickX = this.game.click.x;
+                this.pclickY = this.game.click.y;
+                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4];
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[0].length * 12))){
@@ -281,6 +291,10 @@ class SceneManager{
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[4]; 
+            } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[4].length * 12))){
+                this.oclickX = this.game.click.x;
+                this.oclickY = this.game.click.y;
+                this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[5];
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 750) && (this.game.click.x < 750 + this.LevelChoice.LEVEL[0].length * 12))){
@@ -297,7 +311,7 @@ class SceneManager{
                 this.Level.MAP = this.LevelChoice.LEVEL[2]; 
             }
     
-            if(((this.game.click.y >= 700-30) && (this.game.click.y <= 700 +3) && (this.game.click.x > 300) && (this.game.click.x < 750))){
+            if(((this.game.click.y > 690) && (this.game.click.y <= 725) && (this.game.click.x > 300) && (this.game.click.x < 300 + "--- FIGHT! ---".length * 30))){
                 if((this.PlayersChoice.PLAYER === null) || (this.PlayersChoice.OPPONENT === null) || (this.Level.MAP === null) || (this.Level.MAP === null)){
 
                 } else {
@@ -336,7 +350,7 @@ class SceneManager{
             ctx.strokeText("---Players---", 0, 350);
             var counter = 350;
             ctx.font = '12px "Press Start 2P"';
-            for(var i = 0; i < 5; i++){
+            for(var i = 0; i < 6; i++){
                 counter += 50;
                 if(this.clicked && (this.pclickY >= counter-12) && (this.pclickY <= counter +3) && (this.pclickX > 0) && (this.pclickX < this.Players.CHARACTERS[i].length * 12)){
                     ctx.fillStyle = "White";
@@ -354,7 +368,7 @@ class SceneManager{
             ctx.strokeText("---CPU---", 400, 350);
             ctx.font = '12px "Press Start 2P"';
             var counter = 350;
-            for(var i = 0; i < 5; i++){
+            for(var i = 0; i < 6; i++){
                 counter += 50;
                 if(this.clicked && (this.oclickY >= counter-12) && (this.oclickY <= counter +3) && (this.oclickX > 400) && (this.oclickX < 400 + this.Players.CHARACTERS[i].length * 12)){
                     ctx.fillStyle = "White";
@@ -385,9 +399,9 @@ class SceneManager{
                 ctx.strokeText(this.LevelChoice.LEVEL[i], 750, counter);
             }
             ctx.font = '30px "Press Start 2P"';
-            ctx.fillStyle = this.game.mouse && (this.game.mouse.y >= 700-30) && (this.game.mouse.y <= 700 +3) && (this.game.mouse.x > 300) && (this.game.mouse.x < 750)? "White" : rgb(183, 3, 3);
-            ctx.fillText("--- FIGHT! ---", 300, 700);
-            ctx.strokeText("--- FIGHT! ---", 300, 700);
+            ctx.fillStyle = this.game.mouse && (this.game.mouse.y > 690) && (this.game.mouse.y <= 725) && (this.game.mouse.x > 300) && (this.game.mouse.x < 300 + "--- FIGHT! ---".length * 30)? "White" : rgb(183, 3, 3);
+            ctx.fillText("--- FIGHT! ---", 300, 725);
+            ctx.strokeText("--- FIGHT! ---", 300, 725);
         }
     };
 };
@@ -456,7 +470,6 @@ class RoundManager extends SceneManager{
         this.roundCount = roundCount;
         this.roundCount+=1;
         if(this.deathCount === 3){
-            
             this.loadgame(false, false, false, this.roundCount, true);
         } else {
             this.PlayersChoice = {PLAYER: player, OPPONENT: opponent};

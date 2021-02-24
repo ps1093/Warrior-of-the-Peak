@@ -80,7 +80,7 @@ class Propeller{
         this.game.entities.forEach(function(entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if((entity instanceof KaratePlayer) && that.lastBB.bottom <= entity.BB.top){
-                    entity.hitPoints -= 25;
+                    entity.hitPoints -= 100;
                 }
             }
         });

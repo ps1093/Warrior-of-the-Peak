@@ -77,9 +77,8 @@ class KaratePlayerCPU extends KaratePlayer{
             this.game.entities.forEach(function(entity) {
                 if(entity instanceof KaratePlayer){
                     if(that.AtkCircle()){
-                        that.other.hitPoints -= .25;
+                        if(that.other.state !== that.other.STATE.BLOCK)that.other.hitPoints -= .25;
                     }
-                    // console.log("HitPoints: " + that.other.hitPoints);
                 }
             });
             //Implementing gravity.
@@ -89,12 +88,11 @@ class KaratePlayerCPU extends KaratePlayer{
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;               
         }
         if(this.hitPoints === 0){
-            console.log("This is the death scene, and the state is: " + this.state);
             this.state = this.STATE.DEAD;
             this.velocity.y = -100;
             this.velocity.x = 0;
-            //this.dead = true;
          } 
+         
 
         if(this.other.dead === true){
             this.velocity.x = 0;
