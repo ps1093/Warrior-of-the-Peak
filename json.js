@@ -78,3 +78,6 @@ var GokuState = {
         DEAD: [{x: 510, y: 190, w: 23, h: 26}, {x: 533, y: 187, w: 23, h: 29}, {x: 557, y: 186, w: 23, h: 30}, {x: 584, y: 199, w: 30, h: 16}]
 
 }
+
+var opponentDeath;
+var opponentDeathCount;
