@@ -214,9 +214,6 @@ class ChunLi {
         const JUMPING = 500;
         const STOP_FALL = 400;
        
-
-        
-
         //Ground Physics
         if(this.state !== 2){
             //Walking
