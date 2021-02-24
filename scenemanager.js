@@ -74,7 +74,7 @@ class SceneManager{
                 break;
             //Johnny Lawrence
             case this.Players.CHARACTERS[1]:
-                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[0], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
+                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
             //Yodha
             case this.Players.CHARACTERS[2]:
@@ -487,6 +487,7 @@ class RoundManager extends SceneManager{
             if(this.result)this.loadgame(false, false, false, this.roundCount, false, true);
             if(!this.result)this.loadgame(false, false, false, this.roundCount, true, false);
         } else {
+            console.log("Player: " + player);
             this.PlayersChoice = {PLAYER: player, OPPONENT: opponent};
             this.Level = {MAP: map};
             this.title = false;
