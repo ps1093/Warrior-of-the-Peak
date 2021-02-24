@@ -29,17 +29,14 @@ class SceneManager{
         opponentDeathCount = 0;
         this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
-        this.Gokuspritesheet = ASSET_MANAGER.queueDownload("./sprites/goku_spritesheet.png");
-        this.GokuMirrorspritesheet = ASSET_MANAGER.queueDownload("./sprites/goku_spritesheetmirror.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
-        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheet.png");
-        this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheetmirror.png");
+        this.Gokuspritesheet = ASSET_MANAGER.getAsset("./sprites/goku_spritesheet.png");
         this.CLspritesheet = ASSET_MANAGER.getAsset("./sprites/ChunLi.png");
         this.BLspritesheet = ASSET_MANAGER.getAsset("./sprites/BillyLee.png");
         this.animations = [];
         this.animations[0] = (new Animator2(this.DLspritesheet, KPstate.RIDLE, 2, .75, false, true));
         this.animations[1] = (new Animator2(this.JLspritesheet, KPstate.RIDLE, 2, .75, false, true));
-        this.animations[2] = new Animator (this.CPspritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true );
+        this.animations[2] = new Animator(this.CPspritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true );
         this.animations[3] = new Animator2(this.CLspritesheet, ChunLiState.IDLE, 4, .35, false, true );
         this.animations[4] = new Animator2(this.BLspritesheet, BillyLeeState.WALK, 4, .75, false, true );
         this.animations[5] = new Animator2(this.Gokuspritesheet, GokuState.RWALK, 2, .75, false, true );
@@ -90,9 +87,6 @@ class SceneManager{
             //Billy Lee
             case this.Players.CHARACTERS[4]:
                 this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
-                break;
-            case this.Players.CHARACTERS[5]:
-                this.player = new Goku();
                 break;
             //Goku
             case this.Players.CHARACTERS[5]:
@@ -282,7 +276,7 @@ class SceneManager{
             } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[4].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
-                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4];
+                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[5];
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[0].length * 12))){
@@ -352,11 +346,12 @@ class SceneManager{
             ctx.fillText(this.edition, 300, 150);
             ctx.strokeText(this.edition, 300, 150);
     
-            this.animations[0].drawFrame(this.game.clockTick, ctx, 200, 200, PARAMS.SCALE);
-            this.animations[1].drawFrame(this.game.clockTick, ctx, 350, 200, PARAMS.SCALE);
-            this.animations[2].drawFrame(this.game.clockTick, ctx, 500, 200, 3);
-            this.animations[3].drawFrame(this.game.clockTick, ctx, 650, 200, 1.20);
-            this.animations[4].drawFrame(this.game.clockTick, ctx, 800, 200, 1.55);
+            this.animations[0].drawFrame(this.game.clockTick, ctx, 85, 200, PARAMS.SCALE);
+            this.animations[1].drawFrame(this.game.clockTick, ctx, 235, 200, PARAMS.SCALE);
+            this.animations[2].drawFrame(this.game.clockTick, ctx, 385, 200, 3);
+            this.animations[3].drawFrame(this.game.clockTick, ctx, 535, 200, 1.20);
+            this.animations[4].drawFrame(this.game.clockTick, ctx, 685, 200, 1.55);
+            this.animations[5].drawFrame(this.game.clockTick, ctx, 835, 200, 3.5);
             
             //ctx.font = '20px "Press Start 2P"';
             ctx.fillStyle = rgb(183, 3, 3);
