@@ -79,8 +79,8 @@ class Propeller{
         var that = this;
         this.game.entities.forEach(function(entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
-                if((entity instanceof KaratePlayer) && that.lastBB.bottom <= entity.BB.top){
-                    entity.hitPoints -= 25;
+                if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof BillyLee || entity instanceof ChunLi) && that.lastBB.bottom <= entity.BB.top){
+                    entity.hitPoints -= 100;
                 }
             }
         });
