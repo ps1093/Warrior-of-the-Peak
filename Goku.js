@@ -122,11 +122,10 @@ class Goku{
         this.animations[this.STATE.DEAD][this.FACING.LEFT]
             = new Animator2(this.spritesheet2, GokuState.LGETHIT, 2, .2, false, false);
 
-        //****** Dead Left & Right ******
+        //****** Dead ******
         this.animations[this.STATE.DEAD][this.FACING.RIGHT]
             = new Animator2(this.spritesheet, GokuState.RDIE, 4, .3, false, false);
-        this.animations[this.STATE.DEAD][this.FACING.LEFT]
-            = new Animator2(this.spritesheet2, GokuState.LDIE, 4, .3, false, false);
+        
     };
 
     updateBB(){
@@ -163,7 +162,11 @@ class Goku{
             this.BB = new BoundingBox(this.x, this.y, GokuState.RBLAST[0].w * PARAMS.SCALE, GokuState.RBLAST[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LBLAST[0].w * PARAMS.SCALE, GokuState.LBLAST[0].h * PARAMS.SCALE);
-        } 
+        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.RIGHT){
+            this.BB = new BoundingBox(this.x, this.y, GokuState.RGETHIT[0].w * PARAMS.SCALE, GokuState.RGETHIT[0].h * PARAMS.SCALE);
+        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
+            this.BB = new BoundingBox(this.x, this.y, GokuState.LGETHIT[0].w * PARAMS.SCALE, GokuState.LGETHIT[0].h * PARAMS.SCALE);
+        }
     };
     update(){
         //Variables to manipulate the X and Y velocity
@@ -200,11 +203,11 @@ class Goku{
             } 
           
             //Power
-            if(this.game.P){
+            if(this.game.E){
                 this.state = this.STATE.POWER;
             }
             //Blast
-             if(this.game.P){
+             if(this.game.q){
                 this.state = this.STATE.BLAST;
             }
             //Kick
@@ -236,7 +239,6 @@ class Goku{
 
         if(this.hitPoints === 0){
             this.state = this.STATE.DEAD;
-            this.velocity.y = - 100;
             this.velocity.x = 0;
             this.dead = true;
          } 
@@ -244,8 +246,8 @@ class Goku{
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
-        this.cX = this.x + KPstate.RWALK[0].w / 2 * PARAMS.SCALE;
-        this.cY = this.y + KPstate.RWALK[0].h / 2 * PARAMS.SCALE;
+        this.cX = this.x + GokuState.RWALK[0].w / 2 * PARAMS.SCALE;
+        this.cY = this.y + GokuState.RWALK[0].h / 2 * PARAMS.SCALE;
         this.updateBB();
         this.collisions();
     };
