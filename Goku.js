@@ -157,16 +157,16 @@ class Goku{
         } else if(this.state === this.STATE.JUMP && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LJUMP[0].w * PARAMS.SCALE, GokuState.LJUMP[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.POWER && this.facing === this.FACING.RIGHT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.RPOWER[0].w * PARAMS.SCALE, GokuState.RPower[0].h * PARAMS.SCALE);
+            this.BB = new BoundingBox(this.x, this.y, GokuState.RPOWER[0].w * PARAMS.SCALE, GokuState.RPOWER[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LPOWER[0].w * PARAMS.SCALE, GokuState.LPOWER[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.RIGHT){
+        } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RBLAST[0].w * PARAMS.SCALE, GokuState.RBLAST[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
+        } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LBLAST[0].w * PARAMS.SCALE, GokuState.LBLAST[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.RIGHT){
+        } else if(this.state === this.STATE.GHIT && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RGETHIT[0].w * PARAMS.SCALE, GokuState.RGETHIT[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
+        } else if(this.state === this.STATE.GHIT && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LGETHIT[0].w * PARAMS.SCALE, GokuState.LGETHIT[0].h * PARAMS.SCALE);
         }
     };
@@ -206,11 +206,11 @@ class Goku{
           
             //Power
             if(this.game.E){
-                this.state = this.STATE.POWER;
+                this.state = this.STATE.BLAST;
             }
             //Blast
              if(this.game.Q){
-                this.state = this.STATE.BLAST;
+                this.state = this.STATE.POWER;
             }
             //Kick
             if(this.game.P){
