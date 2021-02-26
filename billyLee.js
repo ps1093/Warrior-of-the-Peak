@@ -1,6 +1,6 @@
 class BillyLee {
-    constructor(game, x, y, theName) {
-        Object.assign(this, { game, x, y, theName });
+    constructor(game, x, y, theName, roundCount, map, deathCount, opponent) {
+        Object.assign(this, { game, x, y, theName, roundCount, map, deathCount, opponent });
   
       //  this.game.BillyLee = this;
 
@@ -10,6 +10,8 @@ class BillyLee {
         this.name = this.theName;
         this.dead = false;
         this.CPU = false;
+        this.deathCount = deathCount;
+        this.elapsed = 0;
 
         //For the Health Bar
         this.maxHitPoints  = 100;
@@ -398,22 +400,34 @@ class BillyLee {
                 this.velocity.x -= FALL_WALK;   
             } else {
             }
-            
-    
-        if (this.hitPoints === 0){
-            this.dead === true;
         }
 
+        if (this.hitPoints === 0){
+            this.dead = true;
         }
+        if(opponentDeath){
+            if(this.roundCount <= 3 && opponentDeathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    opponentDeathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+         }
+         if(this.dead){
+            if(this.roundCount <= 3 && this.deathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    this.deathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+         }
          //updating
          this.x += this.velocity.x * TICK;
          this.y += this.velocity.y * TICK;
          this.updateBB();
          this.collisions();
-      
-   
-    
-
   };
 
   collisions(){

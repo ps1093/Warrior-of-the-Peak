@@ -1,6 +1,6 @@
 class ChunLi {
-    constructor(game, x, y, theName) {
-        Object.assign(this, { game, x, y, theName});
+    constructor(game, x, y, theName, roundCount, map, deathCount, opponent) {
+        Object.assign(this, { game, x, y, theName, roundCount, map, deathCount, opponent});
 
       //  this.game.ChunLi = this;
         
@@ -10,6 +10,8 @@ class ChunLi {
         this.name = this.theName;
         this.dead = false;
         this.CPU = false;
+        this.deathCount = deathCount;
+        this.elapsed = 0;
 
         //For the Health Bar
         this.maxHitPoints  = 100;
@@ -214,9 +216,6 @@ class ChunLi {
         const JUMP_KICK = 100;
         const BIRD_KICK = 50;
        
-
-        
-
         //Ground Physics
         if(this.state !== 2){
             //Walking
@@ -311,6 +310,27 @@ class ChunLi {
         if(this.hitPoints === 0){
             this.dead = true;
          } 
+
+         if(opponentDeath){
+            console.log("Does opponent dying get logged?");
+            if(this.roundCount <= 3 && opponentDeathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    opponentDeathCount++;
+                    console.log("Death count for opponent" + opponentDeathCount);
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+         }
+         if(this.dead){
+            if(this.roundCount <= 3 && this.deathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    this.deathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+         }
 
         //updating
         this.x += this.velocity.x * TICK * PARAMS.CHUNLI;

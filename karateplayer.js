@@ -1,12 +1,14 @@
 class KaratePlayer{
-    constructor(game, x, y, blue, theName){
-        Object.assign(this, {game, x, y, blue, theName});
+    constructor(game, x, y, blue, theName, roundCount, map, deathCount, opponent){
+        Object.assign(this, {game, x, y, blue, theName, roundCount, map, deathCount, opponent});
         this.game.KaratePlayer = this;
 
         //Character Details for HUD and game
         this.name = this.theName;
-        this.dead = false;
+        console.log("Player: " + this.theName);
         this.CPU = false;
+        this.deathCount = deathCount;
+        this.elapsed = 0;
 
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
@@ -30,7 +32,8 @@ class KaratePlayer{
             DUCK:  4,
             JUMP:  5,
             ROLL: 6,
-            DEAD: 7
+            DEAD: 7,
+            BLOCK: 8
         };
 
         //Decides if Facing left or right
@@ -61,7 +64,7 @@ class KaratePlayer{
 
     loadAnimations(){
         //Loads all the animations
-        for(var i = 0; i < 8; i++){
+        for(var i = 0; i < 9; i++){
             this.animations.push([]);
             for(var j = 0; j < 2; j++){
                 this.animations[i].push([]);
@@ -81,9 +84,9 @@ class KaratePlayer{
 
          //******* Punch Right & LEFT ********
          this.animations[this.STATE.PUNCH][this.FACING.RIGHT] 
-             = new Animator2(this.spritesheet, KPstate.RPUNCH, 2, .2, false, true);
+             = new Animator2(this.spritesheet, KPstate.RPUNCH, 2, .1, false, true);
          this.animations[this.STATE.PUNCH][this.FACING.LEFT]
-             = new Animator2(this.spritesheet, KPstate.LPUNCH, 2, .2, true, true);
+             = new Animator2(this.spritesheet, KPstate.LPUNCH, 2, .1, true, true);
     
          //******* Kick Right & Left *******
          this.animations[this.STATE.KICK][this.FACING.RIGHT]
@@ -114,6 +117,12 @@ class KaratePlayer{
             = new Animator2(this.spritesheet, KPstate.RDIE, 8, .2, false, false);
         this.animations[this.STATE.DEAD][this.FACING.LEFT]
             = new Animator2(this.spritesheet, KPstate.LDIE, 8, .2, false, false);
+        
+        //****** Dead Left & Right ******
+        this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, KPstate.RBLOCK, 1, .2, false, true);
+        this.animations[this.STATE.BLOCK][this.FACING.LEFT]
+            = new Animator2(this.spritesheet, KPstate.LBLOCK, 1, .2, false, true);
     };
     updateBB(){
         this.lastBB = this.BB;
@@ -145,7 +154,11 @@ class KaratePlayer{
             this.BB = new BoundingBox(this.x, this.y, KPstate.RROLL[0].w * PARAMS.SCALE, KPstate.RROLL[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.ROLL && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, KPstate.LROLL[0].w * PARAMS.SCALE, KPstate.LROLL[0].h * PARAMS.SCALE);
-        } 
+        } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.RIGHT){
+            this.BB = new BoundingBox(this.x, this.y, KPstate.RBLOCK[0].w * PARAMS.SCALE, KPstate.RBLOCK[0].h * PARAMS.SCALE);
+        } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.LEFT){
+            this.BB = new BoundingBox(this.x, this.y, KPstate.LBLOCK[0].w * PARAMS.SCALE, KPstate.LBLOCK[0].h * PARAMS.SCALE);
+        }
     };
     update(){
         //Variables to manipulate the X and Y velocity
@@ -156,6 +169,7 @@ class KaratePlayer{
         const STOP_FALL = 400;
         const DEAD_X = 50;
         const TICK = this.game.clockTick;
+        
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP && this.state !== this.STATE.DEAD){
@@ -195,6 +209,10 @@ class KaratePlayer{
             if(this.game.P){
                 this.state = this.STATE.KICK;
             }
+
+            if(this.game.E){
+                this.state = this.STATE.BLOCK;
+            }
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
             //Jump
@@ -218,12 +236,41 @@ class KaratePlayer{
             }               
         }
 
+
+        
         if(this.hitPoints === 0){
             this.state = this.STATE.DEAD;
             this.velocity.y = - 100;
             this.velocity.x = 0;
-            this.dead = true;
          } 
+
+         if(opponentDeath){
+            if(this.roundCount <= 3 && opponentDeathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    opponentDeathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+         }
+
+         if(this.state === this.STATE.DEAD){
+            if(this.roundCount <= 3 && this.deathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    this.deathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+         }
+         var that = this;
+         this.game.entities.forEach(function(entity) {
+             if(entity instanceof KaratePlayerCPU){
+                if(that.AtkCircle()){
+                    if(that.state === that.STATE.PUNCH && !opponentBlock) opponentHitPoints -= 2;
+                }
+             }
+         });
 
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
@@ -248,7 +295,8 @@ class KaratePlayer{
                             else if(that.state === that.STATE.ROLL) that.y = entity.BB.top - KPstate.RROLL[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - KPstate.RDUCK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - KPstate.RPUNCH[0].h * PARAMS.SCALE;  
-                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - KPstate.RKICK[0].h * PARAMS.SCALE;             
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - KPstate.RKICK[0].h * PARAMS.SCALE; 
+                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.top - KPstate.RBLOCK[0].h * PARAMS.SCALE;            
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }
@@ -260,7 +308,8 @@ class KaratePlayer{
                             else if(that.state === that.STATE.ROLL) that.y = entity.BB.bottom - KPstate.RROLL[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.bottom - KPstate.RDUCK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.bottom - KPstate.RPUNCH[0].h * PARAMS.SCALE;
-                            else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom - KPstate.RKICK[0].h * PARAMS.SCALE;                           
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom - KPstate.RKICK[0].h * PARAMS.SCALE; 
+                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.bottom - KPstate.RBLOCK[0].h * PARAMS.SCALE;                           
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }
@@ -315,6 +364,12 @@ class KaratePlayer{
                     }
                 } 
         });        
+    };
+    AtkCircle() {
+        var dx = this.cX - opponentcX;
+        var dy = this.cY - opponentcY;
+        var dist = Math.floor(Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2)));
+        return (dist < this.AtkRadius + opponentAtkRadius);
     };
     draw(ctx){
         if(PARAMS.DEBUG){
