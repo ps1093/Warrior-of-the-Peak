@@ -106,7 +106,7 @@ class ChunLi {
     };
 
          loadAnimations() {
-            for (var i = 0; i < 11; i++) { // ten states
+            for (var i = 0; i < 11; i++) { // eleven states
                 this.animations.push([]);
                 for (var j = 0; j < 2; j++) { // two directions
                     this.animations[i].push([]);
@@ -119,8 +119,8 @@ class ChunLi {
         this.animations[1][1] = new Animator2(this.spritesheet, this.walk, 8, .1, false, true);
         this.animations[2][0] = new Animator2(this.spritesheet, this.jump, 4, .7, false, true);
         this.animations[2][1] = new Animator2(this.spritesheet, this.jump, 4, .7, false, true);
-        this.animations[3][0] = new Animator2(this.spritesheet, this.punch, 3, .2, false, true);
-        this.animations[3][1] = new Animator2(this.spritesheet, this.punch, 3, .2, false, true);
+        this.animations[3][0] = new Animator2(this.spritesheet, this.punch, 3, .1, false, true);
+        this.animations[3][1] = new Animator2(this.spritesheet, this.punch, 3, .1, false, true);
         this.animations[4][0] = new Animator2(this.spritesheet, this.kick, 4, .2, false, true);
         this.animations[4][1] = new Animator2(this.spritesheet, this.kick, 4, .2, false, true);
         this.animations[5][0] = new Animator2(this.spritesheet, this.jKick, 6, .1, false, true);
@@ -170,27 +170,27 @@ class ChunLi {
             } 
         } else {
                 if (this.state === 0){
-                this.BB = new BoundingBox (this.x, this.y, -this.idle[this.animations[0][1].currentFrame()].w * PARAMS.CHUNLI, this.idle[this.animations[0][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox (this.x, this.y, this.idle[this.animations[0][1].currentFrame()].w * PARAMS.CHUNLI, this.idle[this.animations[0][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 1) {
-                this.BB = new BoundingBox (this.x, this.y, -this.walk[this.animations[1][1].currentFrame()].w * PARAMS.CHUNLI, this.walk[this.animations[1][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox (this.x, this.y, this.walk[this.animations[1][1].currentFrame()].w * PARAMS.CHUNLI, this.walk[this.animations[1][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 2) {
-                this.BB = new BoundingBox(this.x, this.y, -this.jump[this.animations[2][1].currentFrame()].w * PARAMS.CHUNLI, this.jump[this.animations[2][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.jump[this.animations[2][1].currentFrame()].w * PARAMS.CHUNLI, this.jump[this.animations[2][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 3) {
-                this.BB = new BoundingBox(this.x, this.y, -this.punch[this.animations[3][1].currentFrame()].w * PARAMS.CHUNLI, this.punch[this.animations[3][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.punch[this.animations[3][1].currentFrame()].w * PARAMS.CHUNLI, this.punch[this.animations[3][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 4) {
-                this.BB = new BoundingBox(this.x, this.y, -this.kick[this.animations[4][1].currentFrame()].w * PARAMS.CHUNLI, this.kick[this.animations[4][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.kick[this.animations[4][1].currentFrame()].w * PARAMS.CHUNLI, this.kick[this.animations[4][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 5) {
-                this.BB = new BoundingBox(this.x, this.y, -this.jKick[this.animations[5][1].currentFrame()].w * PARAMS.CHUNLI, this.jKick[this.animations[5][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.jKick[this.animations[5][1].currentFrame()].w * PARAMS.CHUNLI, this.jKick[this.animations[5][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 6) {
-                this.BB = new BoundingBox(this.x, this.y, -this.sKick[this.animations[6][1].currentFrame()].w * PARAMS.CHUNLI, this.sKick[this.animations[6][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.sKick[this.animations[6][1].currentFrame()].w * PARAMS.CHUNLI, this.sKick[this.animations[6][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 7) {
-                this.BB = new BoundingBox(this.x, this.y, -this.bKick[this.animations[7][1].currentFrame()].w * PARAMS.CHUNLI, this.bKick[this.animations[7][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.bKick[this.animations[7][1].currentFrame()].w * PARAMS.CHUNLI, this.bKick[this.animations[7][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 8) {
-                this.BB = new BoundingBox(this.x, this.y, -this.gHit[this.animations[8][1].currentFrame()].w * PARAMS.CHUNLI, this.gHit[this.animations[8][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.gHit[this.animations[8][1].currentFrame()].w * PARAMS.CHUNLI, this.gHit[this.animations[8][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 9) {
-                this.BB = new BoundingBox(this.x, this.y, -this.duck[this.animations[9][1].currentFrame()].w * PARAMS.CHUNLI, this.duck[this.animations[9][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.duck[this.animations[9][1].currentFrame()].w * PARAMS.CHUNLI, this.duck[this.animations[9][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 10) {
-                this.BB = new BoundingBox(this.x, this.y, -this.block[this.animations[10][1].currentFrame()].w * PARAMS.CHUNLI, this.block[this.animations[10][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.block[this.animations[10][1].currentFrame()].w * PARAMS.CHUNLI, this.block[this.animations[10][1].currentFrame()].h * PARAMS.CHUNLI);
             } 
         }
         
@@ -213,6 +213,8 @@ class ChunLi {
         const FALL_WALK = 1;
         const JUMPING = 500;
         const STOP_FALL = 400;
+        const JUMP_KICK = 100;
+        const BIRD_KICK = 50;
        
         //Ground Physics
         if(this.state !== 2){
@@ -232,6 +234,8 @@ class ChunLi {
             }
             //Punch, direction does not matter.
             if(this.game.C){
+                ASSET_MANAGER.playAsset("./audio/yap.mp3");
+
                 this.state = 3;
             }
             //Duck
@@ -242,10 +246,10 @@ class ChunLi {
              //Kick
             if(this.game.P){
                 ASSET_MANAGER.playAsset("./audio/burstkick.wav");
-                this.state = 6;
-                
-                
+                this.state = 6;   
             }
+
+          
             
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
@@ -255,7 +259,22 @@ class ChunLi {
                 this.velocity.y = -JUMPING;
                 this.state = 2;
                 this.fallAcc = STOP_FALL;
-             } 
+             }
+
+               // bird kick
+            if(this.game.K){
+                ASSET_MANAGER.playAsset("./audio/birdKick.mp3");
+                this.velocity.y = -BIRD_KICK;
+                this.state = 7;
+                this.fallAcc = STOP_FALL;
+            }
+
+            // jump kick
+            if(this.game.L){
+                this.velocity.y = -JUMP_KICK;
+                this.state = 5;
+                this.fallAcc = STOP_FALL;
+            }
             
          
 
@@ -272,7 +291,21 @@ class ChunLi {
                 this.velocity.x -= FALL_WALK;   
             } else {
             }               
-        }
+          
+        } else if(this.state === 5) {
+            this.velocity.y += this.fallAcc * TICK;
+
+            //horizontal air physics
+            if(this.game.D && !this.game.A){
+                this.facing = 0;
+                this.velocity.x += FALL_WALK;
+            } else if(this.game.A && !this.game.D){
+                this.facing = 1;
+                this.velocity.x -= FALL_WALK;   
+            } else {
+            }               
+          
+        } 
 
         if(this.hitPoints === 0){
             this.dead = true;
@@ -300,8 +333,8 @@ class ChunLi {
          }
 
         //updating
-        this.x += this.velocity.x * TICK;
-        this.y += this.velocity.y * TICK;
+        this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
+        this.y += this.velocity.y * TICK * PARAMS.CHUNLI;
         this.updateBB();
         this.collisions();
         
@@ -317,7 +350,7 @@ class ChunLi {
                      if (that.velocity.y > 0) {
                         //Falling Logic - Level1 - Level2 - Ground
                         if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && (that.lastBB.bottom) >= entity.BB.bottom){
-                            if(that.state === 0) that.y = entity.BB.bottom - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
+                            if(that.state === 0) that.y = entity.BB.bottom - that.idle[that.animations[0][0].currentFrame()].h * PARAMS.CHUNLI;
                             else if(that.state === 1) that.y = entity.BB.bottom - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
                             else if(that.state === 2) that.y = entity.BB.bottom - that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
                             else if(that.state === 3) that.y = entity.BB.bottom - that.punch[that.animations[3][0].currentFrame()].h * PARAMS.CHUNLI;  
@@ -336,8 +369,8 @@ class ChunLi {
 
                          //Falling Logic - Level2  - Platform
                          if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
-                            if(that.state === 2) that.state = 0;
-                            if(that.state === 0) that.y = entity.BB.top - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
+                          //  if(that.state === 2) that.state = 0;
+                            if(that.state === 0) that.y = entity.BB.top - that.walk[that.animations[0][0].currentFrame()].h * PARAMS.CHUNLI;
                             else if(that.state === 1) that.y = entity.BB.top - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
                             else if(that.state === 2) that.y = entity.BB.top - that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
                             else if(that.state === 3) that.y = entity.BB.top - that.punch[that.animations[3][0].currentFrame()].h * PARAMS.CHUNLI;  
@@ -353,38 +386,53 @@ class ChunLi {
                             that.updateBB();                         
                         }
 
-                         //Walking to Right Logic - Level1 - Level2
+                           //Side Logic - Level2/3  - Platform/Propeller
+                         /*  if((entity instanceof Platform || entity instanceof Propeller) && that.BB.collide(entity.topBB) && that.BB.collide(entity.bottomBB)){
+                                if (that.BB.collide(entity.leftBB)) {
+                                    if(that.state === 2) that.x = entity.BB.left - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI; 
+                                that.velocity.x = 0;                      
+                            } else {
+                                if(that.state === 2) that.x = entity.BB.right;  
+                                that.velocity.x = 0;
+
+                            }
+                            that.updateBB();
+                    } */
+
+                         //Walking to Right Logic - any level
                          if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
-                            if(that.state === 0) that.x = entity.BB.right - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 1) that.x = entity.BB.right - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 2) that.x = entity.BB.right - that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 3) that.x = entity.BB.right - that.punch[that.animations[3][0].currentFrame()].h * PARAMS.CHUNLI;  
-                            else if(that.state === 4) that.x = entity.BB.right - that.kick[that.animations[4][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 5) that.x = entity.BB.right - that.jKick[that.animations[5][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 6) that.x = entity.BB.right - that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 7) that.x = entity.BB.right - that.bKick[that.animations[7][0].currentFrame()].h * PARAMS.CHUNLI;  
-                            else if(that.state === 8) that.x = entity.BB.right - that.gHit[that.animations[8][0].currentFrame()].h * PARAMS.CHUNLI; 
-                            else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 10) that.x = entity.BB.right  - that.block[that.animations[10][0].currentFrame()].h * PARAMS.CHUNLI;
-                            if(that.state === 2) that.state = 0;    
+                                if(that.state === 0) that.x = entity.BB.right - that.idle[that.animations[0][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 1) that.x = entity.BB.right - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 2) that.x = entity.BB.right - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 3) that.x = entity.BB.right - that.punch[that.animations[3][0].currentFrame()].w * PARAMS.CHUNLI;  
+                                else if(that.state === 4) that.x = entity.BB.right - that.kick[that.animations[4][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 5) that.x = entity.BB.right - that.jKick[that.animations[5][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 6) that.x = entity.BB.right - that.sKick[that.animations[6][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 7) that.x = entity.BB.right - that.bKick[that.animations[7][0].currentFrame()].w * PARAMS.CHUNLI;  
+                                else if(that.state === 8) that.x = entity.BB.right - that.gHit[that.animations[8][0].currentFrame()].w * PARAMS.CHUNLI; 
+                                else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 10) that.x = entity.BB.right  - that.block[that.animations[10][0].currentFrame()].w * PARAMS.CHUNLI;
+                            
+                          //  if(that.state === 2) that.state = 0;    
                             that.velocity.x = 0;
                             that.updateBB(); 
 
                         }
-                        //Walking to Left Logic - Level1 - Level2
-                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
-                            if(that.state === 0) that.x = entity.BB.left - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 1) that.x = entity.BB.left - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 2) that.x = entity.BB.left - that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 3) that.x = entity.BB.left - that.punch[that.animations[3][0].currentFrame()].h * PARAMS.CHUNLI;  
-                            else if(that.state === 4) that.x = entity.BB.left - that.kick[that.animations[4][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 5) that.x = entity.BB.left - that.jKick[that.animations[5][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 6) that.x = entity.BB.left - that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 7) that.x = entity.BB.left - that.bKick[that.animations[7][0].currentFrame()].h * PARAMS.CHUNLI;  
-                            else if(that.state === 8) that.x = entity.BB.left - that.gHit[that.animations[8][0].currentFrame()].h * PARAMS.CHUNLI; 
-                            else if(that.state === 9) that.x = entity.BB.left - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 10) that.x = entity.BB.left  - that.block[that.animations[10][0].currentFrame()].h * PARAMS.CHUNLI;
-                            if(that.state === 2) that.state = 0;    
+                        //Walking to Left Logic - any level
+                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
+                             that.x = entity.BB.left;
+                         /*   if(that.state === 0) that.x = entity.BB.left;
+                            else if(that.state === 1) that.x = entity.BB.left;
+                            else if(that.state === 2) that.x = entity.BB.left;
+                            else if(that.state === 3) that.x = entity.BB.left;  
+                            else if(that.state === 4) that.x = entity.BB.left;
+                            else if(that.state === 5) that.x = entity.BB.left;
+                            else if(that.state === 6) that.x = entity.BB.left;
+                            else if(that.state === 7) that.x = entity.BB.left;  
+                            else if(that.state === 8) that.x = entity.BB.left; 
+                            else if(that.state === 9) that.x = entity.BB.left;
+                            else if(that.state === 10) that.x = entity.BB.left;
+                          //  if(that.state === 2) that.state = 0;    */
                             that.velocity.x = 0;
                             that.updateBB(); 
                         }
@@ -393,59 +441,59 @@ class ChunLi {
 
                          //Air Collisions
                          if(that.velocity.y < 0){
-                            //Jumping logic - Level1 - Platform
+                            //Jumping logic - Level1 - Background
                             if((entity instanceof BackGround) && that.lastBB.bottom <= entity.BB.top){
-                                if(that.state === 2) that.y = entity.BB.bottom - that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
+                                if(that.state === 2) that.y = entity.BB.bottom - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI;
                                 that.velocity.y = 0;                              
                                 that.updateBB();
                             }
-                            //Jumping & Kicking to Right - Level2 - Level1
-                            if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.right >= entity.BB.right){
-                                if(that.state === 2) that.x = entity.BB.right - that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
-                                 that.velocity.y = 0;
-                                 that.updateBB();
+                            //jumping logic - level 2 platform
+                            if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
+                                if(that.state === 2) that.y = entity.BB.bottom;// + that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
+                                else if(that.state === 6) that.y = entity.BB.bottom;// + that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.CHUNLI;
+                                else if(that.state === 5) that.y = entity.BB.bottom;
+                                else if(that.state === 7) that.y = entity.BB.bottom;                               
+                                that.velocity.y = 0;
+                                that.updateBB();
                             }
-                            // jumping on propeller oil righ
+
+                            // jumping on propeller oil rig
                             if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
-                                if(that.state === 2) that.y = entity.BB.bottom + that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
-                                else if(that.state === 6) that.y = entity.BB.bottom + that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.CHUNLI;
+                                if(that.state === 2) that.y = entity.BB.bottom;// + that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
+                                else if(that.state === 6) that.y = entity.BB.bottom; // + that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.CHUNLI;
                                 that.hitPoints -= 2;
                                 that.velocity.y = 0;
                                 that.updateBB(); 
                             }
 
                             //Jumping & Kicking to Right - any level
-                            if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
-                                if(that.state === 2) that.x = entity.BB.right - that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
-                                that.velocity.y =0;
+                            if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky || entity instanceof Propeller) && that.lastBB.right >= entity.BB.right){
+                                if(that.state === 0) that.x = entity.BB.right - that.idle[that.animations[0][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 1) that.x = entity.BB.right - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 2) that.x = entity.BB.right - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 3) that.x = entity.BB.right - that.punch[that.animations[3][0].currentFrame()].w * PARAMS.CHUNLI;  
+                                else if(that.state === 4) that.x = entity.BB.right - that.kick[that.animations[4][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 5) that.x = entity.BB.right - that.jKick[that.animations[5][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 6) that.x = entity.BB.right - that.sKick[that.animations[6][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 7) that.x = entity.BB.right - that.bKick[that.animations[7][0].currentFrame()].w * PARAMS.CHUNLI;  
+                                else if(that.state === 8) that.x = entity.BB.right - that.gHit[that.animations[8][0].currentFrame()].w * PARAMS.CHUNLI; 
+                                else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 10) that.x = entity.BB.right  - that.block[that.animations[10][0].currentFrame()].w * PARAMS.CHUNLI;
+                               // if(that.state === 2) that.x = entity.BB.right - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI;
+                                that.velocity.y = 0;
                                 that.updateBB();
                         }
                             //Jumping & Kicking to Left - any level
-                            if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
+                            if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky || entity instanceof Propeller) && that.lastBB.left <= entity.BB.left){
                                 if(that.state === 2) that.x = entity.BB.left;
+                                else if(that.state === 6) that.x = entity.BB.left;
+                                else if(that.state === 5) that.x = entity.BB.left;
+                                else if(that.state === 7) that.x = entity.BB.left;                               
                                 that.velocity.y = 0;
                                 that.updateBB();
                         }
-
-                         /*   if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
-                                if(that.state === 0) that.y = entity.BB.bottom + that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 1) that.y = entity.BB.bottom + that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 2) that.y = entity.BB.bottom + that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 3) that.y = entity.BB.bottom + that.punch[that.animations[3][0].currentFrame()].h * PARAMS.CHUNLI;  
-                            else if(that.state === 4) that.y = entity.BB.bottom + that.kick[that.animations[4][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 5) that.y = entity.BB.bottom + that.jKick[that.animations[5][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 6) that.y = entity.BB.bottom + that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 7) that.y = entity.BB.bottom + that.bKick[that.animations[7][0].currentFrame()].h * PARAMS.CHUNLI;  
-                            else if(that.state === 8) that.y = entity.BB.bottom + that.gHit[that.animations[8][0].currentFrame()].h * PARAMS.CHUNLI; 
-                            else if(that.state === 9) that.y = entity.BB.bottom + that.duck[that.animations[9][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 10) that.y = entity.BB.bottom  + that.block[that.animations[10][0].currentFrame()].h * PARAMS.CHUNLI;
-                            if(that.state === 2) that.state = 0; 
-                                that.hitPoints -= 2;
-                                that.velocity.y = 0;
-                                that.updateBB(); 
-                            } */
                            
-                           } 
+                    } 
                 }
             })
         };
@@ -479,19 +527,20 @@ class ChunLi {
       //  ctx.scale(-1, 1);
       //  this.animations[6][0].drawFrame(this.game.clockTick, ctx, -535, 429, 1);
 
-        if(PARAMS.DEBUG){
+        if(PARAMS.DEBUG && this.facing === 0){
             ctx.stroke();
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
             
-        } 
-        
-        else {
+        } else if (PARAMS.DEBUG && this.facing === 1) {
             ctx.save();
             ctx.scale(-1, 1);
             ctx.strokeStyle = "Red";
-            ctx.strokeRect(-(this.BB.x), this.BB.y, this.BB.width, this.BB.height);
-        }
+            ctx.strokeRect(-this.BB.x - this.animations[this.state][this.facing].array[this.animations[this.state][this.facing].currentFrame()].w, this.BB.y, (this.BB.width), this.BB.height);
+            ctx.restore();
+        } else {
+
+        };
 
        
 
@@ -505,7 +554,7 @@ class ChunLi {
         } else {
             ctx.save();
             ctx.scale(-1, 1);
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, -(this.x), this.y, PARAMS.CHUNLI);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, -(this.x) - this.animations[this.state][this.facing].array[this.animations[this.state][this.facing].currentFrame()].w, this.y, PARAMS.CHUNLI);
             this.healthbar.draw(ctx);
             ctx.restore();
             this.healthbar.draw(ctx);
