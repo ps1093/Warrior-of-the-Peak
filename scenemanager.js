@@ -90,7 +90,7 @@ class SceneManager{
                 break;
             //Goku
             case this.Players.CHARACTERS[5]:
-                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5]);
+                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
                 break;
         }
         switch(this.PlayersChoice.OPPONENT){

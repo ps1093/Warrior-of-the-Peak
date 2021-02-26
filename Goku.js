@@ -1,5 +1,5 @@
 class Goku{
-    constructor(game, x, y, theName){
+    constructor(game, x, y, theName, roundCount, map, deathCount, opponent){
         Object.assign(this, {game, x, y, theName});
         this.game.Goku = this;
 
@@ -105,26 +105,28 @@ class Goku{
              = new Animator2(this.spritesheet2, GokuState.LJUMP, 1, .15, false, true);
 
         //****** Blast Left & Right ******
-        this.animations[this.STATE.ROLL][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, GokuState.RROLL, 2, .5, false, false);
-        this.animations[this.STATE.ROLL][this.FACING.LEFT]
-            = new Animator2(this.spritesheet2, GokuState.LROLL, 2, .5, false, false);
+        this.animations[this.STATE.BLAST][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, GokuState.RBLAST, 2, .5, false, false);
+        this.animations[this.STATE.BLAST][this.FACING.LEFT]
+            = new Animator2(this.spritesheet2, GokuState.LBLAST, 2, .5, false, false);
 
         //****** Power Left & Right ******
-        this.animations[this.STATE.ROLL][this.FACING.RIGHT]
+        this.animations[this.STATE.POWER][this.FACING.RIGHT]
             = new Animator2(this.spritesheet, GokuState.RPower, 3, .1, false, true);
-        this.animations[this.STATE.ROLL][this.FACING.LEFT]
+        this.animations[this.STATE.POWER][this.FACING.LEFT]
             = new Animator2(this.spritesheet2, GokuState.LPower, 3, .1, false, true);
 
         //****** Get Hit Left & Right ******
-        this.animations[this.STATE.DEAD][this.FACING.RIGHT]
+        this.animations[this.STATE.GHIT][this.FACING.RIGHT]
             = new Animator2(this.spritesheet, GokuState.RGETHIT, 2, .2, false, false);
-        this.animations[this.STATE.DEAD][this.FACING.LEFT]
+        this.animations[this.STATE.GHIT][this.FACING.LEFT]
             = new Animator2(this.spritesheet2, GokuState.LGETHIT, 2, .2, false, false);
 
         //****** Dead ******
         this.animations[this.STATE.DEAD][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, GokuState.RDIE, 4, .3, false, false);
+            = new Animator2(this.spritesheet, GokuState.DEAD, 4, .3, false, false);
+        this.animations[this.STATE.DEAD][this.FACING.LEFT]
+            = new Animator2(this.spritesheet, GokuState.DEAD, 4, .3, false, false);
         
     };
 
