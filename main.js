@@ -4,6 +4,8 @@ var ASSET_MANAGER = new AssetManager();
 
 // sound effects
 ASSET_MANAGER.queueDownload("./audio/burstkick.wav");
+ASSET_MANAGER.queueDownload("./audio/birdKick.mp3");
+ASSET_MANAGER.queueDownload("./audio/yap.mp3");
 
 
 // music
@@ -45,9 +47,9 @@ ASSET_MANAGER.queueDownload("./sprites/CRANE.png");
 ASSET_MANAGER.downloadAll(function () {
 
 ASSET_MANAGER.autoRepeat("./music/Damn.mp4");
-ASSET_MANAGER.autoRepeat("./music/ChunLi.mp3");
+ASSET_MANAGER.autoRepeat("./music/KenStage.mp3");
 ASSET_MANAGER.autoRepeat("./music/Dr. Wily's Castle.mp3");
-ASSET_MANAGER.autoRepeat("./music/tecmoBowl.mp3");
+ASSET_MANAGER.autoRepeat("./music/Welcome to the Jungle.mp3");
 
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');

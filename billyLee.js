@@ -58,7 +58,7 @@ class BillyLee {
 
         // super kick
         // facing right
-        this.sKick = [{x: 0, y: 146, w: 24, h: 61}, {x: 50, y: 143, w: 28, h: 64}, {x: 100, y: 150, w: 37, y: 39}, {x: 150, y: 147, w: 44, h: 43}, {x: 200, y: 156, w: 37, h: 39}];
+        this.sKick = [{x: 0, y: 146, w: 24, h: 61}, {x: 50, y: 143, w: 28, h: 64}, {x: 100, y: 150, w: 37, h: 39}, {x: 150, y: 147, w: 44, h: 43}, {x: 200, y: 156, w: 37, h: 39}];
   
         // get Hit
         // facing right
@@ -74,7 +74,7 @@ class BillyLee {
 
         // dead
         // facing right
-        this.die = [{x: 250, y: 153, w: 30, h: 42}, {x: 300, y: 161, w: 36, y: 34}, {x: 361, y: 166, w: 47, h: 30}, {x: 400, y: 167, w: 48, y: 30}];
+        this.die = [{x: 250, y: 153, w: 30, h: 42}, {x: 300, y: 161, w: 36, h: 34}, {x: 350, y: 166, w: 47, h: 30}, {x: 400, y: 167, w: 48, h: 30}];
 
 
   
@@ -104,8 +104,8 @@ class BillyLee {
         this.animations[4][1] = new Animator2(this.spritesheet, this.sPunch, 4, .1, false, true);
         this.animations[5][0] = new Animator2(this.spritesheet, this.kick, 3, .1, false, true);
         this.animations[5][1] = new Animator2(this.spritesheet, this.kick, 3, .1, false, true);
-        this.animations[6][0] = new Animator2(this.spritesheet, this.sKick, 5, .1, false, true);
-        this.animations[6][1] = new Animator2(this.spritesheet, this.sKick, 5, .1, false, true);
+        this.animations[6][0] = new Animator2(this.spritesheet, this.sKick, 5, .15, false, true);
+        this.animations[6][1] = new Animator2(this.spritesheet, this.sKick, 5, .15, false, true);
         this.animations[7][0] = new Animator2(this.spritesheet, this.gHit, 2, .1, false, true);
         this.animations[7][1] = new Animator2(this.spritesheet, this.gHit, 2, .1, false, true);
         this.animations[8][0] = new Animator2(this.spritesheet, this.jump, 2, .5, false, true);
@@ -259,25 +259,25 @@ class BillyLee {
         }  
     } else {
             if (this.state === 0){
-            this.BB = new BoundingBox (this.x, this.y, -this.idle[this.animations[0][1].currentFrame()].w * PARAMS.BL, this.idle[this.animations[0][1].currentFrame()].h * PARAMS.BL);
-        } else if (this.state === 1) {
-            this.BB = new BoundingBox (this.x, this.y, -this.walk[this.animations[1][1].currentFrame()].w * PARAMS.BL, this.walk[this.animations[1][1].currentFrame()].h * PARAMS.BL);
+                this.BB = new BoundingBox (this.x, this.y, this.idle[this.animations[0][1].currentFrame()].w * PARAMS.BL, this.idle[this.animations[0][1].currentFrame()].h * PARAMS.BL);
+            } else if (this.state === 1) {
+            this.BB = new BoundingBox (this.x, this.y, this.walk[this.animations[1][1].currentFrame()].w * PARAMS.BL, this.walk[this.animations[1][1].currentFrame()].h * PARAMS.BL);
         } else if (this.state === 2) {
-            this.BB = new BoundingBox(this.x, this.y, -this.rPunch[this.animations[2][1].currentFrame()].w * PARAMS.BL, this.rPunch[this.animations[2][1].currentFrame()].h * PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.rPunch[this.animations[2][1].currentFrame()].w * PARAMS.BL, this.rPunch[this.animations[2][1].currentFrame()].h * PARAMS.BL);
         } else if (this.state === 3) {
-            this.BB = new BoundingBox(this.x, this.y, -this.lPunch[this.animations[3][1].currentFrame()].w * PARAMS.BL, this.lPunch[this.animations[3][1].currentFrame()].h * PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.lPunch[this.animations[3][1].currentFrame()].w * PARAMS.BL, this.lPunch[this.animations[3][1].currentFrame()].h * PARAMS.BL);
         } else if (this.state === 4) {
-            this.BB = new BoundingBox(this.x, this.y, -this.sPunch[this.animations[4][1].currentFrame()].w * PARAMS.BL, this.sPunch[this.animations[4][1].currentFrame()].h * PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.sPunch[this.animations[4][1].currentFrame()].w * PARAMS.BL, this.sPunch[this.animations[4][1].currentFrame()].h * PARAMS.BL);
         } else if (this.state === 5) {
-            this.BB = new BoundingBox(this.x, this.y, -this.kick[this.animations[5][1].currentFrame()].w * PARAMS.BL, this.kick[this.animations[5][1].currentFrame()].h * PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.kick[this.animations[5][1].currentFrame()].w * PARAMS.BL, this.kick[this.animations[5][1].currentFrame()].h * PARAMS.BL);
         } else if (this.state === 6) {
-            this.BB = new BoundingBox(this.x, this.y, -this.sKick[this.animations[6][1].currentFrame()].w * PARAMS.BL, this.sKick[this.animations[6][1].currentFrame()].h * PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.sKick[this.animations[6][1].currentFrame()].w * PARAMS.BL, this.sKick[this.animations[6][1].currentFrame()].h * PARAMS.BL);
         } else if (this.state === 7) {
-            this.BB = new BoundingBox(this.x, this.y, -this.gHit[this.animations[7][1].currentFrame()].w * PARAMS.BL, this.gHit[this.animations[7][1].currentFrame()].h* PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.gHit[this.animations[7][1].currentFrame()].w * PARAMS.BL, this.gHit[this.animations[7][1].currentFrame()].h* PARAMS.BL);
         } else if (this.state === 8) {
-            this.BB = new BoundingBox(this.x, this.y, -this.jump[this.animations[8][1].currentFrame()].w * PARAMS.BL, this.jump[this.animations[8][1].currentFrame()].h* PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.jump[this.animations[8][1].currentFrame()].w * PARAMS.BL, this.jump[this.animations[8][1].currentFrame()].h* PARAMS.BL);
         } else if (this.state === 9) {
-            this.BB = new BoundingBox(this.x, this.y, -this.duck[this.animations[9][1].currentFrame()].w * PARAMS.BL, this.duck[this.animations[9][1].currentFrame()].h * PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.duck[this.animations[9][1].currentFrame()].w * PARAMS.BL, this.duck[this.animations[9][1].currentFrame()].h * PARAMS.BL);
         }  
     }
     
@@ -330,6 +330,7 @@ class BillyLee {
     const FALL_WALK = 1;
     const JUMPING = 400;
     const STOP_FALL = 400;
+    const JUMP_KICK = 50;
 
         // ground physics
         if (this.state != 8){
@@ -359,6 +360,18 @@ class BillyLee {
          //Kick
         if(this.game.P){
             this.state = 5;
+        }
+
+        // super punch
+        if(this.game.K){
+            this.state = 4;
+        }
+
+        // super kick
+        if(this.game.L){
+            this.velocity.y = -JUMP_KICK;
+            this.state = 6;
+            this.fallAcc = STOP_FALL;
         }
 
             //Implementing gravity.
@@ -423,12 +436,12 @@ class BillyLee {
                         else if(that.state === 7) that.y = entity.BB.bottom - that.gHit[that.animations[7][0].currentFrame()].h * PARAMS.BL;  
                         else if(that.state === 8) that.y = entity.BB.bottom - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL; 
                         else if(that.state === 9) that.y = entity.BB.bottom - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.BL;
-                       // if(that.state === 8) that.state = 0;           
+                        if(that.state === 8) that.state = 0;           
                         that.velocity.y = 0;
                         that.updateBB();                        
                     }
 
-                    //Falling Logic - Level2  - Platform
+                    //Falling Logic - Level2/3  - Platform/Propeller
                     if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
                         if(that.state === 8) that.state = 0;
                         if(that.state === 0) that.y = entity.BB.top - that.idle[that.animations[0][0].currentFrame()].h * PARAMS.BL;
@@ -446,62 +459,73 @@ class BillyLee {
                         that.updateBB();                         
                     }
 
+
+
+
                      //Walking to Right Logic - Level1 - Level2
                      if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
-                        if(that.state === 8) that.state = 0;
-                        if(that.state === 0) that.x = entity.BB.right - that.idle[that.animations[0][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 1) that.x = entity.BB.right - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 2) that.x = entity.BB.right - that.rPunch[that.animations[2][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 3) that.x = entity.BB.right - that.lPunch[that.animations[3][0].currentFrame()].h * PARAMS.BL;  
-                        else if(that.state === 4) that.x = entity.BB.right - that.sPunch[that.animations[4][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 5) that.x = entity.BB.right - that.kick[that.animations[5][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 6) that.x = entity.BB.right - that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 7) that.x = entity.BB.right - that.gHit[that.animations[7][0].currentFrame()].h * PARAMS.BL;  
-                        else if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL; 
-                        else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.BL;
-                       // if(that.state === 8) that.state = 0;           
-                        that.velocity.y = 0;
+                      //  if(that.state === 8) that.state = 0;
+                        if(that.state === 0) that.x = entity.BB.right - that.idle[that.animations[0][0].currentFrame()].w * PARAMS.BL;
+                        else if(that.state === 1) that.x = entity.BB.right - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.BL;
+                        else if(that.state === 2) that.x = entity.BB.right - that.rPunch[that.animations[2][0].currentFrame()].w * PARAMS.BL;
+                        else if(that.state === 3) that.x = entity.BB.right - that.lPunch[that.animations[3][0].currentFrame()].w * PARAMS.BL;  
+                        else if(that.state === 4) that.x = entity.BB.right - that.sPunch[that.animations[4][0].currentFrame()].w * PARAMS.BL;
+                        else if(that.state === 5) that.x = entity.BB.right - that.kick[that.animations[5][0].currentFrame()].w * PARAMS.BL;
+                        else if(that.state === 6) that.x = entity.BB.right - that.sKick[that.animations[6][0].currentFrame()].w * PARAMS.BL;
+                        else if(that.state === 7) that.x = entity.BB.right - that.gHit[that.animations[7][0].currentFrame()].w * PARAMS.BL;  
+                        else if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].w * PARAMS.BL; 
+                        else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.BL;
+                      //  if(that.state === 8) that.state = 0;           
+                        that.velocity.x = 0;
                         that.updateBB(); 
 
                     }
                     //Walking to Left Logic - Level1 - Level2
-                     if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
-                        if(that.state === 8) that.state = 0;
-                        if(that.state === 0) that.x = entity.BB.left - that.idle[that.animations[0][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 1) that.x = entity.BB.left - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 2) that.x = entity.BB.left - that.rPunch[that.animations[2][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 3) that.x = entity.BB.left - that.lPunch[that.animations[3][0].currentFrame()].h * PARAMS.BL;  
-                        else if(that.state === 4) that.x = entity.BB.left - that.sPunch[that.animations[4][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 5) that.x = entity.BB.left - that.kick[that.animations[5][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 6) that.x = entity.BB.left - that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.BL;
-                        else if(that.state === 7) that.x = entity.BB.left - that.gHit[that.animations[7][0].currentFrame()].h * PARAMS.BL;  
-                        else if(that.state === 8) that.x = entity.BB.left - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL; 
-                        else if(that.state === 9) that.x = entity.BB.left - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.BL;
-                       // if(that.state === 8) that.state = 0;           
-                        that.velocity.y = 0;
+                     if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
+                     that.x = entity.BB.left;
+                        /*  // if(that.state === 8) that.state = 0;
+                        if(that.state === 0) that.x = entity.BB.left;
+                        else if(that.state === 1) that.x = entity.BB.left;
+                        else if(that.state === 2) that.x = entity.BB.left;
+                        else if(that.state === 3) that.x = entity.BB.left;  
+                        else if(that.state === 4) that.x = entity.BB.left;
+                        else if(that.state === 5) that.x = entity.BB.left;
+                        else if(that.state === 6) that.x = entity.BB.left;
+                        else if(that.state === 7) that.x = entity.BB.left;  
+                        else if(that.state === 8) that.x = entity.BB.left; 
+                        else if(that.state === 9) that.x = entity.BB.left;
+                       // if(that.state === 8) that.state = 0;    */       
+                        that.velocity.x = 0;
                         that.updateBB();  
                     }
                 }
-
-                     //Air Collisions
-                     //Air Collisions
+                    
+                //Air Collisions
                      if(that.velocity.y < 0){
-                        //Jumping logic - Level1 - Platform
+                        //Jumping logic - Level1
                         if((entity instanceof BackGround) && that.lastBB.bottom <= entity.BB.top){
                             if(that.state === 8) that.y = entity.BB.bottom - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL;
                             that.velocity.y = 0;                              
                             that.updateBB();
                         }
-                        //Jumping & Kicking to Right - Level2 - Level1
+                        
+                        // jumping logic - level 2 - Platform
+                        if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
+                            if(that.state === 8) that.y = entity.BB.bottom;
+                            else if(that.state === 5) that.y = entity.BB.bottom;
+                            that.velocity.y = 0;
+                            that.updateBB();
+                        }
+                      /*  //Jumping & Kicking to Right - Level2 - Level1
                         if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.right >= entity.BB.right){
-                            if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL;
+                            if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].w * PARAMS.BL;
                              that.velocity.y = 0;
                              that.updateBB();
-                        }
+                        } */
                         // jumping on propeller oil righ
                         if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
-                            if(that.state === 8) that.y = entity.BB.bottom + that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL;
-                            else if(that.state === 5) that.y = entity.BB.bottom + that.sKick[that.animations[5][0].currentFrame()].h * PARAMS.BL;
+                            if(that.state === 8) that.y = entity.BB.bottom; //+ that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL;
+                            else if(that.state === 5) that.y = entity.BB.bottom;// + that.kick[that.animations[5][0].currentFrame()].h * PARAMS.BL;
                             that.hitPoints -= 2;
                             that.velocity.y = 0;
                             that.updateBB(); 
@@ -509,8 +533,18 @@ class BillyLee {
 
                         //Jumping & Kicking to Right - any level
                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
-                            if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.CHUNLI;
-                            that.velocity.y =0;
+                           // if(that.state === 8) that.state = 0;
+                            if(that.state === 0) that.x = entity.BB.right - that.idle[that.animations[0][0].currentFrame()].w * PARAMS.BL;
+                            else if(that.state === 1) that.x = entity.BB.right - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.BL;
+                            else if(that.state === 2) that.x = entity.BB.right - that.rPunch[that.animations[2][0].currentFrame()].w * PARAMS.BL;
+                            else if(that.state === 3) that.x = entity.BB.right - that.lPunch[that.animations[3][0].currentFrame()].w * PARAMS.BL;  
+                            else if(that.state === 4) that.x = entity.BB.right - that.sPunch[that.animations[4][0].currentFrame()].w * PARAMS.BL;
+                            else if(that.state === 5) that.x = entity.BB.right - that.kick[that.animations[5][0].currentFrame()].w * PARAMS.BL;
+                            else if(that.state === 6) that.x = entity.BB.right - that.sKick[that.animations[6][0].currentFrame()].w * PARAMS.BL;
+                            else if(that.state === 7) that.x = entity.BB.right - that.gHit[that.animations[7][0].currentFrame()].w * PARAMS.BL;  
+                            else if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].w * PARAMS.BL; 
+                            else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.BL;
+                            that.velocity.y = 0;
                             that.updateBB();
                     }
                         //Jumping & Kicking to Left - any level
@@ -552,36 +586,6 @@ class BillyLee {
         ctx.strokeRect(this.x, this.y, this.width*3, this.height*3);
     };
     */
-  
-          if(PARAMS.DEBUG){
-            ctx.strokeStyle = "Red";
-            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-        } else {
-            ctx.save();
-            ctx.scale(-1, 1);
-            ctx.strokeStyle = "Red";
-            ctx.strokeRect(-(this.BB.x), this.BB.y, this.BB.width, this.BB.height);
-        }
-
-       
-
-        if (this.dead) {
-            this.deadScene.drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.BL);
-        } else if (this.facing === 0) {
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.BL);
-        this.healthbar.draw(ctx);
-       // console.log(this.animations[0][0].currentFrame());
-
-        } else {
-            ctx.save();
-            ctx.scale(-1, 1);
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, -(this.x), this.y, PARAMS.BL);
-            this.healthbar.draw(ctx);
-            ctx.restore();
-            this.healthbar.draw(ctx);
-           
-
-        }
 
         if(!this.CPU){
             ctx.strokeStyle = "DarkOrange";
@@ -597,7 +601,34 @@ class BillyLee {
             ctx.fillText(this.name, 759 - (cpuNameCount * 14), 60);
             ctx.strokeText(this.name, 759 - (cpuNameCount * 14), 60);
         }
-    
   
+        if(PARAMS.DEBUG && this.facing === 0){
+            ctx.strokeStyle = "Red";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        } else if (PARAMS.DEBUG && this.facing === 1) {
+            ctx.save();
+            ctx.scale(-1, 1);
+            ctx.strokeStyle = "Red";
+            ctx.strokeRect(-this.BB.x - this.animations[this.state][this.facing].array[this.animations[this.state][this.facing].currentFrame()].w, this.BB.y, (this.BB.width), this.BB.height);
+            ctx.restore();
+        } else {
+
+        };
+
+        if (this.dead) {
+            this.deadScene.drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.BL);
+        } else if (this.facing === 0) {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.BL);
+            this.healthbar.draw(ctx);
+        } else {
+            ctx.save();
+            ctx.scale(-1, 1);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, -(this.x) - this.animations[this.state][this.facing].array[this.animations[this.state][this.facing].currentFrame()].w, this.y, PARAMS.BL);
+            this.healthbar.draw(ctx);
+            ctx.restore();
+            this.healthbar.draw(ctx);
+           
+
+        };  
     };
   };
