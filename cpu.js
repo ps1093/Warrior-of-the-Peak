@@ -14,16 +14,21 @@ class KaratePlayerCPU extends KaratePlayer{
         opponentHitPoints = 100;
         this.hitPoints = opponentHitPoints;
         opponentBlock = false;
+        this.changeElapsed = 0;
 
         
         //Setting up circle
         this.VisRadius = 200;
-        this.AtkRadius = 45;
+        this.AtkRadius = 35;
+        this.attack;
         opponentAtkRadius = this.AtkRadius;
 
         this.updateBB();
         this.loadAnimations();
     };
+    randomGen(){
+        this.attack = Math.floor(Math.random() * Math.floor(2));
+    }
     update(){
         this.hitPoints = opponentHitPoints;
         //Variables to manipulate the X and Y velocity
@@ -34,60 +39,65 @@ class KaratePlayerCPU extends KaratePlayer{
         const JUMPING = 500;
         const STOP_FALL = 400;
         const TICK = this.game.clockTick;
+        this.changeElapsed += TICK;
+        if(this.changeElapsed > 5){
+            this.randomGen(); 
+            this.changeElapsed = 0;
+        }
+        console.log(this.attack);
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP  && this.state !== this.STATE.DEAD){
             var dx, dy;
 
-            this.midpoint = this.x + KPstate.RIDLE[0].w / 2;
-            this.other.midpoint = this.other.x + KPstate.RIDLE[0].w / 2;
+            this.midpoint = this.x + (KPstate.RIDLE[0].w / 2 * PARAMS.SCALE);
+            this.other.midpoint = this.other.x + (KPstate.RIDLE[0].w / 2 * PARAMS.SCALE);
 
-            //If negative, CPU is on the right side
-            if((this.other.midpoint - this.midpoint) < 0){
-                if(this.state === this.STATE.PUNCH){
-                    dx = Math.floor((this.other.BB.x + KPstate.RPUNCH[0].w * PARAMS.SCALE) - this.BB.x);
-                } else if(this.state === this.STATE.KICK){
-                    dx = Math.floor((this.other.BB.x + KPstate.RKICK[0].w * PARAMS.SCALE) - this.BB.x);
-                } else {
-                    dx = Math.floor((this.other.BB.x + KPstate.RIDLE[0].w * PARAMS.SCALE) - this.BB.x);
-                }
-                
-            } else {
-                dx = Math.floor(this.other.BB.x - (this.BB.x + KPstate.RIDLE[0].w * PARAMS.SCALE));
+            this.position = this.other.midpoint - this.midpoint;
+            //Have to check what side of the map he is on. 
+            if(this.position < 0){
+                dx = Math.floor((this.other.x + KPstate.RIDLE[0].w * PARAMS.SCALE) - this.x);
+            } else if(this.position > 0){
+                dx = Math.floor(this.other.x - (this.x + KPstate.RIDLE[0].w * PARAMS.SCALE))
             }
-            //console.log("dX: " + dx);
-            if(dx == 0 && (this.other.midpoint - this.midpoint < 0)){
+
+            if(Math.abs(dx) < 2){
                 this.velocity.x = 0;
-                this.facing = this.FACING.LEFT;
-                this.state = this.STATE.IDLE;
-            } else if (dx == 0 && (this.other.midpoint - this.midpoint > 0)){
-                this.velocity.x = 0;
-                this.facing = this.FACING.RIGHT;
-                this.state = this.STATE.IDLE;
+                dx = 0;
             }
 
-            if(dx > 0){
-                this.facing = this.FACING.RIGHT;
-                if(this.VisCircle()) this.velocity.x = WALK;
-                else if(!this.VisCircle()) this.velocity.x = BLIND_WALK;
-                this.state = this.STATE.WALK;
-            } else if(dx < 0){
+            //This takes what side he is on and makes him go after opponent.
+            if(dx < 0){
                 this.facing = this.FACING.LEFT;
-                if(this.VisCircle()) this.velocity.x = -WALK;
-                else if(!this.VisCircle()) this.velocity.x = -BLIND_WALK;
                 this.state = this.STATE.WALK;
-
+                if(!this.VisCircle())this.velocity.x = -BLIND_WALK;
+                if(this.VisCircle())this.velocity.x = -WALK;
+            } else if(dx > 0){
+                this.facing = this.FACING.RIGHT;
+                this.state = this.STATE.WALK;
+                if(!this.VisCircle())this.velocity.x = BLIND_WALK;
+                if(this.VisCircle())this.velocity.x = WALK;
             }
+            
+            console.log("DX: " + dx);
             var that = this;
-            this.game.entities.forEach(function(entity) {
-                if(entity instanceof KaratePlayer){
-                    if(that.AtkCircle()){
-                        if(that.other.state !== that.other.STATE.BLOCK)that.other.hitPoints -= 0;
+            this.game.entities.forEach(function (entity) {
+                    if (entity.BB && that.BB.collide(entity.BB)) {
+                        if((entity instanceof KaratePlayer || entity instanceof catplayer) && entity.BB.right >= that.lastBB.left){
+                            //that.x = entity.BB.right;
+                            if(that.AtkCircle()){
+                                if(that.attack === 0){
+                                    that.state = that.STATE.PUNCH;
+                                } else if(that.attack === 1){
+                                    that.state = that.STATE.KICK;
+                                }
+                                if(that.other.state !== that.other.STATE.BLOCK)that.other.hitPoints -= 0;
+                            }
+                        }
                     }
-                }
             });
-            //Implementing gravity.
-            this.velocity.y += this.fallAcc * TICK;
+        //Implementing gravity.
+        this.velocity.y += this.fallAcc * TICK;
         //air physics     
         } else if(this.state === this.STATE.JUMP && this.state !== this.STATE.DEAD) {
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;               
@@ -96,12 +106,8 @@ class KaratePlayerCPU extends KaratePlayer{
             this.state = this.STATE.DEAD;
             this.velocity.y = -100;
             this.velocity.x = 0;
-            console.log("Opponent Death being set in CPU");
             opponentDeath = true;
-            
-         } 
-         
-
+        } 
         if(this.other.dead === true){
             this.velocity.x = 0;
         }

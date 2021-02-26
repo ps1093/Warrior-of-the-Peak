@@ -323,99 +323,98 @@ class BillyLee {
         };
   
   
-  
-  update(){
+    update(){
 
-    const TICK = this.game.clockTick;
+        const TICK = this.game.clockTick;
 
-    const WALK = 250;
-    const FALL_WALK = 1;
-    const JUMPING = 400;
-    const STOP_FALL = 400;
+        const WALK = 250;
+        const FALL_WALK = 1;
+        const JUMPING = 400;
+        const STOP_FALL = 400;
 
-        // ground physics
-        if (this.state != 8){
-            //walking
-          if (this.game.D){
-              this.facing = 0;
-              this.state = 1;
-              this.velocity.x = WALK;
-          } else if (this.game.A) {
-              this.facing = 1;
-              this.state = 1;
-              this.velocity.x = -WALK;
-          } else {
-            this.velocity.x = 0;
-            this.state = 0;
-          }
-
-          //Punch, direction does not matter.
-          if(this.game.C){
-            this.state = 2;
-        }
-        //Duck
-        if(this.game.S){
-            this.state = 9;
-        }
-
-         //Kick
-        if(this.game.P){
-            this.state = 5;
-        }
-
-            //Implementing gravity.
-            this.velocity.y += this.fallAcc * TICK;
-
-            // jump
-          if (this.game.W){
-
-            this.velocity.y = -JUMPING;
-            this.state = 8;
-            this.fallAcc = STOP_FALL;
-          }
-
-           //air physics     
-        } else if(this.state === 8) {
-            this.velocity.y += this.fallAcc * TICK;
-
-            //horizontal air physics
-            if(this.game.D && !this.game.A){
+            // ground physics
+            if (this.state != 8){
+                //walking
+            if (this.game.D){
                 this.facing = 0;
-                this.velocity.x += FALL_WALK;
-            } else if(this.game.A && !this.game.D){
+                this.state = 1;
+                this.velocity.x = WALK;
+            } else if (this.game.A) {
                 this.facing = 1;
-                this.velocity.x -= FALL_WALK;   
+                this.state = 1;
+                this.velocity.x = -WALK;
             } else {
+                this.velocity.x = 0;
+                this.state = 0;
             }
-        }
 
-        if (this.hitPoints === 0){
-            this.dead = true;
-        }
-        if(opponentDeath){
-            if(this.roundCount <= 3 && opponentDeathCount <= 3){
-                this.elapsed += TICK;
-                if(this.elapsed > 2){
-                    opponentDeathCount++;
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+            //Punch, direction does not matter.
+            if(this.game.C){
+                this.state = 2;
+            }
+            //Duck
+            if(this.game.S){
+                this.state = 9;
+            }
+
+            //Kick
+            if(this.game.P){
+                this.state = 5;
+            }
+
+                //Implementing gravity.
+                this.velocity.y += this.fallAcc * TICK;
+
+                // jump
+            if (this.game.W){
+
+                this.velocity.y = -JUMPING;
+                this.state = 8;
+                this.fallAcc = STOP_FALL;
+            }
+
+            //air physics     
+            } else if(this.state === 8) {
+                this.velocity.y += this.fallAcc * TICK;
+
+                //horizontal air physics
+                if(this.game.D && !this.game.A){
+                    this.facing = 0;
+                    this.velocity.x += FALL_WALK;
+                } else if(this.game.A && !this.game.D){
+                    this.facing = 1;
+                    this.velocity.x -= FALL_WALK;   
+                } else {
                 }
-            } 
-         }
-         if(this.dead){
-            if(this.roundCount <= 3 && this.deathCount <= 3){
-                this.elapsed += TICK;
-                if(this.elapsed > 2){
-                    this.deathCount++;
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
-                }
-            } 
-         }
-         //updating
-         this.x += this.velocity.x * TICK;
-         this.y += this.velocity.y * TICK;
-         this.updateBB();
-         this.collisions();
-  };
+            }
+
+            if (this.hitPoints === 0){
+                this.dead = true;
+            }
+            if(opponentDeath){
+                if(this.roundCount <= 3 && opponentDeathCount <= 3){
+                    this.elapsed += TICK;
+                    if(this.elapsed > 2){
+                        opponentDeathCount++;
+                        this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    }
+                } 
+            }
+            if(this.dead){
+                if(this.roundCount <= 3 && this.deathCount <= 3){
+                    this.elapsed += TICK;
+                    if(this.elapsed > 2){
+                        this.deathCount++;
+                        this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    }
+                } 
+            }
+            //updating
+            this.x += this.velocity.x * TICK;
+            this.y += this.velocity.y * TICK;
+            this.updateBB();
+            this.collisions();
+    };
 
   collisions(){
     //collisions

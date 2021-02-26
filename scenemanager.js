@@ -51,7 +51,7 @@ class SceneManager{
         }
         this.Players = {
             CHARACTERS: ["Daniel Larusso", "Johnny Lawrence",
-                         "Yodha", "Chun Li", "Billy Lee", "Goku"]
+                        "Yodha", "Chun Li", "Billy Lee", "Goku"]
         }
         this.LevelChoice = {
             LEVEL: ["Falls", "Welcome to The Jungle", "Olympus Oil Rig"]
@@ -147,7 +147,6 @@ class SceneManager{
             }
         }
 
-      
     };
     loadLevel1(){
         this.music = "./music/Dr. Wily's Castle.mp3";
