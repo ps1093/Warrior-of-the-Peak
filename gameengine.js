@@ -18,14 +18,11 @@ class GameEngine {
         this.P = false;
         this.C = false;
         this.E = false;
-<<<<<<< HEAD
         this.R = false;
         this.K = false;
         this.L = false;
-=======
         this.R = false; 
         this.Q = false; 
->>>>>>> 06212aa10e0effba447d1132783ec6e214b7cbd6
 
     };
 
@@ -112,7 +109,6 @@ class GameEngine {
                     that.R = true;
                     console.log("kicking");
                     break;
-<<<<<<< HEAD
 
                 case "KeyK":
                     that.K = true;
@@ -121,12 +117,10 @@ class GameEngine {
                     that.L = true;
                     break;
 
-=======
                 case "KeyQ":
                     that.Q = true;
                     console.log("powering");
                     break;
->>>>>>> 06212aa10e0effba447d1132783ec6e214b7cbd6
             }
         }, false);
 
@@ -164,7 +158,6 @@ class GameEngine {
                     that.R = false;
                     console.log("kicking");
                     break;
-<<<<<<< HEAD
 
                 case "KeyK":
                     that.K = false;
@@ -173,12 +166,10 @@ class GameEngine {
                     that.L = false;
                     break;
 
-=======
                 case "KeyQ":
                     that.Q = false;
                     console.log("powering");
                     break;
->>>>>>> 06212aa10e0effba447d1132783ec6e214b7cbd6
             }
         }, false);
 
