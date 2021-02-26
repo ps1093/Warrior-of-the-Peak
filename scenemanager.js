@@ -116,7 +116,7 @@ class SceneManager{
                 break;
               //Goku
             case this.Players.CHARACTERS[5]:
-                this.player = new Goku(this.game, 960, 0, this.Players.CHARACTERS[5]);
+                this.opponent = new Goku(this.game, 960, 0, this.Players.CHARACTERS[5]);
                 break;
         }
         this.title = title;

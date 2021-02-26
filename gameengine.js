@@ -20,6 +20,7 @@ class GameEngine {
         this.E = false;
         this.R = false; 
         this.Q = false; 
+        this.SHIFT = false;
 
     };
 
@@ -68,16 +69,15 @@ class GameEngine {
 
                 case "KeyE":
                     that.E = true;
-                    console.log("puching");
-                    console.log("blasting");
                     break;
                 case "KeyR":
                     that.R = true;
-                    console.log("kicking");
                     break;
                 case "KeyQ":
                     that.Q = true;
-                    console.log("powering");
+                    break;
+                case "ShiftLeft":
+                    that.SHIFT = true;
                     break;
             }
         }, false);
@@ -109,16 +109,15 @@ class GameEngine {
 
                 case "KeyE":
                     that.E = false;
-                    console.log("puching");
-                    console.log("blasting");
                     break;
                 case "KeyR":
                     that.R = false;
-                    console.log("kicking");
                     break;
                 case "KeyQ":
                     that.Q = false;
-                    console.log("powering");
+                    break;
+                case "ShiftLeft":
+                    that.SHIFT = false;
                     break;
             }
         }, false);

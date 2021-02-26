@@ -211,7 +211,7 @@ class KaratePlayer{
                 this.state = this.STATE.KICK;
             }
 
-            if(this.game.E){
+            if(this.game.SHIFT){
                 this.state = this.STATE.BLOCK;
             }
             //Implementing gravity.
@@ -270,14 +270,21 @@ class KaratePlayer{
                 if(that.AtkCircle()){
                     if(that.state === that.STATE.PUNCH && !opponentBlock){
                         that.atkElapsed += TICK;
-                        console.log("Atk Elapsed: " + that.atkElapsed);
                         if(that.atkElapsed < .75){
                             opponentHitPoints -= 0;
                         } else {
                             opponentHitPoints -= 5;
                             that.atkElapsed = 0;
                         }
-                    } 
+                    } else if(that.state === that.STATE.KICK && !opponentBlock){
+                        that.atkElapsed += TICK;
+                        if(that.atkElapsed < .60){
+                            opponentHitPoints -= 0;
+                        } else {
+                            opponentHitPoints -= 5;
+                            that.atkElapsed = 0;
+                        }
+                    }
                 }
             }
         });

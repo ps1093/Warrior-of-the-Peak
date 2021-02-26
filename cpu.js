@@ -15,6 +15,7 @@ class KaratePlayerCPU extends KaratePlayer{
         this.hitPoints = opponentHitPoints;
         opponentBlock = false;
         this.changeElapsed = 0;
+        this.opAtkElapsed = 0;
 
         
         //Setting up circle
@@ -44,7 +45,6 @@ class KaratePlayerCPU extends KaratePlayer{
             this.randomGen(); 
             this.changeElapsed = 0;
         }
-        console.log(this.attack);
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP  && this.state !== this.STATE.DEAD){
@@ -79,19 +79,31 @@ class KaratePlayerCPU extends KaratePlayer{
                 if(this.VisCircle())this.velocity.x = WALK;
             }
             
-            console.log("DX: " + dx);
             var that = this;
             this.game.entities.forEach(function (entity) {
                     if (entity.BB && that.BB.collide(entity.BB)) {
                         if((entity instanceof KaratePlayer || entity instanceof catplayer) && entity.BB.right >= that.lastBB.left){
                             //that.x = entity.BB.right;
-                            if(that.AtkCircle()){
+                            if(that.AtkCircle() && that.other.state !== that.other.STATE.BLOCK){
                                 if(that.attack === 0){
                                     that.state = that.STATE.PUNCH;
+                                    that.opAtkElapsed += TICK;
+                                    if(that.opAtkElapsed < .75){
+                                        that.other.hitPoints -= 0;
+                                    } else {
+                                        that.other.hitPoints -= 5;
+                                        that.opAtkElapsed = 0;
+                                    }
                                 } else if(that.attack === 1){
                                     that.state = that.STATE.KICK;
+                                    that.opAtkElapsed += TICK;
+                                    if(that.opAtkElapsed < .60){
+                                        that.other.hitPoints -= 0;
+                                    } else {
+                                        that.other.hitPoints -= 5;
+                                        that.opAtkElapsed = 0;
+                                    }
                                 }
-                                if(that.other.state !== that.other.STATE.BLOCK)that.other.hitPoints -= 0;
                             }
                         }
                     }
@@ -102,6 +114,7 @@ class KaratePlayerCPU extends KaratePlayer{
         } else if(this.state === this.STATE.JUMP && this.state !== this.STATE.DEAD) {
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;               
         }
+
         if(this.hitPoints === 0){
             this.state = this.STATE.DEAD;
             this.velocity.y = -100;
@@ -110,6 +123,7 @@ class KaratePlayerCPU extends KaratePlayer{
         } 
         if(this.other.dead === true){
             this.velocity.x = 0;
+            this.state = this.STATE.IDLE;
         }
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
@@ -121,7 +135,6 @@ class KaratePlayerCPU extends KaratePlayer{
         this.updateBB();
         this.collisions();
     };
-
     draw(ctx){
         if(PARAMS.DEBUG){
             //Visual Circle
@@ -155,7 +168,6 @@ class KaratePlayerCPU extends KaratePlayer{
             ctx.strokeText(this.name, 759 - (this.cpuNameCount * 14), 60);
         }
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
-        //this.healthbar.draw(ctx);
     };
     VisCircle() {
         var dx = this.cX - this.other.cX;
@@ -170,6 +182,3 @@ class KaratePlayerCPU extends KaratePlayer{
         return (this.dist < this.AtkRadius + this.other.AtkRadius);
     };
 };
-
-
-
