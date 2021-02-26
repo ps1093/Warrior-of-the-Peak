@@ -116,7 +116,7 @@ class BillyLee {
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
         this.deadScene = new Animator2(this.spritesheet, this.die, 4, 1, false, true);
         
-  
+
 
         /*
          // idle animation for state 0
@@ -644,5 +644,4 @@ class BillyLee {
 
         }
     };
-    
 };
