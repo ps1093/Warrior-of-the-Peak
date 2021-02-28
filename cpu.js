@@ -66,12 +66,12 @@ class KaratePlayerCPU extends KaratePlayer{
                 dx = 0;
             }
 
-            dy = this.other.y - this.y;
-            if(dy < 0){
-                this.velocity.y = -JUMPING;
-                this.state = this.STATE.JUMP;
-                this.fallAcc = STOP_FALL;
-            }
+            // dy = this.other.y - this.y;
+            // if(dy > 10){
+            //     this.velocity.y = -JUMPING;
+            //     this.state = this.STATE.JUMP;
+            //     this.fallAcc = STOP_FALL;
+            // }
 
             //This takes what side he is on and makes him go after opponent.
             if(dx < 0){
