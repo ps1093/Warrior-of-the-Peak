@@ -414,12 +414,6 @@ class KaratePlayer{
             ctx.arc(this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
             ctx.stroke();
             ctx.closePath();
-            //Attack Circle
-            ctx.beginPath();
-            ctx.strokeStyle = "White";
-            ctx.arc(this.cX, this.cY, this.AtkRadius, 0, Math.PI * 2, false);
-            ctx.stroke();
-            ctx.closePath();
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         };

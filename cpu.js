@@ -10,7 +10,7 @@ class KaratePlayerCPU extends KaratePlayer{
         this.other = player;
 
         //Setting up Character
-        this.name = this.theName;
+        this.name = theName;
         this.facing = this.FACING.LEFT;
         this.CPU = true;
         this.jumpDist = 0;
@@ -53,8 +53,8 @@ class KaratePlayerCPU extends KaratePlayer{
         //Ground Physics
         if(this.state !== this.STATE.JUMP  && this.CPUSTATE.DEATH !== true){
             this.midpoint = this.x + (KPstate.RIDLE[0].w / 2 * PARAMS.SCALE);
-            this.other.midpoint = this.other.cX;
-            this.position = this.other.midpoint - this.midpoint;
+            this.otherMidpoint = this.other.cX;
+            this.position = this.otherMidpoint - this.midpoint;
             //Have to check what side of the map he is on. 
 
             this.jumpDist = Math.abs(this.other.y - this.y);
@@ -95,14 +95,11 @@ class KaratePlayerCPU extends KaratePlayer{
         }
         if(this.hitPoints === 0){
             this.CPUSTATE.DEATH = true;
-            console.log("State: " + this.state + " Facing " + this.facing);
             this.velocity.y = -100;
             this.velocity.x = 0;
             opponentDeath = true;
-            console.log("End of if");
         } 
         if(this.CPUSTATE.DEATH === true){
-            console.log("Death true");
             this.state = this.STATE.DEAD;
         }
         if(this.other.dead === true){
@@ -134,7 +131,7 @@ class KaratePlayerCPU extends KaratePlayer{
                         || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
                             if(that.CPUSTATE.WALKING === true) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
+                                if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
                                 if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
                             }    
                             that.CPUSTATE.ATTACK = true;
@@ -170,12 +167,6 @@ class KaratePlayerCPU extends KaratePlayer{
             ctx.arc(this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
             ctx.stroke();
             ctx.closePath();
-            //Attack Circle
-            ctx.beginPath();
-            ctx.strokeStyle = "White";
-            ctx.arc(this.cX, this.cY, this.AtkRadius, 0, Math.PI * 2, false);
-            ctx.stroke();
-            ctx.closePath();
             //Bounding Box
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
@@ -205,8 +196,8 @@ class KaratePlayerCPU extends KaratePlayer{
 };
 
 class CatPlayerCPU extends catplayer{
-    constructor(game, x, y, player, blue, theName){
-        super(game,x,y, blue);
+    constructor(game, x, y, player, theName){
+        super(game,x,y);
         this.CPUSTATE ={
             ATTACK: false,
             WALKING: false,
@@ -216,7 +207,8 @@ class CatPlayerCPU extends catplayer{
         this.other = player;
 
         //Setting up Character
-        this.name = this.theName;
+        this.name = theName;
+        console.log("Name " + this.name);
         this.facing = 1;
         this.CPU = true;
         this.jumpDist = 0;
@@ -258,23 +250,23 @@ class CatPlayerCPU extends catplayer{
         //Ground Physics
         if(this.state !== 6  && this.CPUSTATE.DEATH !== true){
             this.midpoint = this.cX;
-            this.other.midpoint = this.other.cX;
-            this.position = this.other.midpoint - this.midpoint;
+            this.otherMidpoint = this.other.cX;
+            this.position = this.otherMidpoint - this.midpoint;
             //Have to check what side of the map he is on. 
 
             this.jumpDist = Math.abs(this.other.y - this.y);
 
             //This takes what side he is on and makes him go after opponent.
             if(this.position < 0){
-                this.facing = this.FACING.LEFT;
+                this.facing = 1;
                 this.CPUSTATE.WALKING = true;
-                this.state = this.STATE.WALK;
+                this.state = 1;
                 if(!this.VisCircle())this.velocity.x = -BLIND_WALK;
                 if(this.VisCircle())this.velocity.x = -WALK;
             } else if(this.position > 0){
-                this.facing = this.FACING.RIGHT;
+                this.facing = 0;
                 this.CPUSTATE.WALKING = true;
-                this.state = this.STATE.WALK;
+                this.state = 1;
                 if(!this.VisCircle())this.velocity.x = BLIND_WALK;
                 if(this.VisCircle())this.velocity.x = WALK;
             }
@@ -283,12 +275,12 @@ class CatPlayerCPU extends catplayer{
         this.velocity.y += this.fallAcc * TICK;
         if(this.jumpDist > 100 && this.VisCircle()){
             this.velocity.y = -JUMPING;
-            this.state = this.STATE.JUMP;
+            this.state = 6;
             this.fallAcc = STOP_FALL;
             this.CPUSTATE.WALK =false;
         }
         //air physics     
-        } else if(this.state === this.STATE.JUMP && this.CPUSTATE.DEATH !== true) { 
+        } else if(this.state === 6 && this.CPUSTATE.DEATH !== true) { 
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
             //horizontal air physics
             if(this.position < 0){
@@ -300,19 +292,16 @@ class CatPlayerCPU extends catplayer{
         }
         if(this.hitPoints === 0){
             this.CPUSTATE.DEATH = true;
-            console.log("State: " + this.state + " Facing " + this.facing);
             this.velocity.y = -100;
             this.velocity.x = 0;
             opponentDeath = true;
-            console.log("End of if");
         } 
         if(this.CPUSTATE.DEATH === true){
-            console.log("Death true");
-            this.state = this.STATE.DEAD;
+            this.state = 7;
         }
         if(this.other.dead === true){
             this.velocity.x = 0;
-            this.state = this.STATE.IDLE;
+            this.state = 0;
         }
 
         var that = this;
@@ -324,35 +313,36 @@ class CatPlayerCPU extends catplayer{
                             if(that.CPUSTATE.ATTACK)that.x = entity.BB.right;
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK === true){
-                                if(that.other.state !== that.other.STATE.BLOCK){
+                                //Need to make a block variable in all classes.
+                                //if(that.other.state !== that.other.STATE.BLOCK){
                                     if(that.attack === 0){
-                                        that.state = that.STATE.PUNCH;
+                                        that.state = 4;
                                         that.other.hitPoints -= .04;
                                     } else if(that.attack === 1){
-                                        that.state = that.STATE.KICK;
+                                        that.state = 5;
                                         that.other.hitPoints -= .04;
                                     }
-                                }
+                                //}
                             }
                     }
                     if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
                         || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
                             if(that.CPUSTATE.WALKING === true) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
-                                if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
+                                if(that.state === 5) that.x = entity.BB.left - that.other.width1 * PARAMS.SCALE;
+                                if(that.state === 4) that.x = entity.BB.left - that.other.width1 * PARAMS.SCALE;
                             }    
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.other.state !== that.other.STATE.BLOCK){
+                                //if(that.other.state !== that.other.STATE.BLOCK){
                                     if(that.attack === 0){
-                                        that.state = that.STATE.PUNCH;
+                                        that.state = 4;
                                         that.other.hitPoints -= .04;
                                     } else if(that.attack === 1){
-                                        that.state = that.STATE.KICK;
+                                        that.state = 5;
                                         that.other.hitPoints -= .04;
                                     }
-                                }
+                                //}
                             }
                     }
                 }
@@ -360,8 +350,8 @@ class CatPlayerCPU extends catplayer{
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
-        this.cX = this.x + KPstate.RWALK[0].w / 2 * PARAMS.SCALE;
-        this.cY = this.y + KPstate.RWALK[0].h / 2 * PARAMS.SCALE;
+        this.cX = (this.x + this.other.width1) / 2 * PARAMS.SCALE;
+        this.cY = (this.x + this.other.height2) / 2 * PARAMS.SCALE; 
         opponentcX = this.cX;
         opponentcY = this.cY;
         this.updateBB();
@@ -373,12 +363,6 @@ class CatPlayerCPU extends catplayer{
             ctx.beginPath();
             ctx.strokeStyle = "Red";
             ctx.arc(this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
-            ctx.stroke();
-            ctx.closePath();
-            //Attack Circle
-            ctx.beginPath();
-            ctx.strokeStyle = "White";
-            ctx.arc(this.cX, this.cY, this.AtkRadius, 0, Math.PI * 2, false);
             ctx.stroke();
             ctx.closePath();
             //Bounding Box

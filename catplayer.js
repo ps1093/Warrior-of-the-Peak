@@ -213,12 +213,10 @@ class catplayer{
             this.velocity.x = 0;
         } 
         if(opponentDeath){
-            console.log("Does opponent dying get logged?");
             if(this.roundCount <= 3 && opponentDeathCount <= 3){
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
                     opponentDeathCount++;
-                    console.log("Death count for opponent" + opponentDeathCount);
                     this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
                 }
             } 
