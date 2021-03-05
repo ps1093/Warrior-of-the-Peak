@@ -104,7 +104,7 @@ class SceneManager{
                 break;
             //Yodha
             case this.Players.CHARACTERS[2]:
-                this.opponent = new catplayer(this.game, 960, 0, this.player, this.Players.CHARACTERS[2]);
+                this.opponent = new CatPlayerCPU(this.game, 960, 0, this.player, this.Players.CHARACTERS[2]);
                 break;
             //Chun Li
             case this.Players.CHARACTERS[3]:
@@ -125,7 +125,6 @@ class SceneManager{
         } else if(roundTransition){
             this.game.addEntity(new roundTransitionScreen(this.game, roundCount));
         } else if (gameOver){
-            console.log("Is Death screen called?");
             this.game.addEntity(new GameOver(this.game));
         } else if(winner){
             this.game.addEntity(new Winner(this.game));
