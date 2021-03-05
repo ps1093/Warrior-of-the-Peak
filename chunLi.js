@@ -235,18 +235,20 @@ class ChunLi {
             //Punch, direction does not matter.
             if(this.game.C){
                 ASSET_MANAGER.playAsset("./audio/yap.mp3");
-
                 this.state = 3;
+                this.velocity.x = 0; 
             }
             //Duck
             if(this.game.S){
                 this.state = 9;
+                this.velocity.x = 0; 
             }
 
              //Kick
             if(this.game.P){
                 ASSET_MANAGER.playAsset("./audio/burstkick.wav");
-                this.state = 6;   
+                this.state = 6; 
+                this.velocity.x = 0;  
             }
 
           
@@ -267,6 +269,7 @@ class ChunLi {
                 this.velocity.y = -BIRD_KICK;
                 this.state = 7;
                 this.fallAcc = STOP_FALL;
+                this.velocity.y = 0;
             }
 
             // jump kick
@@ -274,6 +277,7 @@ class ChunLi {
                 this.velocity.y = -JUMP_KICK;
                 this.state = 5;
                 this.fallAcc = STOP_FALL;
+                this.velocity.x = 0; 
             }
             
          
@@ -361,7 +365,7 @@ class ChunLi {
                             else if(that.state === 8) that.y = entity.BB.bottom - that.gHit[that.animations[8][0].currentFrame()].h * PARAMS.CHUNLI; 
                             else if(that.state === 9) that.y = entity.BB.bottom - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.CHUNLI;
                             else if(that.state === 10) that.y = entity.BB.bottom  - that.block[that.animations[10][0].currentFrame()].h * PARAMS.CHUNLI;
-                            if(that.state === 2) that.state = 0;    
+                            if(that.state === 2) that.state = 0;  
                             that.velocity.y = 0;
                             that.updateBB();   
                                                  
