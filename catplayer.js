@@ -12,7 +12,8 @@ class catplayer{
 
         this.VisRadius = 100;
         this.AtkRadius = 45;
-        //this.cX = 0, this.xY = 0;
+        this.cX = 0;
+        this.xY = 0;
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
         //This is for walking and jumping, and kick
@@ -21,10 +22,9 @@ class catplayer{
         //This is for punch, and idle
         this.height2 = 24;
 
-        //Roll height and width,
         this.heightWidth = 20;
 
-        //walking, punch, duck, idle, kick
+        //walking, punch, block, idle, kick
         this.width1 = 19;
 
         //Attack Widths
@@ -35,9 +35,6 @@ class catplayer{
 
         //this is for jump
         this.width2 = 15;
-
-        //this is to adjust the player when he is updated
-        this.rollAdjust = 5;
 
         //this is to adjust the player when he is updated
         this.walkAdjust = 5;
@@ -54,9 +51,6 @@ class catplayer{
         this.colAdj1 = 5;
         
         this.collAdj2 = 1;
-    
-
-        
         
         this.state = 0; //idle =0, walking=1, running=2, block = 3, punch = 4, kick = 5, jump = 6, dead = 7.
         this.size = 0; // small = 0 and large = 1 after finish 
@@ -122,7 +116,7 @@ class catplayer{
         } else if(this.state == 3){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else { 
-            this.BB = new BoundingBox(this.x, this.y, this.width2 * PARAMS.SCALE, this.height1 * (PARAMS.SCALE));
+            this.BB = new BoundingBox(this.x, this.y, this.width2 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
         }
     };
 
@@ -207,16 +201,14 @@ class catplayer{
 
         if(this.hitPoints === 0){
             this.state = 7;
-            this.velocity.y = - 100;
+            this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE; //gravity 
             this.velocity.x = 0;
         } 
         if(opponentDeath){
-            console.log("Does opponent dying get logged?");
             if(this.roundCount <= 3 && opponentDeathCount <= 3){
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
                     opponentDeathCount++;
-                    console.log("Death count for opponent" + opponentDeathCount);
                     this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
                 }
             } 
@@ -234,6 +226,13 @@ class catplayer{
         //updating 
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
+        if(this.state === 3){
+            this.cX = (this.x + this.width1) / 3.8 * PARAMS.SCALE;
+            this.cY = (this.y + this.height2) / 3.8 * PARAMS.SCALE;
+        }else{
+            this.cX = (this.x + this.width1 ) / 3.8 * PARAMS.SCALE;
+            this.cY = (this.y + this.height1) / 3.8 * PARAMS.SCALE;
+        }
         
      
         this.updateBB();
@@ -287,6 +286,16 @@ class catplayer{
                         that.velocity.x = 0;
                         that.updateBB();
                     }
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.right >= entity.BB.left){
+                        if(that.state === 1) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                        if(that.state === 5) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                        if(that.state === 4) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                    }
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.left <= entity.BB.right){
+                        if(that.state === 1) that.x = entity.BB.right;
+                        if(that.state === 5) that.x = entity.BB.right;
+                        if(that.state === 4) that.x = entity.BB.right;
+                    }
                 }
 
                 //AirCollisons
@@ -334,13 +343,13 @@ class catplayer{
                 //Visual Circle
                 ctx.beginPath();
                 ctx.strokeStyle = "Blue";
-                ctx.arc(this.BB.x + 35 , this.BB.y + 35, this.VisRadius, 0, Math.PI * 2, false);
+                ctx.arc(this.cX , this.cY, this.VisRadius, 0, Math.PI * 2, false);
                 ctx.stroke();
                 ctx.closePath();
                 //Attack Circle
                 ctx.beginPath();
                 ctx.strokeStyle = "White";
-                ctx.arc(this.BB.x + 38, this.BB.y + 45, this.AtkRadius, 0, Math.PI * 2, false);
+                ctx.arc(this.cX, this.cY, this.AtkRadius, 0, Math.PI * 2, false);
                 ctx.stroke();
                 ctx.closePath();
                 ctx.strokeStyle = "Red";
