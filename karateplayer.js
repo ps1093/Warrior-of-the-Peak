@@ -9,7 +9,9 @@ class KaratePlayer{
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
-        this.atkElapsed = 0;
+        //this.atkElapsed = 0;
+        this.blockElapsed = 0;
+        this.coolDown = 3;
 
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
@@ -21,7 +23,7 @@ class KaratePlayer{
 
         //Circle so the CPU can detect player
         this.VisRadius = 135;
-        this.AtkRadius = 35;
+        //this.AtkRadius = 35;
         this.cX = 0, this.xY = 0;
 
         //All the Karate Players movements
@@ -170,6 +172,7 @@ class KaratePlayer{
         const STOP_FALL = 400;
         const DEAD_X = 50;
         const TICK = this.game.clockTick;
+        this.coolDown += TICK;
         
 
         //Ground Physics
@@ -212,7 +215,16 @@ class KaratePlayer{
             }
 
             if(this.game.SHIFT){
-                this.state = this.STATE.BLOCK;
+                this.blockElapsed += TICK;
+                if(this.coolDown >= 3){
+                    if(this.blockElapsed < 3){
+                        this.state = this.STATE.BLOCK;
+                    } else {
+                        this.blockElapsed = 0;
+                        this.coolDown = 0;
+                    }
+                }  
+                this.velocity.x = 0;
             }
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
@@ -265,27 +277,16 @@ class KaratePlayer{
             } 
         }
         var that = this;
-        this.game.entities.forEach(function(entity) {
-            if(entity instanceof KaratePlayerCPU){
-                if(that.AtkCircle()){
-                    if(that.state === that.STATE.PUNCH && !opponentBlock){
-                        that.atkElapsed += TICK;
-                        if(that.atkElapsed < .75){
-                            opponentHitPoints -= 0;
-                        } else {
-                            opponentHitPoints -= 5;
-                            that.atkElapsed = 0;
+        this.game.entities.forEach(function (entity) {
+                if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
+                    if((entity instanceof KaratePlayerCPU )/*|| entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU 
+                        || entity instanceof GokuCPU)*/){
+                            if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
+                                opponentHitPoints -= 100;
+                            } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
+                                opponentHitPoints -= 100;
+                            }  
                         }
-                    } else if(that.state === that.STATE.KICK && !opponentBlock){
-                        that.atkElapsed += TICK;
-                        if(that.atkElapsed < .60){
-                            opponentHitPoints -= 0;
-                        } else {
-                            opponentHitPoints -= 5;
-                            that.atkElapsed = 0;
-                        }
-                    }
-                }
             }
         });
 
@@ -354,6 +355,18 @@ class KaratePlayer{
                             that.velocity.x = 0;
                             that.updateBB();
                         }
+                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.right >= entity.BB.left){
+                            if(that.state === that.STATE.WALK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
+                            if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
+                            if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
+                            if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
+                        }
+                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.left <= entity.BB.right){
+                            if(that.state === that.STATE.WALK) that.x = entity.BB.right;
+                            if(that.state === that.STATE.ROLL) that.x = entity.BB.right;
+                            if(that.state === that.STATE.KICK) that.x = entity.BB.right;
+                            if(that.state === that.STATE.PUNCH) that.x = entity.BB.right;
+                        }
                     }
                     //Air Collisions
                     if(that.velocity.y < 0){
@@ -373,13 +386,13 @@ class KaratePlayer{
                         }
                         //Jumping & Kicking to Right - Level2 - Level1
                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
-                            if(that.state === that.STATE.JUMP) that.x = entity.BB.right - KPstate.RJUMP[0].w * PARAMS.SCALE;
+                            if(that.state === that.STATE.JUMP) that.x = (entity.BB.right - (KPstate.RJUMP[0].w * PARAMS.SCALE))-20;
                             that.velocity.y =0;
                             that.updateBB();
                         }
                         //Jumping & Kicking to Left - Level2 - Level1
                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
-                            if(that.state === that.STATE.JUMP) that.x = entity.BB.left;
+                            if(that.state === that.STATE.JUMP) that.x = entity.BB.left+20;
                             that.velocity.y = 0;
                             that.updateBB();
                         }
@@ -387,12 +400,12 @@ class KaratePlayer{
                 } 
         });        
     };
-    AtkCircle() {
-        var dx = this.cX - opponentcX;
-        var dy = this.cY - opponentcY;
-        var dist = Math.floor(Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2)));
-        return (dist < this.AtkRadius + opponentAtkRadius);
-    };
+    // AtkCircle() {
+    //     var dx = this.cX - opponentcX;
+    //     var dy = this.cY - opponentcY;
+    //     var dist = Math.floor(Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2)));
+    //     return (dist < this.AtkRadius + opponentAtkRadius);
+    // };
     draw(ctx){
         if(PARAMS.DEBUG){
             //Visual CIrcle

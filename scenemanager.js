@@ -125,7 +125,6 @@ class SceneManager{
         } else if(roundTransition){
             this.game.addEntity(new roundTransitionScreen(this.game, roundCount));
         } else if (gameOver){
-            console.log("Is Death screen called?");
             this.game.addEntity(new GameOver(this.game));
         } else if(winner){
             this.game.addEntity(new Winner(this.game));
