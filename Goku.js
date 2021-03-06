@@ -1,12 +1,15 @@
 class Goku{
     constructor(game, x, y, theName, roundCount, map, deathCount, opponent){
-        Object.assign(this, {game, x, y, theName});
+        Object.assign(this, {game, x, y, theName, roundCount, map, deathCount, opponent});
         this.game.Goku = this;
 
         //Character Details for HUD and game
         this.name = this.theName;
-        this.dead = false;
+        console.log("Player: " + this.theName);
         this.CPU = false;
+        this.deathCount = deathCount;
+        this.elapsed = 0;
+        this.block = false;
 
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
@@ -18,7 +21,6 @@ class Goku{
 
         //Circle so the CPU can detect player
         this.VisRadius = 135;
-        this.AtkRadius = 45;
         this.cX = 0, this.xY = 0;
 
         //All the goku's movements
@@ -30,7 +32,7 @@ class Goku{
             DUCK:  4,
             JUMP:  5,
             POWER: 6,
-            BLAST: 7,
+            BLOCK: 7,
             GHIT: 8,
             DEAD: 9
         };
@@ -45,7 +47,7 @@ class Goku{
         this.facing = this.FACING.RIGHT;
         this.state = this.STATE.JUMP;
 
-        //His velocity for movements.
+        //Goku's velocity for movements.
         this.velocity = {
             x:0, 
             y:0
@@ -104,11 +106,11 @@ class Goku{
          this.animations[this.STATE.JUMP][this.FACING.LEFT]
              = new Animator2(this.spritesheet2, GokuState.LJUMP, 1, .15, false, true);
 
-        //****** Blast Left & Right ******
-        this.animations[this.STATE.BLAST][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, GokuState.RBLAST, 2, .5, false, true);
-        this.animations[this.STATE.BLAST][this.FACING.LEFT]
-            = new Animator2(this.spritesheet2, GokuState.LBLAST, 2, .5, false, true);
+        //****** Block Left & Right ******
+        this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, GokuState.RBLOCK, 1, .25, false, true);
+        this.animations[this.STATE.BLOCK][this.FACING.LEFT]
+            = new Animator2(this.spritesheet2, GokuState.LBLOCK, 1, .25, false, true);
 
         //****** Power Left & Right ******
         this.animations[this.STATE.POWER][this.FACING.RIGHT]
@@ -160,10 +162,10 @@ class Goku{
             this.BB = new BoundingBox(this.x, this.y, GokuState.RPOWER[0].w * PARAMS.SCALE, GokuState.RPOWER[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LPOWER[0].w * PARAMS.SCALE, GokuState.LPOWER[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.RIGHT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.RBLAST[0].w * PARAMS.SCALE, GokuState.RBLAST[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.LBLAST[0].w * PARAMS.SCALE, GokuState.LBLAST[0].h * PARAMS.SCALE);
+        } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.RIGHT){
+            this.BB = new BoundingBox(this.x, this.y, GokuState.RBLOCK[0].w * PARAMS.SCALE, GokuState.RBLOCK[0].h * PARAMS.SCALE);
+        } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.LEFT){
+            this.BB = new BoundingBox(this.x, this.y, GokuState.LBLOCK[0].w * PARAMS.SCALE, GokuState.LBLOCK[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.GHIT && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RGETHIT[0].w * PARAMS.SCALE, GokuState.RGETHIT[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.GHIT && this.facing === this.FACING.LEFT){
@@ -178,6 +180,8 @@ class Goku{
         const STOP_FALL = 400;
         const DEAD_X = 50;
         const TICK = this.game.clockTick;
+        this.coolDown += TICK;
+        this.block = false;
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP && this.state !== this.STATE.DEAD){
@@ -187,7 +191,6 @@ class Goku{
                 this.state = this.STATE.WALK;
                 this.facing = this.FACING.RIGHT;
             } else if(this.game.A){
-
                 this.velocity.x = -WALK;
                 this.facing = this.FACING.LEFT;
                 this.state = this.STATE.WALK;
@@ -205,10 +208,6 @@ class Goku{
             } 
           
             //Power
-            if(this.game.E){
-                this.state = this.STATE.BLAST;
-            }
-            //Blast
              if(this.game.Q){
                 this.state = this.STATE.POWER;
             }
@@ -224,6 +223,20 @@ class Goku{
                 this.state = this.STATE.JUMP;
                 this.fallAcc = STOP_FALL;
              }  
+            //Blocking
+            if(this.game.E){
+                this.blockElapsed += TICK;
+                if(this.coolDown >= 3){
+                    if(this.blockElapsed < 3){
+                        this.block = true;
+                        this.state = this.STATE.BLOCK;
+                    } else {
+                        this.blockElapsed = 0;
+                        this.coolDown = 0;
+                    }
+                }  
+                this.velocity.x = 0;
+            }
 
          //air physics     
         } else if(this.state === this.STATE.JUMP && this.state !== this.STATE.DEAD) {
@@ -245,14 +258,54 @@ class Goku{
             this.dead = true;
          } 
 
-        //updating
+        if(opponentDeath){
+           if(this.roundCount <= 3 && opponentDeathCount <= 3){
+               this.elapsed += TICK;
+               if(this.elapsed > 2){
+                   opponentDeathCount++; 
+                   this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+               }
+           } 
+        }
+
+        if(this.state === this.STATE.DEAD){
+            if(this.roundCount <= 3 && this.deathCount <= 3){
+                this.elapsed += TICK;
+                if(this.elapsed > 2){
+                    this.deathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                }
+            } 
+        }
+
+        var that = this;
+        this.game.entities.forEach(function (entity) {
+                if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
+                    if((entity instanceof KaratePlayerCPU )/*|| entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU 
+                        || entity instanceof GokuCPU)*/){
+                            if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
+                                opponentHitPoints -= 100;
+                            } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
+                                opponentHitPoints -= 100;
+                            }  
+                        }
+            }
+        });
+
+        //Updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
-        this.cX = this.x + GokuState.RWALK[0].w / 2 * PARAMS.SCALE;
-        this.cY = this.y + GokuState.RWALK[0].h / 2 * PARAMS.SCALE;
+        if(this.state === this.STATE.BLOCK){
+            this.cX = this.x + KPstate.RBLOCK.w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RBLOCK.h / 2 * PARAMS.SCALE;
+        } else {
+            this.cX = this.x + KPstate.RWALK[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RWALK[0].h / 2 * PARAMS.SCALE; 
+        }
         this.updateBB();
         this.collisions();
     };
+
     collisions(){
         //collisions
         var that = this;
@@ -337,7 +390,7 @@ class Goku{
                 } 
         });        
     };
-    draw(ctx){
+     draw(ctx){
         if(PARAMS.DEBUG){
             //Visual CIrcle
             ctx.beginPath();
@@ -345,15 +398,23 @@ class Goku{
             ctx.arc(this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
             ctx.stroke();
             ctx.closePath();
-            //Attack Circle
-            ctx.beginPath();
-            ctx.strokeStyle = "White";
-            ctx.arc(this.cX, this.cY, this.AtkRadius, 0, Math.PI * 2, false);
-            ctx.stroke();
-            ctx.closePath();
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         };
+        if(!this.CPU){
+            ctx.strokeStyle = "DarkOrange";
+            ctx.font = '14px "Press Start 2P"';
+            ctx.fillStyle = rgb(183,3,3);
+            ctx.fillText(this.name, 255 , 60);
+            ctx.strokeText(this.name, 255 , 60);
+        } else if (this.CPU){
+            this.cpuNameCount = this.name.length;
+            ctx.strokeStyle = "DarkOrange";
+            ctx.font = '14px "Press Start 2P"';
+            ctx.fillStyle = rgb(183,3,3);
+            ctx.fillText(this.name, 759 - (cpuNameCount * 14), 60);
+            ctx.strokeText(this.name, 759 - (cpuNameCount * 14), 60);
+        }
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
     };
 };
