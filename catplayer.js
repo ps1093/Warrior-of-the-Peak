@@ -9,6 +9,7 @@ class catplayer{
         this.hitPoints = 100;
         this.deathCount = deathCount;
         this.elapsed = 0;
+        this.block = false;
 
         this.VisRadius = 100;
         this.AtkRadius = 45;
@@ -128,6 +129,7 @@ class catplayer{
         const STOP_FALL_A = 90;
         const TICK = this.game.clockTick;
         const KICKING = 100;
+        this.block = false;
 
         if(this.state < 6 && this.state != 7){
             //right
@@ -150,6 +152,7 @@ class catplayer{
             //block
             if(this.game.S){
                 this.state = 3;
+                this.block = true;
             }
 
             //punch
@@ -355,12 +358,14 @@ class catplayer{
                 ctx.strokeStyle = "Red";
                 ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
             };
+            //If not CPU, We draw on left side
             if(!this.CPU){
                 ctx.strokeStyle = "DarkOrange";
                 ctx.font = '14px "Press Start 2P"';
                 ctx.fillStyle = rgb(183,3,3);
                 ctx.fillText(this.name, 255 , 60);
                 ctx.strokeText(this.name, 255 , 60);
+            //If CPU, draw on right side
             } else if (this.CPU){
                 this.cpuNameCount = this.name.length;
                 ctx.strokeStyle = "DarkOrange";
