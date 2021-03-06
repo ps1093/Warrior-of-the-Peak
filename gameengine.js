@@ -23,6 +23,7 @@ class GameEngine {
         this.L = false;
         this.R = false; 
         this.Q = false; 
+        this.B = false;
         this.SHIFT = false;
 
     };
@@ -121,6 +122,10 @@ class GameEngine {
                 case "ShiftLeft":
                     that.SHIFT = true;
                     break;
+
+                case "KeyB":
+                    that.B = true;
+                    break;
             }
         }, false);
 
@@ -168,6 +173,10 @@ class GameEngine {
                     break;
                 case "ShiftLeft":
                     that.SHIFT = false;
+                    break;
+
+                case "KeyB":
+                    that.B = false;
                     break;
             }
         }, false);
