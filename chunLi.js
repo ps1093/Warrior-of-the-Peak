@@ -156,7 +156,7 @@ class ChunLi {
         this.deadScene = new Animator2(this.spritesheet, this.die, 3, 1, false, true);
 
         this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
+            = new Animator2(this.spritesheet, this.block, 2, 1, false, true);
         this.animations[this.STATE.BLOCK][this.FACING.LEFT]
             = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
             
