@@ -58,7 +58,7 @@ class KaratePlayerCPU extends KaratePlayer{
             //Have to check what side of the map he is on. 
 
             this.jumpDist = Math.abs(this.other.y - this.y);
-
+            console.log("Position " + Math.abs(this.position));
             //This takes what side he is on and makes him go after opponent.
             if(this.position < 0){
                 this.facing = this.FACING.LEFT;
@@ -72,8 +72,8 @@ class KaratePlayerCPU extends KaratePlayer{
                 this.state = this.STATE.WALK;
                 if(!this.VisCircle())this.velocity.x = BLIND_WALK;
                 if(this.VisCircle())this.velocity.x = WALK;
-            }
-            
+            } 
+
         //Implementing gravity.
         this.velocity.y += this.fallAcc * TICK;
         if(this.jumpDist > 100 && this.VisCircle()){
@@ -116,12 +116,14 @@ class KaratePlayerCPU extends KaratePlayer{
                             if(that.CPUSTATE.ATTACK)that.x = entity.BB.right;
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK === true){
-                                if(that.other.state !== that.other.STATE.BLOCK || that.other.state !== 10){
-                                    if(that.attack === 0){
-                                        that.state = that.STATE.PUNCH;
+                                if(that.attack === 0){
+                                    that.state = that.STATE.PUNCH;
+                                    if(!that.other.block){
                                         that.other.hitPoints -= .04;
-                                    } else if(that.attack === 1){
-                                        that.state = that.STATE.KICK;
+                                    }
+                                } else if(that.attack === 1){
+                                    that.state = that.STATE.KICK;
+                                    if(!that.other.block){
                                         that.other.hitPoints -= .04;
                                     }
                                 }
@@ -136,15 +138,18 @@ class KaratePlayerCPU extends KaratePlayer{
                             }    
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.other.state !== that.other.STATE.BLOCK || that.other.state !== 10){
                                     if(that.attack === 0){
                                         that.state = that.STATE.PUNCH;
-                                        that.other.hitPoints -= .04;
+                                        if(!that.other.block){
+                                            that.other.hitPoints -= .04;
+                                        }
                                     } else if(that.attack === 1){
                                         that.state = that.STATE.KICK;
-                                        that.other.hitPoints -= .04;
+                                        if(!that.other.block){
+                                            that.other.hitPoints -= .04;
+                                        }
                                     }
-                                }
+                                
                             }
                     }
                 }
@@ -207,7 +212,7 @@ class CatPlayerCPU extends catplayer{
         this.other = player;
 
         //Setting up Character
-        this.name = theName;
+        this.name = this.theName;
         console.log("Name " + this.name);
         this.facing = 1;
         this.CPU = true;
@@ -313,16 +318,17 @@ class CatPlayerCPU extends catplayer{
                             if(that.CPUSTATE.ATTACK)that.x = entity.BB.right;
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK === true){
-                                //Need to make a block variable in all classes.
-                                //if(that.other.state !== that.other.STATE.BLOCK){
-                                    if(that.attack === 0){
-                                        that.state = 4;
-                                        that.other.hitPoints -= .04;
-                                    } else if(that.attack === 1){
-                                        that.state = 5;
+                                if(that.attack === 0){
+                                    that.state = that.STATE.PUNCH;
+                                    if(!that.other.block){
                                         that.other.hitPoints -= .04;
                                     }
-                                //}
+                                } else if(that.attack === 1){
+                                    that.state = that.STATE.KICK;
+                                    if(!that.other.block){
+                                        that.other.hitPoints -= .04;
+                                    }
+                                }
                             }
                     }
                     if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
@@ -334,15 +340,17 @@ class CatPlayerCPU extends catplayer{
                             }    
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK){
-                                //if(that.other.state !== that.other.STATE.BLOCK){
-                                    if(that.attack === 0){
-                                        that.state = 4;
-                                        that.other.hitPoints -= .04;
-                                    } else if(that.attack === 1){
-                                        that.state = 5;
+                                if(that.attack === 0){
+                                    that.state = that.STATE.PUNCH;
+                                    if(!that.other.block){
                                         that.other.hitPoints -= .04;
                                     }
-                                //}
+                                } else if(that.attack === 1){
+                                    that.state = that.STATE.KICK;
+                                    if(!that.other.block){
+                                        that.other.hitPoints -= .04;
+                                    }
+                                }
                             }
                     }
                 }
@@ -376,6 +384,7 @@ class CatPlayerCPU extends catplayer{
             ctx.fillText(this.name, 255 , 60);
             ctx.strokeText(this.name, 255 , 60);
         } else if (this.CPU){
+            console.log("Does this get called?");
             this.cpuNameCount = this.name.length;
             ctx.strokeStyle = "DarkOrange";
             ctx.font = '14px "Press Start 2P"';

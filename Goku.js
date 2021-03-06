@@ -76,9 +76,9 @@ class Goku{
 
         //******* WALK LEFT & RIGHT *********
         this.animations[this.STATE.WALK][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, GokuState.RWALK, 2, .2, false, true);
+            = new Animator2(this.spritesheet, GokuState.RWALK, 2, .5, false, true);
         this.animations[this.STATE.WALK][this.FACING.LEFT]
-            = new Animator2(this.spritesheet2, GokuState.LWALK, 2, .2, false, true);
+            = new Animator2(this.spritesheet2, GokuState.LWALK, 2, .5, false, true);
 
          //******* Punch Right & LEFT ********
          this.animations[this.STATE.PUNCH][this.FACING.RIGHT] 
@@ -88,9 +88,9 @@ class Goku{
     
          //******* Kick Right & Left *******
          this.animations[this.STATE.KICK][this.FACING.RIGHT]
-             = new Animator2(this.spritesheet, GokuState.RKICK , 2, .15, false, true);
+             = new Animator2(this.spritesheet, GokuState.RKICK , 3, .35, false, true);
          this.animations[this.STATE.KICK][this.FACING.LEFT]
-             = new Animator2(this.spritesheet2, GokuState.LKICK, 2, .15, false, true);
+             = new Animator2(this.spritesheet2, GokuState.LKICK, 3, .35, false, true);
     
          //****** Duck Left & Right ******
          this.animations[this.STATE.DUCK][this.FACING.RIGHT]
@@ -106,15 +106,15 @@ class Goku{
 
         //****** Blast Left & Right ******
         this.animations[this.STATE.BLAST][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, GokuState.RBLAST, 2, .5, false, false);
+            = new Animator2(this.spritesheet, GokuState.RBLAST, 2, .5, false, true);
         this.animations[this.STATE.BLAST][this.FACING.LEFT]
-            = new Animator2(this.spritesheet2, GokuState.LBLAST, 2, .5, false, false);
+            = new Animator2(this.spritesheet2, GokuState.LBLAST, 2, .5, false, true);
 
         //****** Power Left & Right ******
         this.animations[this.STATE.POWER][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, GokuState.RPower, 3, .1, false, true);
+            = new Animator2(this.spritesheet, GokuState.RPOWER, 3, .3, false, true);
         this.animations[this.STATE.POWER][this.FACING.LEFT]
-            = new Animator2(this.spritesheet2, GokuState.LPower, 3, .1, false, true);
+            = new Animator2(this.spritesheet2, GokuState.LPOWER, 3, .3, false, true);
 
         //****** Get Hit Left & Right ******
         this.animations[this.STATE.GHIT][this.FACING.RIGHT]
@@ -124,9 +124,9 @@ class Goku{
 
         //****** Dead ******
         this.animations[this.STATE.DEAD][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, GokuState.DEAD, 4, .3, false, false);
+            = new Animator2(this.spritesheet, GokuState.DEAD, 4, 1, false, false);
         this.animations[this.STATE.DEAD][this.FACING.LEFT]
-            = new Animator2(this.spritesheet, GokuState.DEAD, 4, .3, false, false);
+            = new Animator2(this.spritesheet, GokuState.DEAD, 4, 1, false, false);
         
     };
 
@@ -135,7 +135,7 @@ class Goku{
         if(this.state === this.STATE.IDLE && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RIDLE[0].w * PARAMS.SCALE, GokuState.RIDLE[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.IDLE && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.LIDLE[1].w * PARAMS.SCALE, GokuState.LIDLE[0].h * PARAMS.SCALE); 
+            this.BB = new BoundingBox(this.x, this.y, GokuState.LIDLE[0].w * PARAMS.SCALE, GokuState.LIDLE[0].h * PARAMS.SCALE); 
         } else if(this.state === this.STATE.WALK && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RWALK[0].w * PARAMS.SCALE, GokuState.RWALK[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.WALK && this.facing === this.FACING.LEFT){
@@ -145,7 +145,7 @@ class Goku{
         } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LPUNCH[0].w * PARAMS.SCALE, GokuState.LPUNCH[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.KICK && this.facing === this.FACING.RIGHT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.RKICK[1].w * PARAMS.SCALE, GokuState.RKICK[0].h * PARAMS.SCALE);
+            this.BB = new BoundingBox(this.x, this.y, GokuState.RKICK[0].w * PARAMS.SCALE, GokuState.RKICK[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.KICK && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LKICK[0].w * PARAMS.SCALE, GokuState.LKICK[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.DUCK && this.facing === this.FACING.RIGHT){
@@ -157,16 +157,16 @@ class Goku{
         } else if(this.state === this.STATE.JUMP && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LJUMP[0].w * PARAMS.SCALE, GokuState.LJUMP[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.POWER && this.facing === this.FACING.RIGHT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.RPOWER[0].w * PARAMS.SCALE, GokuState.RPower[0].h * PARAMS.SCALE);
+            this.BB = new BoundingBox(this.x, this.y, GokuState.RPOWER[0].w * PARAMS.SCALE, GokuState.RPOWER[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LPOWER[0].w * PARAMS.SCALE, GokuState.LPOWER[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.RIGHT){
+        } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RBLAST[0].w * PARAMS.SCALE, GokuState.RBLAST[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
+        } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LBLAST[0].w * PARAMS.SCALE, GokuState.LBLAST[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.RIGHT){
+        } else if(this.state === this.STATE.GHIT && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RGETHIT[0].w * PARAMS.SCALE, GokuState.RGETHIT[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
+        } else if(this.state === this.STATE.GHIT && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LGETHIT[0].w * PARAMS.SCALE, GokuState.LGETHIT[0].h * PARAMS.SCALE);
         }
     };
@@ -206,11 +206,11 @@ class Goku{
           
             //Power
             if(this.game.E){
-                this.state = this.STATE.POWER;
+                this.state = this.STATE.BLAST;
             }
             //Blast
-             if(this.game.q){
-                this.state = this.STATE.BLAST;
+             if(this.game.Q){
+                this.state = this.STATE.POWER;
             }
             //Kick
             if(this.game.P){
@@ -267,7 +267,9 @@ class Goku{
                             else if(that.state === that.STATE.WALK) that.y = entity.BB.top - GokuState.RWALK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - GokuState.RDUCK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - GokuState.RPUNCH[0].h * PARAMS.SCALE;  
-                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - GokuState.RKICK[0].h * PARAMS.SCALE;             
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - GokuState.RKICK[0].h * PARAMS.SCALE;  
+                            else if(that.state === that.STATE.POWER) that.y = entity.BB.bottom - GokuState.RPOWER[0].h * PARAMS.SCALE;     
+                            else if(that.state === that.STATE.BLAST) that.y = entity.BB.bottom - GokuState.RBLAST[0].h * PARAMS.SCALE;           
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }
@@ -278,7 +280,9 @@ class Goku{
                             else if(that.state === that.STATE.WALK) that.y = entity.BB.bottom - GokuState.RWALK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.bottom - GokuState.RDUCK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.bottom - GokuState.RPUNCH[0].h * PARAMS.SCALE;
-                            else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom - GokuState.RKICK[0].h * PARAMS.SCALE;                           
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom - GokuState.RKICK[0].h * PARAMS.SCALE;   
+                            else if(that.state === that.STATE.POWER) that.y = entity.BB.bottom - GokuState.RPOWER[0].h * PARAMS.SCALE;     
+                            else if(that.state === that.STATE.BLAST) that.y = entity.BB.bottom - GokuState.RBLAST[0].h * PARAMS.SCALE;                                                                                                 
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }
@@ -288,6 +292,7 @@ class Goku{
                             else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right - GokuState.RPUNCH[0].w * PARAMS.SCALE;
                             else if(that.state === that.STATE.JUMP) that.x = entity.BB.right - GokuState.RJUMP[0].w * PARAMS.SCALE;
                             else if(that.state === that.STATE.KICK) that.x = entity.BB.right - GokuState.RKICK[0].w * PARAMS.SCALE;
+
                             that.velocity.x = 0;
                             that.updateBB();
                         }

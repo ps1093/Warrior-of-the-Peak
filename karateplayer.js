@@ -12,6 +12,7 @@ class KaratePlayer{
         //this.atkElapsed = 0;
         this.blockElapsed = 0;
         this.coolDown = 3;
+        this.block = false;
 
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
@@ -173,6 +174,7 @@ class KaratePlayer{
         const DEAD_X = 50;
         const TICK = this.game.clockTick;
         this.coolDown += TICK;
+        this.block = false;
         
 
         //Ground Physics
@@ -219,6 +221,7 @@ class KaratePlayer{
                 if(this.coolDown >= 3){
                     if(this.blockElapsed < 3){
                         this.state = this.STATE.BLOCK;
+                        this.block = true;
                     } else {
                         this.blockElapsed = 0;
                         this.coolDown = 0;
@@ -355,13 +358,13 @@ class KaratePlayer{
                             that.velocity.x = 0;
                             that.updateBB();
                         }
-                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.right >= entity.BB.left){
+                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU) && that.lastBB.right >= entity.BB.left){
                             if(that.state === that.STATE.WALK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
                             if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
                             if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
                             if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
                         }
-                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.left <= entity.BB.right){
+                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU) && that.lastBB.left <= entity.BB.right){
                             if(that.state === that.STATE.WALK) that.x = entity.BB.right;
                             if(that.state === that.STATE.ROLL) that.x = entity.BB.right;
                             if(that.state === that.STATE.KICK) that.x = entity.BB.right;

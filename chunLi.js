@@ -12,7 +12,11 @@ class ChunLi {
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
+<<<<<<< HEAD
         this.block = false;
+=======
+        
+>>>>>>> 60d4079f5c8bb04e8874591e67fd4f892a8c3300
 
         //For the Health Bar
         this.maxHitPoints  = 100;
