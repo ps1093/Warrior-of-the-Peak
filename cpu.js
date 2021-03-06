@@ -424,7 +424,7 @@ class ChunLiCPU extends ChunLi{
         this.other = player;
 
         //Setting up Character
-        this.name = theName;
+        this.name = this.theName;
         this.facing = 1;
         this.CPU = true;
         this.jumpDist = 0;
@@ -452,6 +452,7 @@ class ChunLiCPU extends ChunLi{
         this.hitPoints = opponentHitPoints;
         //Variables to manipulate the X and Y velocity
         const WALK = 200;
+        const BLIND_WALK = 150;
         const FALL_WALK = 1;
         const JUMPING = 500;
         const STOP_FALL = 400;
@@ -530,37 +531,42 @@ class ChunLiCPU extends ChunLi{
                             if(that.CPUSTATE.ATTACK)that.x = entity.BB.right;
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK === true){
-                                if(that.other.state !== that.other.STATE.BLOCK){
-                                    if(that.attack === 0){
-                                        that.state = 3;
-                                        that.other.hitPoints -= .04;
-                                    } else if(that.attack === 1){
-                                        that.state = 4;
+                                if(that.attack === 0){
+                                    that.state = 3;
+                                    if(!that.other.block){
                                         that.other.hitPoints -= .04;
                                     }
+                                } else if(that.attack === 1){
+                                    that.state = 4;
+                                    if(!that.other.block){
+                                        that.other.hitPoints -= .04;
+                                    }
+                                }
                                 }
                             }
                     }
                     if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
                         || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
-                            if(that.CPUSTATE.WALKING === true) that.x = entity.BB.left - this.walk[this.animations[1][0].currentFrame()].w * PARAMS.CHUNLI;
+                            if(that.CPUSTATE.WALKING === true) that.x = entity.BB.left - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.CHUNLI;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.state === 6) that.x = entity.BB.left - this.punch[this.animations[3][0].currentFrame()].w * PARAMS.CHUNLI;
-                                if(that.state === 3) that.x = entity.BB.left - this.kick[this.animations[4][0].currentFrame()].w * PARAMS.CHUNLI;
+                                if(that.state === 6) that.x = entity.BB.left - that.punch[that.animations[3][0].currentFrame()].w * PARAMS.CHUNLI;
+                                if(that.state === 3) that.x = entity.BB.left - that.kick[that.animations[4][0].currentFrame()].w * PARAMS.CHUNLI;
                             }    
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.other.state !== that.other.STATE.BLOCK){
-                                    if(that.attack === 0){
-                                        that.state = 3;
+                                if(that.attack === 0){
+                                    that.state = 3;
+                                    if(!that.other.block){
                                         that.other.hitPoints -= .04;
-                                    } else if(that.attack === 1){
-                                        that.state = 4;
+                                    }
+                                } else if(that.attack === 1){
+                                    that.state = 4;
+                                    if(!that.other.block){
                                         that.other.hitPoints -= .04;
                                     }
                                 }
                             }
-                    }
+                    
                 }
         });
         //updating
