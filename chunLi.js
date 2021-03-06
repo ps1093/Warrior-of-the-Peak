@@ -155,6 +155,7 @@ class ChunLi {
         this.animations[10][0] = new Animator2(this.spritesheet, this.blocked, 2, 1, false, true);
         this.animations[10][1] = new Animator2(this.spritesheet, this.blocked, 2, 1, false, true);
         this.deadScene = new Animator2(this.spritesheet, this.die, 3, 1, false, true);
+         };
 
 
 
@@ -279,7 +280,6 @@ class ChunLi {
                 this.block = true;
             }
 
-          
             
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
