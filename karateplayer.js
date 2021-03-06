@@ -282,8 +282,7 @@ class KaratePlayer{
         var that = this;
         this.game.entities.forEach(function (entity) {
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
-                    if((entity instanceof KaratePlayerCPU )/*|| entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU 
-                        || entity instanceof GokuCPU)*/){
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU)){
                             if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
                                 opponentHitPoints -= 100;
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
@@ -383,7 +382,7 @@ class KaratePlayer{
                         if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
                             if(that.state === that.STATE.JUMP) that.y = entity.BB.bottom + KPstate.RJUMP[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom + KPstate.RKICK[0].h * PARAMS.SCALE;
-                            that.hitPoints -= 2;
+                            that.hitPoints -= 15;
                             that.velocity.y = 0;
                             that.updateBB(); 
                         }
@@ -403,12 +402,7 @@ class KaratePlayer{
                 } 
         });        
     };
-    // AtkCircle() {
-    //     var dx = this.cX - opponentcX;
-    //     var dy = this.cY - opponentcY;
-    //     var dist = Math.floor(Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2)));
-    //     return (dist < this.AtkRadius + opponentAtkRadius);
-    // };
+
     draw(ctx){
         if(PARAMS.DEBUG){
             //Visual CIrcle
