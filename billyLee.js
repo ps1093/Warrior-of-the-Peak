@@ -105,7 +105,7 @@ class BillyLee {
     };
   
     loadAnimations() {
-        for (var i = 0; i < 11; i++) { // ten states
+        for (var i = 0; i < 12; i++) { // ten states
             this.animations.push([]);
             for (var j = 0; j < 2; j++) { // two directions
                 this.animations[i].push([]);
@@ -134,6 +134,8 @@ class BillyLee {
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
         this.animations[10][0] = new Animator2(this.spritesheet, this.blocked, 1, 1, false, true);
         this.animations[10][1] = new Animator2(this.spritesheet, this.blocked, 1, 1, false, true);
+        this.animations[11][0] = new Animator2(this.spritesheet, this.die, 4, 1, false, true);
+        this.animations[11][1] = new Animator2(this.spritesheet, this.die, 4, 1, false, true);
 
       /*  this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
             = new Animator2(this.spritesheet, this.block, 1, 1, false, true);
@@ -316,6 +318,8 @@ class BillyLee {
     
 
 };
+
+
   
   
       // (source, x coor, y coor, x width, y width, frame count, duration, padding, reverse, loop)
@@ -432,7 +436,7 @@ class BillyLee {
 
             //air physics     
         } else if(this.state === 8) {
-            this.velocity.y += this.fallAcc * TICK;
+            this.velocity.y += this.fallAcc * TICK * PARAMS.BL;
 
             //horizontal air physics
             if(this.game.D && !this.game.A){
@@ -467,6 +471,19 @@ class BillyLee {
                 }
             } 
         }
+
+        var that = this;
+        this.game.entities.forEach(function (entity) {
+                if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU)){
+                            if(that.state === 3/* && !opponentBlock*/){
+                                opponentHitPoints -= .05;
+                            } else if(that.state === 5/* && !opponentBlock*/){
+                                opponentHitPoints -= .05;
+                            }  
+                        }
+            }
+        });
         //updating
       //  this.x += this.velocity.x * TICK;
       //  this.y += this.velocity.y * TICK;
@@ -572,6 +589,17 @@ class BillyLee {
                             that.velocity.x = 0;
                             that.updateBB();  
                         }
+
+                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.right >= entity.BB.left){
+                            if(that.state === 1) that.x = entity.BB.left - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.BL;
+                            if(that.state === 5) that.x = entity.BB.left - that.kick[that.animations[6][0].currentFrame()].w * PARAMS.BL;
+                            if(that.state === 3) that.x = entity.BB.left - that.lpunch[that.animations[3][0].currentFrame()].w * PARAMS.BL;
+                            that.updateBB();
+                        }
+                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.left <= entity.BB.right){;
+                            that.x = entity.BB.right;
+                            that.updateBB();
+                        }
                     }
                         
                     //Air Collisions
@@ -618,13 +646,13 @@ class BillyLee {
                                 else if(that.state === 7) that.x = entity.BB.right - that.gHit[that.animations[7][0].currentFrame()].w * PARAMS.BL;  
                                 else if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].w * PARAMS.BL; 
                                 else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.BL;
-                                that.velocity.y = 0;
+                             //   that.velocity.y = 0;
                                 that.updateBB();
                             }
                             //Jumping & Kicking to Left - any level
                             if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
                                 if(that.state === 8) that.x = entity.BB.left;
-                                that.velocity.y = 0;
+                              //  that.velocity.y = 0;
                                 that.updateBB();
                             }
 
@@ -675,21 +703,40 @@ class BillyLee {
         }
 
         if(PARAMS.DEBUG && this.facing === 0){
+            //Visual CIrcle
+            ctx.beginPath();
+            ctx.strokeStyle = "Blue";
+            ctx.arc(this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.closePath();
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         } else if (PARAMS.DEBUG && this.facing === 1) {
+            ctx.beginPath();
             ctx.save();
             ctx.scale(-1, 1);
+            ctx.strokeStyle = "Blue";
+            ctx.arc(-this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.closePath();
             ctx.strokeStyle = "Red";
             ctx.strokeRect(-this.BB.x - this.animations[this.state][this.facing].array[this.animations[this.state][this.facing].currentFrame()].w, this.BB.y, (this.BB.width), this.BB.height);
             ctx.restore();
         } else {
 
-        }
+        };
 
-        if (this.dead) {
+        if (this.dead && this.facing === 0) {
             this.deadScene.drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.BL);
-        } else if (this.facing === 0) {
+        }  else if (this.dead && this.facing === 1){
+            ctx.save();
+            ctx.scale(-1, 1);
+            this.deadScene.drawFrame(this.game.clockTick,ctx, -(this.x) - 30, this.y, PARAMS.BL);
+            ctx.restore();
+
+        }
+        
+        else if (this.facing === 0) {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.BL);
             this.healthbar.draw(ctx);
         } else {

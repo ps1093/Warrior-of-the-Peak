@@ -108,15 +108,15 @@ class SceneManager{
                 break;
             //Chun Li
             case this.Players.CHARACTERS[3]:
-                this.opponent = new ChunLi(this.game, 960, 0,  this.player, this.Players.CHARACTERS[3]);
+                this.opponent = new ChunLiCPU(this.game, 960, 0,  this.player, this.Players.CHARACTERS[3]);
                 break;
             //Billy Lee
             case this.Players.CHARACTERS[4]:
-                this.opponent = new BillyLee(this.game, 960, 0, this.player, this.Players.CHARACTERS[4]);
+                this.opponent = new BillyLeeCPU(this.game, 960, 0, this.player, this.Players.CHARACTERS[4]);
                 break;
               //Goku
             case this.Players.CHARACTERS[5]:
-                this.opponent = new Goku(this.game, 960, 0, this.player, this.Players.CHARACTERS[5]);
+                this.opponent = new GokuCPU(this.game, 960, 0, this.player, this.Players.CHARACTERS[5]);
                 break;
         }
         this.title = title;

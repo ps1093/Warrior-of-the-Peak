@@ -69,33 +69,31 @@ class catplayer{
     loadAnimations(){
         for(var i = 0; i < 8; i++){ //7states - idle, walking, running, jumping, punching, kicking, block, dead 
             this.animations.push([]);
-            for(var j = 0; j < 1; j++){   //one size
-                this.animations[i].push([]);
                 for (var k = 0; k < 2; k++){   //facing right left
-                    this.animations[i][j].push([]);
+                    this.animations[i].push([]);
                 }
             }
-        }
+        
 
       
         
-        this.animations[0][0][0] = new Animator (this.spritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true ); //idel facing right
-        this.animations[1][0][0] = new Animator (this.spritesheet, 161, 8, 40, 40, 2, 0.33, 10, false, true ); //walking right
-        this.animations[2][0][0] = new Animator (this.spritesheet, 161, 8, 40, 40, 2, 0.10, 10, false, true ); //running right 
-        this.animations[3][0][0] = new Animator (this.spritesheet, 211, 62, 40, 40, 2, 0.20, 10, false, true ); //block right
-        this.animations[4][0][0] = new Animator (this.spritesheet, 359, 162, 40, 40, 2, 0.15, 14, false, true ); //punching right
-        this.animations[5][0][0] = new Animator (this.spritesheet, 10, 212, 40, 40, 10, 0.15, 9, false, true ); //kicking right
-        this.animations[6][0][0] = new Animator (this.spritesheet, 310, 263, 40, 40, 2, 0.20, 10, false, true ); //jumping right
-        this.animations[7][0][0] = new Animator (this.spritesheet, 51, 162, 32, 30, 2, 0.33, 10, false, true); //dead right
+        this.animations[0][0] = new Animator (this.spritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true ); //idel facing right
+        this.animations[1][0] = new Animator (this.spritesheet, 161, 8, 40, 40, 2, 0.33, 10, false, true ); //walking right
+        this.animations[2][0] = new Animator (this.spritesheet, 161, 8, 40, 40, 2, 0.10, 10, false, true ); //running right 
+        this.animations[3][0] = new Animator (this.spritesheet, 211, 62, 40, 40, 2, 0.20, 10, false, true ); //block right
+        this.animations[4][0] = new Animator (this.spritesheet, 359, 162, 40, 40, 2, 0.15, 14, false, true ); //punching right
+        this.animations[5][0] = new Animator (this.spritesheet, 10, 212, 40, 40, 10, 0.15, 9, false, true ); //kicking right
+        this.animations[6][0] = new Animator (this.spritesheet, 310, 263, 40, 40, 2, 0.20, 10, false, true ); //jumping right
+        this.animations[7][0] = new Animator (this.spritesheet, 51, 162, 32, 30, 2, 0.33, 10, false, true); //dead right
         
-        this.animations[0][0][1] = new Animator (this.spritesheet, 850, 60, 40, 40, 2, 0.33, 10, false, true ); //idel facing left
-        this.animations[1][0][1] = new Animator (this.spritesheet, 748, 8, 40, 40, 2, 0.33, 10, true, true ); //walking left
-        this.animations[2][0][1] = new Animator (this.spritesheet, 748, 8, 40, 40, 2, 0.10, 10, true, true ); //running left 
-        this.animations[3][0][1] = new Animator (this.spritesheet, 693, 62, 40, 40, 2, 0.20, 10, true, true ); //block left  
-        this.animations[4][0][1] = new Animator (this.spritesheet, 543, 162, 40, 40, 2, 0.15, 14, true, true ); //punching left 
-        this.animations[5][0][1] = new Animator (this.spritesheet, 496, 212, 40, 40, 10, 0.15, 9, true, true ); // kicking left 
-        this.animations[6][0][1] = new Animator (this.spritesheet, 597, 263, 40, 40, 2, 0.20, 10, true, true ); //jumping left 
-        this.animations[7][0][1] = new Animator (this.spritesheet, 848, 164, 32, 30, 2, 0.33, 10, true, false) //dead left
+        this.animations[0][1] = new Animator (this.spritesheet, 850, 60, 40, 40, 2, 0.33, 10, false, true ); //idel facing left
+        this.animations[1][1] = new Animator (this.spritesheet, 748, 8, 40, 40, 2, 0.33, 10, true, true ); //walking left
+        this.animations[2][1] = new Animator (this.spritesheet, 748, 8, 40, 40, 2, 0.10, 10, true, true ); //running left 
+        this.animations[3][1] = new Animator (this.spritesheet, 693, 62, 40, 40, 2, 0.20, 10, true, true ); //block left  
+        this.animations[4][1] = new Animator (this.spritesheet, 543, 162, 40, 40, 2, 0.15, 14, true, true ); //punching left 
+        this.animations[5][1] = new Animator (this.spritesheet, 496, 212, 40, 40, 10, 0.15, 9, true, true ); // kicking left 
+        this.animations[6][1] = new Animator (this.spritesheet, 597, 263, 40, 40, 2, 0.20, 10, true, true ); //jumping left 
+        this.animations[7][1] = new Animator (this.spritesheet, 848, 164, 32, 30, 2, 0.33, 10, true, true); //dead left
     
 
     };
@@ -374,7 +372,7 @@ class catplayer{
                 ctx.fillText(this.name, 759 - (cpuNameCount * 14), 60);
                 ctx.strokeText(this.name, 759 - (cpuNameCount * 14), 60);
             }
-        this.animations[this.state][this.size][this.facing].drawFrame(this.game.clockTick, ctx ,this.x,this.y, 3);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx ,this.x,this.y, 3);
     };
 
 
