@@ -540,7 +540,7 @@ class ChunLiCPU extends ChunLi{
                             }    
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.other.state !== that.other.STATE.BLOCK || that.other.state !== 10){
+                                if(that.other.state !== that.other.STATE.BLOCK){
                                     if(that.attack === 0){
                                         that.state = 3;
                                         that.other.hitPoints -= .04;
