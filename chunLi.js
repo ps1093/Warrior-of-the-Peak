@@ -12,6 +12,7 @@ class ChunLi {
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
+        this.block = false;
 
         //For the Health Bar
         this.maxHitPoints  = 100;
@@ -575,7 +576,7 @@ class ChunLi {
       //  ctx.scale(-1, 1);
       //  this.animations[6][0].drawFrame(this.game.clockTick, ctx, -535, 429, 1);
 
-        if(PARAMS.DEBUG && this.facing === 0){
+       /* if(PARAMS.DEBUG && this.facing === 0){
             ctx.stroke();
             ctx.strokeStyle = "Red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
@@ -588,7 +589,34 @@ class ChunLi {
             ctx.restore();
         } else {
 
+        };*/
+
+        if(PARAMS.DEBUG && this.facing === 0){
+            //Visual CIrcle
+            ctx.beginPath();
+            ctx.strokeStyle = "Blue";
+            ctx.arc(this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.strokeStyle = "Red";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        } else if (PARAMS.DEBUG && this.facing === 1) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.scale(-1, 1);
+            ctx.strokeStyle = "Blue";
+            ctx.arc(-this.cX, this.cY, this.VisRadius, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.strokeStyle = "Red";
+            ctx.strokeRect(-this.BB.x - this.animations[this.state][this.facing].array[this.animations[this.state][this.facing].currentFrame()].w, this.BB.y, (this.BB.width), this.BB.height);
+            ctx.restore();
+        } else {
+
         };
+
+        
+      
 
        
 
