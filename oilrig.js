@@ -80,7 +80,7 @@ class Propeller{
         this.game.entities.forEach(function(entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof BillyLee 
-                    || entity instanceof ChunLi) && that.lastBB.bottom <= entity.BB.top){
+                    || entity instanceof ChunLi || entity instanceof Goku) && that.lastBB.bottom <= entity.BB.top){
                         entity.hitPoints -= 20;
                 }
                 if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU) && that.lastBB.bottom <= entity.BB.top){
