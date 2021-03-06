@@ -154,6 +154,9 @@ class ChunLi {
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .2, false, true);
         this.animations[10][0] = new Animator2(this.spritesheet, this.blocked, 2, 1, false, true);
         this.animations[10][1] = new Animator2(this.spritesheet, this.blocked, 2, 1, false, true);
+        this.animations[11][0] = new Animator2(this.spritesheet, this.die, 3, 1, false, true);
+        this.animations[11][1] = new Animator2(this.spritesheet, this.die, 3, 1, false, true);
+        
         this.deadScene = new Animator2(this.spritesheet, this.die, 3, 1, false, true);
          };
 
@@ -312,7 +315,7 @@ class ChunLi {
 
          //air physics     
         } else if(this.state === 2) {
-            this.velocity.y += this.fallAcc * TICK;
+            this.velocity.y += this.fallAcc * TICK * PARAMS.CHUNLI;
 
             //horizontal air physics
             if(this.game.D && !this.game.A){
@@ -354,7 +357,7 @@ class ChunLi {
                 }
             } 
          }
-         if(this.dead){
+        if(this.dead){
             if(this.roundCount <= 3 && this.deathCount <= 3){
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
@@ -362,7 +365,20 @@ class ChunLi {
                     this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
                 }
             } 
-         }
+        }
+
+        var that = this;
+        this.game.entities.forEach(function (entity) {
+                if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU)){
+                            if(that.state === 3/* && !opponentBlock*/){
+                                opponentHitPoints -= .05;
+                            } else if(that.state === 6/* && !opponentBlock*/){
+                                opponentHitPoints -= .05;
+                            }  
+                        }
+            }
+        });
 
         //updating
       //  this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
@@ -483,6 +499,16 @@ class ChunLi {
                             that.velocity.x = 0;
                             that.updateBB(); 
                         }
+                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.right >= entity.BB.left){
+                            if(that.state === 1) that.x = entity.BB.left - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.CHUNLI;
+                            if(that.state === 6) that.x = entity.BB.left - that.sKick[that.animations[6][0].currentFrame()].w * PARAMS.CHUNLI;
+                            if(that.state === 3) that.x = entity.BB.left - that.punch[that.animations[3][0].currentFrame()].w * PARAMS.CHUNLI;
+                            that.updateBB();
+                        }
+                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.left <= entity.BB.right){;
+                            that.x = entity.BB.right;
+                            that.updateBB();
+                        }
                         
                     }
 
@@ -527,7 +553,7 @@ class ChunLi {
                                 else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.CHUNLI;
                                 else if(that.state === 10) that.x = entity.BB.right  - that.blocked[that.animations[10][0].currentFrame()].w * PARAMS.CHUNLI;
                                // if(that.state === 2) that.x = entity.BB.right - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI;
-                                that.velocity.y = 0;
+                               // that.velocity.y = 0;
                                 that.updateBB();
                         }
                             //Jumping & Kicking to Left - any level
@@ -536,7 +562,7 @@ class ChunLi {
                                 else if(that.state === 6) that.x = entity.BB.left;
                                 else if(that.state === 5) that.x = entity.BB.left;
                                 else if(that.state === 7) that.x = entity.BB.left;                               
-                                that.velocity.y = 0;
+                               // that.velocity.y = 0;
                                 that.updateBB();
                         }
                            
@@ -618,9 +644,16 @@ class ChunLi {
 
        
 
-        if (this.dead) {
+        if (this.dead && this.facing === 0) {
             this.deadScene.drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.CHUNLI);
-        } else if (this.facing === 0) {
+            } else if (this.dead && this.facing === 1){
+                ctx.save();
+                ctx.scale(-1, 1);
+                this.deadScene.drawFrame(this.game.clockTick,ctx, -(this.x) - 70, this.y, PARAMS.CHUNLI);
+                ctx.restore();
+
+            }
+         else if (this.facing === 0) {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.CHUNLI);
             this.healthbar.draw(ctx);
     
@@ -634,7 +667,8 @@ class ChunLi {
             this.healthbar.draw(ctx);
            
 
-        } 
+        }
+    
     };
         
  
