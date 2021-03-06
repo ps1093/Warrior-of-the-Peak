@@ -12,6 +12,7 @@ class ChunLi {
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
+        
 
         //For the Health Bar
         this.maxHitPoints  = 100;
