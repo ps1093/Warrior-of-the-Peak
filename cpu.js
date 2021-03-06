@@ -405,7 +405,7 @@ class CatPlayerCPU extends catplayer{
 class ChunLiCPU extends ChunLi{
     constructor(game, x, y, player, theName){
         super(game, x, y);
-        this.CPUSTATE ={
+        this.CPUSTATE = {
             ATTACK: false,
             WALKING: false,
             DEATH: false
@@ -520,7 +520,7 @@ class ChunLiCPU extends ChunLi{
                             if(that.CPUSTATE.ATTACK)that.x = entity.BB.right;
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK === true){
-                                if(that.other.state !== that.other.STATE.BLOCK || that.other.state !== 10){
+                                if(that.other.state !== that.other.STATE.BLOCK){
                                     if(that.attack === 0){
                                         that.state = 3;
                                         that.other.hitPoints -= .04;
