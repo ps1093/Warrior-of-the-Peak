@@ -200,6 +200,14 @@ class KaratePlayerCPU extends KaratePlayer{
     };
 };
 
+
+
+/*
+Cat Player is removed when Player collides with right side.
+Animations are phasing.
+He doesnt fall when loaded into map.
+he floats for first half. 
+*/
 class CatPlayerCPU extends catplayer{
     constructor(game, x, y, player, theName){
         super(game,x,y);
@@ -213,7 +221,6 @@ class CatPlayerCPU extends catplayer{
 
         //Setting up Character
         this.name = this.theName;
-        console.log("Name " + this.name);
         this.facing = 1;
         this.CPU = true;
         this.jumpDist = 0;
@@ -243,6 +250,7 @@ class CatPlayerCPU extends catplayer{
         const BLIND_WALK = 50;
         const WALK = 75;
         const FALL_WALK = 1;
+        const ROLL = 100;
         const JUMPING = 500;
         const STOP_FALL = 400;
         const TICK = this.game.clockTick;
@@ -254,13 +262,13 @@ class CatPlayerCPU extends catplayer{
 
         //Ground Physics
         if(this.state !== 6  && this.CPUSTATE.DEATH !== true){
-            this.midpoint = this.cX;
+            this.midpoint = this.x + (KPstate.RIDLE[0].w / 2 * PARAMS.SCALE);
             this.otherMidpoint = this.other.cX;
             this.position = this.otherMidpoint - this.midpoint;
             //Have to check what side of the map he is on. 
 
             this.jumpDist = Math.abs(this.other.y - this.y);
-
+            console.log("Position " + Math.abs(this.position));
             //This takes what side he is on and makes him go after opponent.
             if(this.position < 0){
                 this.facing = 1;
@@ -274,8 +282,8 @@ class CatPlayerCPU extends catplayer{
                 this.state = 1;
                 if(!this.VisCircle())this.velocity.x = BLIND_WALK;
                 if(this.VisCircle())this.velocity.x = WALK;
-            }
-            
+            } 
+
         //Implementing gravity.
         this.velocity.y += this.fallAcc * TICK;
         if(this.jumpDist > 100 && this.VisCircle()){
@@ -319,12 +327,12 @@ class CatPlayerCPU extends catplayer{
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK === true){
                                 if(that.attack === 0){
-                                    that.state = that.STATE.PUNCH;
+                                    that.state = 4;
                                     if(!that.other.block){
                                         that.other.hitPoints -= .04;
                                     }
                                 } else if(that.attack === 1){
-                                    that.state = that.STATE.KICK;
+                                    that.state = 5;
                                     if(!that.other.block){
                                         that.other.hitPoints -= .04;
                                     }
@@ -333,24 +341,25 @@ class CatPlayerCPU extends catplayer{
                     }
                     if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
                         || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
-                            if(that.CPUSTATE.WALKING === true) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
+                            if(that.CPUSTATE.WALKING === true) that.x = entity.BB.left - that.other.width1 * PARAMS.SCALE;
                             if(that.CPUSTATE.ATTACK){
                                 if(that.state === 5) that.x = entity.BB.left - that.other.width1 * PARAMS.SCALE;
                                 if(that.state === 4) that.x = entity.BB.left - that.other.width1 * PARAMS.SCALE;
                             }    
                             that.CPUSTATE.ATTACK = true;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.attack === 0){
-                                    that.state = that.STATE.PUNCH;
-                                    if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                    if(that.attack === 0){
+                                        that.state = 4;
+                                        if(!that.other.block){
+                                            that.other.hitPoints -= .04;
+                                        }
+                                    } else if(that.attack === 1){
+                                        that.state = 5;
+                                        if(!that.other.block){
+                                            that.other.hitPoints -= .04;
+                                        }
                                     }
-                                } else if(that.attack === 1){
-                                    that.state = that.STATE.KICK;
-                                    if(!that.other.block){
-                                        that.other.hitPoints -= .04;
-                                    }
-                                }
+                                
                             }
                     }
                 }
@@ -358,8 +367,9 @@ class CatPlayerCPU extends catplayer{
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
-        this.cX = (this.x + this.other.width1) / 2 * PARAMS.SCALE;
-        this.cY = (this.x + this.other.height2) / 2 * PARAMS.SCALE; 
+        //If problem come back here
+        this.cX = ((this.x + this.other.width1) / 3.8) * PARAMS.SCALE;
+        this.cY = ((this.y + this.other.height2) / 3.8) * PARAMS.SCALE;
         opponentcX = this.cX;
         opponentcY = this.cY;
         this.updateBB();
@@ -384,7 +394,6 @@ class CatPlayerCPU extends catplayer{
             ctx.fillText(this.name, 255 , 60);
             ctx.strokeText(this.name, 255 , 60);
         } else if (this.CPU){
-            console.log("Does this get called?");
             this.cpuNameCount = this.name.length;
             ctx.strokeStyle = "DarkOrange";
             ctx.font = '14px "Press Start 2P"';
@@ -392,7 +401,7 @@ class CatPlayerCPU extends catplayer{
             ctx.fillText(this.name, 759 - (this.cpuNameCount * 14), 60);
             ctx.strokeText(this.name, 759 - (this.cpuNameCount * 14), 60);
         }
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx ,this.x,this.y, 3);
     };
     VisCircle() {
         var dx = this.cX - this.other.cX;
@@ -401,6 +410,7 @@ class CatPlayerCPU extends catplayer{
         return (this.dist < this.VisRadius + this.other.VisRadius);
     };
 };
+
 
 class ChunLiCPU extends ChunLi{
     constructor(game, x, y, player, theName){
