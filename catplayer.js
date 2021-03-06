@@ -37,9 +37,6 @@ class catplayer{
         this.width2 = 15;
 
         //this is to adjust the player when he is updated
-        this.rollAdjust = 5;
-
-        //this is to adjust the player when he is updated
         this.walkAdjust = 5;
         
         //this is to adjust the player when he is updated
@@ -54,11 +51,6 @@ class catplayer{
         this.colAdj1 = 5;
         
         this.collAdj2 = 1;
-
-        this.blockWidth = 25;
-
-        this.blockHeight = 24;
-    
         
         this.state = 0; //idle =0, walking=1, running=2, block = 3, punch = 4, kick = 5, jump = 6, dead = 7.
         this.size = 0; // small = 0 and large = 1 after finish 
@@ -124,7 +116,7 @@ class catplayer{
         } else if(this.state == 3){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else { 
-            this.BB = new BoundingBox(this.x, this.y, this.width2 * PARAMS.SCALE, this.height1 * (PARAMS.SCALE));
+            this.BB = new BoundingBox(this.x, this.y, this.width2 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
         }
     };
 
@@ -235,11 +227,11 @@ class catplayer{
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         if(this.state === 3){
-            this.cX = (this.x + this.blockWidth) / 2 * PARAMS.SCALE;
-            this.cY = (this.y + this.blockAdjust) / 2 * PARAMS.SCALE;
+            this.cX = (this.x + this.width1) / 3.8 * PARAMS.SCALE;
+            this.cY = (this.y + this.height2) / 3.8 * PARAMS.SCALE;
         }else{
-            this.cX = (this.x + this.width1) / 2 * PARAMS.SCALE;
-            this.cY = (this.x + this.height2) / 2 * PARAMS.SCALE; 
+            this.cX = (this.x + this.width1 ) / 3.8 * PARAMS.SCALE;
+            this.cY = (this.y + this.height1) / 3.8 * PARAMS.SCALE;
         }
         
      
@@ -294,6 +286,16 @@ class catplayer{
                         that.velocity.x = 0;
                         that.updateBB();
                     }
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.right >= entity.BB.left){
+                        if(that.state === 1) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                        if(that.state === 5) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                        if(that.state === 4) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                    }
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.left <= entity.BB.right){
+                        if(that.state === 1) that.x = entity.BB.right;
+                        if(that.state === 5) that.x = entity.BB.right;
+                        if(that.state === 4) that.x = entity.BB.right;
+                    }
                 }
 
                 //AirCollisons
@@ -347,7 +349,7 @@ class catplayer{
                 //Attack Circle
                 ctx.beginPath();
                 ctx.strokeStyle = "White";
-                ctx.arc(this.cX , this.cY, this.AtkRadius, 0, Math.PI * 2, false);
+                ctx.arc(this.cX, this.cY, this.AtkRadius, 0, Math.PI * 2, false);
                 ctx.stroke();
                 ctx.closePath();
                 ctx.strokeStyle = "Red";
