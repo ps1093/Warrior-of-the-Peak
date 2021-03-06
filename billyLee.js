@@ -18,6 +18,22 @@ class BillyLee {
 
         //Total hit points taken
         this.hitPoints = 100;
+
+        //Circle so the CPU can detect player
+        this.VisRadius = 135;
+        //this.AtkRadius = 35;
+        this.cX = 0, this.xY = 0;
+
+        //Only for block
+        this.STATE = {
+            BLOCK: 10
+        };
+
+        //only for block
+        this.FACING = {
+            RIGHT:  0,
+            LEFT: 1
+        };
   
   
         // spritesheet
@@ -78,7 +94,8 @@ class BillyLee {
         // facing right
         this.die = [{x: 250, y: 153, w: 30, h: 42}, {x: 300, y: 161, w: 36, h: 34}, {x: 350, y: 166, w: 47, h: 30}, {x: 400, y: 167, w: 48, h: 30}];
 
-
+        // block
+        this.block = [{x: 166, y:778, w: 17, h: 54}];
   
         // player animations
         this.animations = [];
@@ -87,7 +104,7 @@ class BillyLee {
     };
   
     loadAnimations() {
-        for (var i = 0; i < 10; i++) { // ten states
+        for (var i = 0; i < 11; i++) { // ten states
             this.animations.push([]);
             for (var j = 0; j < 2; j++) { // two directions
                 this.animations[i].push([]);
@@ -114,7 +131,16 @@ class BillyLee {
         this.animations[8][1] = new Animator2(this.spritesheet, this.jump, 2, .5, false, true);
         this.animations[9][0] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
+        this.animations[10][0] = new Animator2(this.spritesheet, this.block, 1, 1, false, true);
+        this.animations[10][1] = new Animator2(this.spritesheet, this.block, 1, 1, false, true);
+
+        this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, this.block, 1, 1, false, true);
+        this.animations[this.STATE.BLOCK][this.FACING.LEFT]
+            = new Animator2(this.spritesheet, this.block, 1, 1, false, true);
+
         this.deadScene = new Animator2(this.spritesheet, this.die, 4, 1, false, true);
+        
         
 
 
@@ -258,7 +284,9 @@ class BillyLee {
             this.BB = new BoundingBox(this.x, this.y, this.jump[this.animations[8][0].currentFrame()].w * PARAMS.BL, this.jump[this.animations[8][0].currentFrame()].h * PARAMS.BL);
         } else if (this.state === 9) {
             this.BB = new BoundingBox(this.x, this.y, this.duck[this.animations[9][0].currentFrame()].w * PARAMS.BL, this.duck[this.animations[9][0].currentFrame()].h * PARAMS.BL);
-        }  
+        }  else if (this.state === 10) {
+            this.BB = new BoundingBox(this.x, this.y, this.block[this.animations[10][0].currentFrame()].w * PARAMS.BL, this.block[this.animations[10][0].currentFrame()].h * PARAMS.BL);
+        }
     } else {
             if (this.state === 0){
                 this.BB = new BoundingBox (this.x, this.y, this.idle[this.animations[0][1].currentFrame()].w * PARAMS.BL, this.idle[this.animations[0][1].currentFrame()].h * PARAMS.BL);
@@ -280,7 +308,9 @@ class BillyLee {
             this.BB = new BoundingBox(this.x, this.y, this.jump[this.animations[8][1].currentFrame()].w * PARAMS.BL, this.jump[this.animations[8][1].currentFrame()].h* PARAMS.BL);
         } else if (this.state === 9) {
             this.BB = new BoundingBox(this.x, this.y, this.duck[this.animations[9][1].currentFrame()].w * PARAMS.BL, this.duck[this.animations[9][1].currentFrame()].h * PARAMS.BL);
-        }  
+        } else if (this.state === 10){
+            this.BB = new BoundingBox(this.x, this.y, this.block[this.animations[10][1].currentFrame()].w * PARAMS.BL, this.block[this.animations[10][1].currentFrame()].h * PARAMS.BL);
+        }
     }
     
 
@@ -353,20 +383,24 @@ class BillyLee {
             //Punch, direction does not matter.
             if(this.game.C){
                 this.state = 2;
+                this.velocity.x = 0;
             }
             //Duck
             if(this.game.S){
                 this.state = 9;
+                this.velocity.x = 0;
             }
 
             //Kick
             if(this.game.P){
                 this.state = 5;
+                this.velocity.x = 0;
             }
 
             // super punch
             if(this.game.K){
                 this.state = 4;
+                this.velocity.x = 0;
             }
 
             // super kick
@@ -374,6 +408,12 @@ class BillyLee {
                 this.velocity.y = -JUMP_KICK;
                 this.state = 6;
                 this.fallAcc = STOP_FALL;
+            }
+
+            // block
+            if(this.game.B){
+                this.state = 10;
+                this.velocity.x = 0;
             }
 
             //Implementing gravity.
@@ -425,10 +465,23 @@ class BillyLee {
             } 
         }
         //updating
-        this.x += this.velocity.x * TICK;
-        this.y += this.velocity.y * TICK;
-        this.updateBB();
-        this.collisions();
+      //  this.x += this.velocity.x * TICK;
+      //  this.y += this.velocity.y * TICK;
+      //  this.updateBB();
+      //  this.collisions();
+
+        //updating
+        this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
+        this.y += this.velocity.y * TICK * PARAMS.CHUNLI;
+        if(this.state === 10){
+            this.cX = this.x + this.block[this.animations[10][0].currentFrame()].w / 2 * PARAMS.BL;
+            this.cY = this.y + this.block[this.animations[10][0].currentFrame()].h / 2 * PARAMS.BL;
+        } else {
+            this.cX = this.x + this.walk[this.animations[1][0].currentFrame()].w / 2 * PARAMS.BL;
+            this.cY = this.y + this.walk[this.animations[1][0].currentFrame()].h / 2 * PARAMS.BL; 
+        }
+            this.updateBB();
+            this.collisions();
     };
 
     collisions(){
@@ -451,6 +504,7 @@ class BillyLee {
                             else if(that.state === 7) that.y = entity.BB.bottom - that.gHit[that.animations[7][0].currentFrame()].h * PARAMS.BL;  
                             else if(that.state === 8) that.y = entity.BB.bottom - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL; 
                             else if(that.state === 9) that.y = entity.BB.bottom - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.BL;
+                            else if(that.state === 10) that.y = entity.BB.bottom - that.block[that.animations[10][0].currentFrame()].h * PARAMS.BL;
                             if(that.state === 8) that.state = 0;           
                             that.velocity.y = 0;
                             that.updateBB();                        
@@ -469,6 +523,7 @@ class BillyLee {
                             else if(that.state === 7) that.y = entity.BB.top - that.gHit[that.animations[7][0].currentFrame()].h * PARAMS.BL;  
                             else if(that.state === 8) that.y = entity.BB.top - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL; 
                             else if(that.state === 9) that.y = entity.BB.top - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.BL;
+                            else if(that.state === 10) that.y = entity.BB.top - that.block[that.animations[10][0].currentFrame()].h * PARAMS.BL;
                         // if(that.state === 8) that.state = 0;           
                             that.velocity.y = 0;
                             that.updateBB();                         
@@ -490,6 +545,7 @@ class BillyLee {
                             else if(that.state === 7) that.x = entity.BB.right - that.gHit[that.animations[7][0].currentFrame()].w * PARAMS.BL;  
                             else if(that.state === 8) that.x = entity.BB.right - that.jump[that.animations[8][0].currentFrame()].w * PARAMS.BL; 
                             else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.BL;
+                            else if(that.state === 10) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.BL;
                         //  if(that.state === 8) that.state = 0;           
                             that.velocity.x = 0;
                             that.updateBB(); 

@@ -19,6 +19,22 @@ class ChunLi {
         //Total hit points taken
         this.hitPoints = 100;
 
+        //Circle so the CPU can detect player
+        this.VisRadius = 135;
+        //this.AtkRadius = 35;
+        this.cX = 0, this.xY = 0;
+
+        //Only for block
+        this.STATE = {
+            BLOCK: 10
+        };
+
+        //only for block
+        this.FACING = {
+            RIGHT:  0,
+            LEFT: 1
+        };
+
 
         // spritesheet
         this.updateBB();
@@ -106,12 +122,14 @@ class ChunLi {
     };
 
          loadAnimations() {
-            for (var i = 0; i < 11; i++) { // eleven states
+            for (var i = 0; i < 13; i++) { // eleven states
                 this.animations.push([]);
                 for (var j = 0; j < 2; j++) { // two directions
                     this.animations[i].push([]);
                 }
              }
+
+       
 
         this.animations[0][0] = new Animator2(this.spritesheet, this.idle, 4, .1, false, true);
         this.animations[0][1] = new Animator2(this.spritesheet, this.idle, 4, .1, false, true);
@@ -133,9 +151,14 @@ class ChunLi {
         this.animations[8][1] = new Animator2(this.spritesheet, this.gHit, 2, .1, false, true);
         this.animations[9][0] = new Animator2(this.spritesheet, this.duck, 2, .2, false, true);
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .2, false, true);
-        this.animations[10][0] = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
-        this.animations[10][1] = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
+        this.animations[10][0] = new Animator2(this.spritesheet, this.block, 2, 1, false, true);
+        this.animations[10][1] = new Animator2(this.spritesheet, this.block, 2, 1, false, true);
         this.deadScene = new Animator2(this.spritesheet, this.die, 3, 1, false, true);
+
+        this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
+        this.animations[this.STATE.BLOCK][this.FACING.LEFT]
+            = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
             
     };
 
@@ -251,6 +274,12 @@ class ChunLi {
                 this.velocity.x = 0;  
             }
 
+            // block
+            if(this.game.B){
+                this.state = 10;
+                this.velocity.x = 0;
+            }
+
           
             
             //Implementing gravity.
@@ -337,13 +366,28 @@ class ChunLi {
          }
 
         //updating
-        this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
-        this.y += this.velocity.y * TICK * PARAMS.CHUNLI;
-        this.updateBB();
-        this.collisions();
+      //  this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
+      //  this.y += this.velocity.y * TICK * PARAMS.CHUNLI;
+      //  this.updateBB();
+      //  this.collisions();
+
+      //updating
+      this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
+      this.y += this.velocity.y * TICK * PARAMS.CHUNLI;
+      if(this.state === 10){
+          this.cX = this.x + this.block[this.animations[10][0].currentFrame()].w / 2 * PARAMS.CHUNLI;
+          this.cY = this.y + this.block[this.animations[10][0].currentFrame()].h / 2 * PARAMS.CHUNLI;
+      } else {
+          this.cX = this.x + this.walk[this.animations[1][0].currentFrame()].w / 2 * PARAMS.CHUNLI;
+          this.cY = this.y + this.walk[this.animations[1][0].currentFrame()].h / 2 * PARAMS.CHUNLI; 
+      }
+      this.updateBB();
+      this.collisions();
         
 
     };
+
+      
 
     collisions(){
         //collisions
