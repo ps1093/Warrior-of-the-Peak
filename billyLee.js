@@ -12,6 +12,7 @@ class BillyLee {
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
+        this.block = false;
 
         //For the Health Bar
         this.maxHitPoints  = 100;
@@ -25,7 +26,7 @@ class BillyLee {
         this.cX = 0, this.xY = 0;
 
         //Only for block
-        this.STATE = {
+     /*   this.STATE = {
             BLOCK: 10
         };
 
@@ -33,7 +34,7 @@ class BillyLee {
         this.FACING = {
             RIGHT:  0,
             LEFT: 1
-        };
+        }; */
   
   
         // spritesheet
@@ -95,7 +96,7 @@ class BillyLee {
         this.die = [{x: 250, y: 153, w: 30, h: 42}, {x: 300, y: 161, w: 36, h: 34}, {x: 350, y: 166, w: 47, h: 30}, {x: 400, y: 167, w: 48, h: 30}];
 
         // block
-        this.block = [{x: 166, y:778, w: 17, h: 54}];
+        this.blocked = [{x: 166, y:778, w: 17, h: 54}];
   
         // player animations
         this.animations = [];
@@ -131,13 +132,13 @@ class BillyLee {
         this.animations[8][1] = new Animator2(this.spritesheet, this.jump, 2, .5, false, true);
         this.animations[9][0] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .15, false, true);
-        this.animations[10][0] = new Animator2(this.spritesheet, this.block, 1, 1, false, true);
-        this.animations[10][1] = new Animator2(this.spritesheet, this.block, 1, 1, false, true);
+        this.animations[10][0] = new Animator2(this.spritesheet, this.blocked, 1, 1, false, true);
+        this.animations[10][1] = new Animator2(this.spritesheet, this.blocked, 1, 1, false, true);
 
-        this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
+      /*  this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
             = new Animator2(this.spritesheet, this.block, 1, 1, false, true);
         this.animations[this.STATE.BLOCK][this.FACING.LEFT]
-            = new Animator2(this.spritesheet, this.block, 1, 1, false, true);
+            = new Animator2(this.spritesheet, this.block, 1, 1, false, true); */
 
         this.deadScene = new Animator2(this.spritesheet, this.die, 4, 1, false, true);
         
@@ -285,7 +286,7 @@ class BillyLee {
         } else if (this.state === 9) {
             this.BB = new BoundingBox(this.x, this.y, this.duck[this.animations[9][0].currentFrame()].w * PARAMS.BL, this.duck[this.animations[9][0].currentFrame()].h * PARAMS.BL);
         }  else if (this.state === 10) {
-            this.BB = new BoundingBox(this.x, this.y, this.block[this.animations[10][0].currentFrame()].w * PARAMS.BL, this.block[this.animations[10][0].currentFrame()].h * PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.blocked[this.animations[10][0].currentFrame()].w * PARAMS.BL, this.blocked[this.animations[10][0].currentFrame()].h * PARAMS.BL);
         }
     } else {
             if (this.state === 0){
@@ -309,7 +310,7 @@ class BillyLee {
         } else if (this.state === 9) {
             this.BB = new BoundingBox(this.x, this.y, this.duck[this.animations[9][1].currentFrame()].w * PARAMS.BL, this.duck[this.animations[9][1].currentFrame()].h * PARAMS.BL);
         } else if (this.state === 10){
-            this.BB = new BoundingBox(this.x, this.y, this.block[this.animations[10][1].currentFrame()].w * PARAMS.BL, this.block[this.animations[10][1].currentFrame()].h * PARAMS.BL);
+            this.BB = new BoundingBox(this.x, this.y, this.blocked[this.animations[10][1].currentFrame()].w * PARAMS.BL, this.blocked[this.animations[10][1].currentFrame()].h * PARAMS.BL);
         }
     }
     
@@ -363,6 +364,7 @@ class BillyLee {
         const JUMPING = 400;
         const STOP_FALL = 400;
         const JUMP_KICK = 50;
+        this.block = false;
 
         // ground physics
         if (this.state != 8){
@@ -414,6 +416,7 @@ class BillyLee {
             if(this.game.B){
                 this.state = 10;
                 this.velocity.x = 0;
+                this.block = true;
             }
 
             //Implementing gravity.
@@ -474,8 +477,8 @@ class BillyLee {
         this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
         this.y += this.velocity.y * TICK * PARAMS.CHUNLI;
         if(this.state === 10){
-            this.cX = this.x + this.block[this.animations[10][0].currentFrame()].w / 2 * PARAMS.BL;
-            this.cY = this.y + this.block[this.animations[10][0].currentFrame()].h / 2 * PARAMS.BL;
+            this.cX = this.x + this.blocked[this.animations[10][0].currentFrame()].w / 2 * PARAMS.BL;
+            this.cY = this.y + this.blocked[this.animations[10][0].currentFrame()].h / 2 * PARAMS.BL;
         } else {
             this.cX = this.x + this.walk[this.animations[1][0].currentFrame()].w / 2 * PARAMS.BL;
             this.cY = this.y + this.walk[this.animations[1][0].currentFrame()].h / 2 * PARAMS.BL; 
@@ -504,7 +507,7 @@ class BillyLee {
                             else if(that.state === 7) that.y = entity.BB.bottom - that.gHit[that.animations[7][0].currentFrame()].h * PARAMS.BL;  
                             else if(that.state === 8) that.y = entity.BB.bottom - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL; 
                             else if(that.state === 9) that.y = entity.BB.bottom - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.BL;
-                            else if(that.state === 10) that.y = entity.BB.bottom - that.block[that.animations[10][0].currentFrame()].h * PARAMS.BL;
+                            else if(that.state === 10) that.y = entity.BB.bottom - that.blocked[that.animations[10][0].currentFrame()].h * PARAMS.BL;
                             if(that.state === 8) that.state = 0;           
                             that.velocity.y = 0;
                             that.updateBB();                        
@@ -523,7 +526,7 @@ class BillyLee {
                             else if(that.state === 7) that.y = entity.BB.top - that.gHit[that.animations[7][0].currentFrame()].h * PARAMS.BL;  
                             else if(that.state === 8) that.y = entity.BB.top - that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL; 
                             else if(that.state === 9) that.y = entity.BB.top - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.BL;
-                            else if(that.state === 10) that.y = entity.BB.top - that.block[that.animations[10][0].currentFrame()].h * PARAMS.BL;
+                            else if(that.state === 10) that.y = entity.BB.top - that.blocked[that.animations[10][0].currentFrame()].h * PARAMS.BL;
                         // if(that.state === 8) that.state = 0;           
                             that.velocity.y = 0;
                             that.updateBB();                         
