@@ -281,7 +281,6 @@ class ChunLi {
                 this.velocity.x = 0;
             }
 
-          
             
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
