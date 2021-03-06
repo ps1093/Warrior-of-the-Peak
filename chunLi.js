@@ -12,11 +12,7 @@ class ChunLi {
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
-<<<<<<< HEAD
         this.block = false;
-=======
-        
->>>>>>> 60d4079f5c8bb04e8874591e67fd4f892a8c3300
 
         //For the Health Bar
         this.maxHitPoints  = 100;
@@ -30,7 +26,7 @@ class ChunLi {
         this.cX = 0, this.xY = 0;
 
         //Only for block
-        this.STATE = {
+     /*   this.STATE = {
             BLOCK: 10
         };
 
@@ -38,7 +34,7 @@ class ChunLi {
         this.FACING = {
             RIGHT:  0,
             LEFT: 1
-        };
+        }; */
 
 
         // spritesheet
@@ -116,7 +112,7 @@ class ChunLi {
 
         // block
         // facing right
-        this.block = [{x: 0, y: 481, w: 49, h: 75}, {x: 57, y: 496, w: 45, h: 60}];
+        this.blocked = [{x: 0, y: 481, w: 49, h: 75}, {x: 57, y: 496, w: 45, h: 60}];
 
         
         // player animations
@@ -156,14 +152,14 @@ class ChunLi {
         this.animations[8][1] = new Animator2(this.spritesheet, this.gHit, 2, .1, false, true);
         this.animations[9][0] = new Animator2(this.spritesheet, this.duck, 2, .2, false, true);
         this.animations[9][1] = new Animator2(this.spritesheet, this.duck, 2, .2, false, true);
-        this.animations[10][0] = new Animator2(this.spritesheet, this.block, 2, 1, false, true);
-        this.animations[10][1] = new Animator2(this.spritesheet, this.block, 2, 1, false, true);
+        this.animations[10][0] = new Animator2(this.spritesheet, this.blocked, 2, 1, false, true);
+        this.animations[10][1] = new Animator2(this.spritesheet, this.blocked, 2, 1, false, true);
         this.deadScene = new Animator2(this.spritesheet, this.die, 3, 1, false, true);
 
-        this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
+      /*  this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, this.block, 2, 1, false, true);
         this.animations[this.STATE.BLOCK][this.FACING.LEFT]
-            = new Animator2(this.spritesheet, this.block, 2, .1, false, true);
+            = new Animator2(this.spritesheet, this.block, 2, 1, false, true); */
             
     };
 
@@ -194,7 +190,7 @@ class ChunLi {
             } else if (this.state === 9) {
                 this.BB = new BoundingBox(this.x, this.y, this.duck[this.animations[9][0].currentFrame()].w * PARAMS.CHUNLI, this.duck[this.animations[9][0].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 10) {
-                this.BB = new BoundingBox(this.x, this.y, this.block[this.animations[10][0].currentFrame()].w * PARAMS.CHUNLI, this.block[this.animations[10][0].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.blocked[this.animations[10][0].currentFrame()].w * PARAMS.CHUNLI, this.blocked[this.animations[10][0].currentFrame()].h * PARAMS.CHUNLI);
             } 
         } else {
                 if (this.state === 0){
@@ -218,7 +214,7 @@ class ChunLi {
             } else if (this.state === 9) {
                 this.BB = new BoundingBox(this.x, this.y, this.duck[this.animations[9][1].currentFrame()].w * PARAMS.CHUNLI, this.duck[this.animations[9][1].currentFrame()].h * PARAMS.CHUNLI);
             } else if (this.state === 10) {
-                this.BB = new BoundingBox(this.x, this.y, this.block[this.animations[10][1].currentFrame()].w * PARAMS.CHUNLI, this.block[this.animations[10][1].currentFrame()].h * PARAMS.CHUNLI);
+                this.BB = new BoundingBox(this.x, this.y, this.blocked[this.animations[10][1].currentFrame()].w * PARAMS.CHUNLI, this.blocked[this.animations[10][1].currentFrame()].h * PARAMS.CHUNLI);
             } 
         }
         
@@ -243,6 +239,7 @@ class ChunLi {
         const STOP_FALL = 400;
         const JUMP_KICK = 100;
         const BIRD_KICK = 50;
+        this.block = false;
        
         //Ground Physics
         if(this.state !== 2){
@@ -283,6 +280,7 @@ class ChunLi {
             if(this.game.B){
                 this.state = 10;
                 this.velocity.x = 0;
+                this.block = true;
             }
 
           
@@ -380,8 +378,8 @@ class ChunLi {
       this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
       this.y += this.velocity.y * TICK * PARAMS.CHUNLI;
       if(this.state === 10){
-          this.cX = this.x + this.block[this.animations[10][0].currentFrame()].w / 2 * PARAMS.CHUNLI;
-          this.cY = this.y + this.block[this.animations[10][0].currentFrame()].h / 2 * PARAMS.CHUNLI;
+          this.cX = this.x + this.blocked[this.animations[10][1].currentFrame()].w / 2 * PARAMS.CHUNLI;
+          this.cY = this.y + this.blocked[this.animations[10][0].currentFrame()].h / 2 * PARAMS.CHUNLI;
       } else {
           this.cX = this.x + this.walk[this.animations[1][0].currentFrame()].w / 2 * PARAMS.CHUNLI;
           this.cY = this.y + this.walk[this.animations[1][0].currentFrame()].h / 2 * PARAMS.CHUNLI; 
@@ -413,7 +411,7 @@ class ChunLi {
                             else if(that.state === 7) that.y = entity.BB.bottom - that.bKick[that.animations[7][0].currentFrame()].h * PARAMS.CHUNLI;  
                             else if(that.state === 8) that.y = entity.BB.bottom - that.gHit[that.animations[8][0].currentFrame()].h * PARAMS.CHUNLI; 
                             else if(that.state === 9) that.y = entity.BB.bottom - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 10) that.y = entity.BB.bottom  - that.block[that.animations[10][0].currentFrame()].h * PARAMS.CHUNLI;
+                            else if(that.state === 10) that.y = entity.BB.bottom  - that.blocked[that.animations[10][0].currentFrame()].h * PARAMS.CHUNLI;
                             if(that.state === 2) that.state = 0;  
                             that.velocity.y = 0;
                             that.updateBB();   
@@ -433,7 +431,7 @@ class ChunLi {
                             else if(that.state === 7) that.y = entity.BB.top - that.bKick[that.animations[7][0].currentFrame()].h * PARAMS.CHUNLI;  
                             else if(that.state === 8) that.y = entity.BB.top - that.gHit[that.animations[8][0].currentFrame()].h * PARAMS.CHUNLI; 
                             else if(that.state === 9) that.y = entity.BB.top - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.CHUNLI;
-                            else if(that.state === 10) that.y = entity.BB.top  - that.block[that.animations[10][0].currentFrame()].h * PARAMS.CHUNLI;
+                            else if(that.state === 10) that.y = entity.BB.top  - that.blocked[that.animations[10][0].currentFrame()].h * PARAMS.CHUNLI;
                             if(that.state === 2) that.state = 0;    
                             that.velocity.y = 0;
                             that.updateBB();                         
@@ -464,7 +462,7 @@ class ChunLi {
                                 else if(that.state === 7) that.x = entity.BB.right - that.bKick[that.animations[7][0].currentFrame()].w * PARAMS.CHUNLI;  
                                 else if(that.state === 8) that.x = entity.BB.right - that.gHit[that.animations[8][0].currentFrame()].w * PARAMS.CHUNLI; 
                                 else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.CHUNLI;
-                                else if(that.state === 10) that.x = entity.BB.right  - that.block[that.animations[10][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 10) that.x = entity.BB.right  - that.blocked[that.animations[10][0].currentFrame()].w * PARAMS.CHUNLI;
                             
                           //  if(that.state === 2) that.state = 0;    
                             that.velocity.x = 0;
@@ -531,7 +529,7 @@ class ChunLi {
                                 else if(that.state === 7) that.x = entity.BB.right - that.bKick[that.animations[7][0].currentFrame()].w * PARAMS.CHUNLI;  
                                 else if(that.state === 8) that.x = entity.BB.right - that.gHit[that.animations[8][0].currentFrame()].w * PARAMS.CHUNLI; 
                                 else if(that.state === 9) that.x = entity.BB.right - that.duck[that.animations[9][0].currentFrame()].w * PARAMS.CHUNLI;
-                                else if(that.state === 10) that.x = entity.BB.right  - that.block[that.animations[10][0].currentFrame()].w * PARAMS.CHUNLI;
+                                else if(that.state === 10) that.x = entity.BB.right  - that.blocked[that.animations[10][0].currentFrame()].w * PARAMS.CHUNLI;
                                // if(that.state === 2) that.x = entity.BB.right - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI;
                                 that.velocity.y = 0;
                                 that.updateBB();
