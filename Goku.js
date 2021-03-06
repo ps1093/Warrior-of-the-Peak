@@ -9,6 +9,8 @@ class Goku{
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
+        this.blockElapsed = 0;
+        this.coolDown = 3;
         this.block = false;
 
         //This is the falling acceleration for gravity.
@@ -228,8 +230,8 @@ class Goku{
                 this.blockElapsed += TICK;
                 if(this.coolDown >= 3){
                     if(this.blockElapsed < 3){
-                        this.block = true;
                         this.state = this.STATE.BLOCK;
+                        this.block = true;
                     } else {
                         this.blockElapsed = 0;
                         this.coolDown = 0;
