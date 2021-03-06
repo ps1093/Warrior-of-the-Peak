@@ -9,6 +9,7 @@ class Goku{
         this.CPU = false;
         this.deathCount = deathCount;
         this.elapsed = 0;
+        this.block = false;
 
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
@@ -31,7 +32,7 @@ class Goku{
             DUCK:  4,
             JUMP:  5,
             POWER: 6,
-            BLAST: 7,
+            BLOCK: 7,
             GHIT: 8,
             DEAD: 9
         };
@@ -105,11 +106,11 @@ class Goku{
          this.animations[this.STATE.JUMP][this.FACING.LEFT]
              = new Animator2(this.spritesheet2, GokuState.LJUMP, 1, .15, false, true);
 
-        //****** Blast Left & Right ******
-        this.animations[this.STATE.BLAST][this.FACING.RIGHT]
-            = new Animator2(this.spritesheet, GokuState.RBLAST, 2, .5, false, true);
-        this.animations[this.STATE.BLAST][this.FACING.LEFT]
-            = new Animator2(this.spritesheet2, GokuState.LBLAST, 2, .5, false, true);
+        //****** Block Left & Right ******
+        this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, GokuState.RBLOCK, 1, .25, false, true);
+        this.animations[this.STATE.BLOCK][this.FACING.LEFT]
+            = new Animator2(this.spritesheet2, GokuState.LBLOCK, 1, .25, false, true);
 
         //****** Power Left & Right ******
         this.animations[this.STATE.POWER][this.FACING.RIGHT]
@@ -161,10 +162,10 @@ class Goku{
             this.BB = new BoundingBox(this.x, this.y, GokuState.RPOWER[0].w * PARAMS.SCALE, GokuState.RPOWER[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.POWER && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.LPOWER[0].w * PARAMS.SCALE, GokuState.LPOWER[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.RIGHT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.RBLAST[0].w * PARAMS.SCALE, GokuState.RBLAST[0].h * PARAMS.SCALE);
-        } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.LBLAST[0].w * PARAMS.SCALE, GokuState.LBLAST[0].h * PARAMS.SCALE);
+        } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.RIGHT){
+            this.BB = new BoundingBox(this.x, this.y, GokuState.RBLOCK[0].w * PARAMS.SCALE, GokuState.RBLOCK[0].h * PARAMS.SCALE);
+        } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.LEFT){
+            this.BB = new BoundingBox(this.x, this.y, GokuState.LBLOCK[0].w * PARAMS.SCALE, GokuState.LBLOCK[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.GHIT && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RGETHIT[0].w * PARAMS.SCALE, GokuState.RGETHIT[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.GHIT && this.facing === this.FACING.LEFT){
@@ -180,6 +181,7 @@ class Goku{
         const DEAD_X = 50;
         const TICK = this.game.clockTick;
         this.coolDown += TICK;
+        this.block = false;
 
         //Ground Physics
         if(this.state !== this.STATE.JUMP && this.state !== this.STATE.DEAD){
@@ -189,7 +191,6 @@ class Goku{
                 this.state = this.STATE.WALK;
                 this.facing = this.FACING.RIGHT;
             } else if(this.game.A){
-
                 this.velocity.x = -WALK;
                 this.facing = this.FACING.LEFT;
                 this.state = this.STATE.WALK;
@@ -207,10 +208,6 @@ class Goku{
             } 
           
             //Power
-            if(this.game.E){
-                this.state = this.STATE.BLAST;
-            }
-            //Blast
              if(this.game.Q){
                 this.state = this.STATE.POWER;
             }
@@ -226,12 +223,12 @@ class Goku{
                 this.state = this.STATE.JUMP;
                 this.fallAcc = STOP_FALL;
              }  
-
             //Blocking
-            if(this.game.SHIFT){
+            if(this.game.E){
                 this.blockElapsed += TICK;
                 if(this.coolDown >= 3){
                     if(this.blockElapsed < 3){
+                        this.block = true;
                         this.state = this.STATE.BLOCK;
                     } else {
                         this.blockElapsed = 0;
