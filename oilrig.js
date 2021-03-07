@@ -83,7 +83,7 @@ class Propeller{
                     || entity instanceof ChunLi || entity instanceof Goku) && that.lastBB.bottom <= entity.BB.top){
                         entity.hitPoints -= 20;
                 }
-                if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU) && that.lastBB.bottom <= entity.BB.top){
+                if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.bottom <= entity.BB.top){
                     opponentHitPoints -= 20;
                 }
             }
