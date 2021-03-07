@@ -208,9 +208,11 @@ class Goku{
             } 
             //Power
              if(this.game.Q){
+            //  ASSET_MANAGER.playAsset("./audio/gokupower.mp3");
                 this.state = this.STATE.POWER;
                 this.hitPoints += 0.05;
-                ASSET_MANAGER.playAsset("./audio/gokupower.mp3");
+            } else{
+
             }
             //Punch, direction does not matter.
             if(this.game.C){
