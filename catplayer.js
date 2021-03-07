@@ -75,7 +75,7 @@ class catplayer{
             }
         
 
-      
+    
         
         this.animations[0][0] = new Animator (this.spritesheet, 60, 60, 40, 40, 2, 0.33, 10, false, true ); //idel facing right
         this.animations[1][0] = new Animator (this.spritesheet, 161, 8, 40, 40, 2, 0.33, 10, false, true ); //walking right
@@ -99,20 +99,23 @@ class catplayer{
     };
 
     updateBB(){
+        /*Just adjust update bounding boxes so that it is just around the entire cat */
         this.lastBB = this.BB;
-        if(this.state == 0){
+        if(this.state === 0){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
-        }else if(this.state == 1){
+        }else if(this.state === 1 && this.facing === 0){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
-        } else if(this.state == 4 && this.facing == 0){
+        } else if(this.state === 1 && this.facing === 1){
+            this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
+        } else if(this.state === 4 && this.facing === 0){
             this.BB = new BoundingBox(this.x, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
-        } else if(this.state == 4 && this.facing == 1){
-            this.BB = new BoundingBox(this.x+this.attackPunchWidth, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
-        } else if(this.state == 5 && this.facing == 0){
+        } else if(this.state === 4 && this.facing === 1){
+            this.BB = new BoundingBox(this.x/*+this.attackPunchWidth*/, this.y, this.attackPunchWidth * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
+        } else if(this.state === 5 && this.facing === 0){
             this.BB = new BoundingBox(this.x, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
-        } else if(this.state == 5 && this.facing == 1){
-            this.BB = new BoundingBox(this.x + this.attackKickWidth, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
-        } else if(this.state == 3){
+        } else if(this.state === 5 && this.facing === 1){
+            this.BB = new BoundingBox(this.x/* + this.attackKickWidth*/, this.y, this.attackKickWidth * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
+        } else if(this.state === 3){
             this.BB = new BoundingBox(this.x, this.y, this.width1 * PARAMS.SCALE, (this.height2 * PARAMS.SCALE));
         } else { 
             this.BB = new BoundingBox(this.x, this.y, this.width2 * PARAMS.SCALE, (this.height1 * PARAMS.SCALE));
@@ -124,12 +127,12 @@ class catplayer{
         const FALL_WALK = 1;
         const JUMPING = 500;
         const STOP_FALL = 400;
-        const STOP_FALL_A = 90;
+        //const STOP_FALL_A = 90;
         const TICK = this.game.clockTick;
         const KICKING = 100;
         this.block = false;
 
-        if(this.state < 6 && this.state != 7){
+        if(this.state !== 6 && this.state !== 7){
             //right
             if(this.game.D){
                 this.velocity.x = WALK;
@@ -155,7 +158,7 @@ class catplayer{
 
             //punch
             if(this.game.E){
-                if(this.state == 0){
+                if(this.state === 0){
                 this.state = 4;
                 
                 }else{
@@ -165,7 +168,7 @@ class catplayer{
             }
                 //kick
             if(this.game.R){
-                if(this.state == 0){
+                if(this.state === 0){
                 this.state = 5;
                 }else{
                     this.state = 5;
@@ -174,7 +177,7 @@ class catplayer{
             }
 
             //gravity
-            this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
+            this.velocity.y += this.fallAcc * TICK; /* PARAMS.SCALE*/
 
             //jump
             if(this.game.W){
@@ -185,7 +188,7 @@ class catplayer{
 
            
             //air physics
-        } else if(this.state == 6 && this.state != 7){
+        } else if(this.state === 6 && this.state !== 7){
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
 
             //horizontal air physics
@@ -213,8 +216,8 @@ class catplayer{
                     this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
                 }
             } 
-         }
-         if(this.state === 7){
+        }
+        if(this.state === 7){
             if(this.roundCount <= 3 && this.deathCount <= 3){
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
@@ -222,7 +225,7 @@ class catplayer{
                     this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
                 }
             } 
-         }
+        }
 
         //updating 
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
@@ -234,18 +237,16 @@ class catplayer{
             this.cX = (this.x + this.width1 ) / 3.8 * PARAMS.SCALE;
             this.cY = (this.y + this.height1) / 3.8 * PARAMS.SCALE;
         }
-        
-     
         this.updateBB();
         this.collisions();
     
     };
-     
+    
     collisions(){
         //Collisions 
         let that = this;
         this.game.entities.forEach(function (entity){
-            if (entity.BB && that.BB.collide(entity.BB)){
+            if (that !== entity && entity.BB && that.BB.collide(entity.BB)){
                 //Ground Collisions
                 if(that.velocity.y > 0){
                     if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && that.lastBB.bottom >=entity.BB.bottom){
@@ -287,12 +288,14 @@ class catplayer{
                         that.velocity.x = 0;
                         that.updateBB();
                     }
-                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.right >= entity.BB.left){
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
+                        entity instanceof BillyLeeCPU) && that.lastBB.right >= entity.BB.left){
                         if(that.state === 1) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
                         if(that.state === 5) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
                         if(that.state === 4) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
                     }
-                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU) && that.lastBB.left <= entity.BB.right){
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
+                        entity instanceof BillyLeeCPU) && that.lastBB.left <= entity.BB.right){
                         if(that.state === 1) that.x = entity.BB.right;
                         if(that.state === 5) that.x = entity.BB.right;
                         if(that.state === 4) that.x = entity.BB.right;
@@ -303,22 +306,20 @@ class catplayer{
                 if(that.velocity.y < 0){
                     //Jumping logic - Level2 - Platform
                     if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
-                        if(that.state == 6) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
-                        else if(that.state == 5) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                        if(that.state === 6) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                        else if(that.state === 5) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
                         that.velocity.y = 0;
                         that.updateBB();
                     }
                     //Jumping & Kicking to Right - Level2 - Level1
-                    if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.right >= entity.BB.right){
-                        if(that.state == 6) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE);
-                         that.velocity.y =0;
-                         that.updateBB();
+                    if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
+                        if(that.state === 6) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE);
+                        that.updateBB();
                     }
                     //Jumping & Kicking to Left - Level2 - Level1
-                    if((entity instanceof BackScene || entity instanceof BackGround) && that.lastBB.left <= entity.BB.left){
-                        if(that.state == 6) that.x = entity.BB.left;
-                         that.velocity.y = 0;
-                         that.updateBB();
+                    if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
+                        if(that.state === 6) that.x = entity.BB.left;
+                        that.updateBB();
                     }
 
                     if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
@@ -347,12 +348,6 @@ class catplayer{
                 ctx.arc(this.cX , this.cY, this.VisRadius, 0, Math.PI * 2, false);
                 ctx.stroke();
                 ctx.closePath();
-                //Attack Circle
-                ctx.beginPath();
-                ctx.strokeStyle = "White";
-                ctx.arc(this.cX, this.cY, this.AtkRadius, 0, Math.PI * 2, false);
-                ctx.stroke();
-                ctx.closePath();
                 ctx.strokeStyle = "Red";
                 ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
             };
@@ -374,6 +369,4 @@ class catplayer{
             }
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx ,this.x,this.y, 3);
     };
-
-
 };

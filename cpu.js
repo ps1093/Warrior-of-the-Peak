@@ -180,12 +180,38 @@ class KaratePlayerCPU extends KaratePlayer{
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
-        this.cX = this.x + KPstate.RWALK[0].w / 2 * PARAMS.SCALE;
-        this.cY = this.y + KPstate.RWALK[0].h / 2 * PARAMS.SCALE;
+        this.updateCircleCPU();
         opponentcX = this.cX;
         opponentcY = this.cY;
         this.updateBB();
         this.collisionsCPU();
+    };
+    updateCircleCPU(){
+        if(this.state === this.STATE.IDLE){
+            this.cX = this.x + KPstate.RIDLE[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RIDLE[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === this.STATE.WALK){
+            this.cX = this.x + KPstate.RWALK[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RWALK[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === this.STATE.ROLL){
+            this.cX = this.x + KPstate.RROLL[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RROLL[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === this.STATE.PUNCH){
+            this.cX = this.x + KPstate.RPUNCH[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RPUNCH[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === this.STATE.KICK){
+            this.cX = this.x + KPstate.RKICK[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RKICK[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === this.STATE.JUMP){
+            this.cX = this.x + KPstate.RJUMP[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RJUMP[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === this.STATE.DUCK){
+            this.cX = this.x + KPstate.RDUCK[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RDUCK[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === this.STATE.BLOCK){
+            this.cX = this.x + KPstate.RBLOCK[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RBLOCK[0].h / 2 * PARAMS.SCALE;
+        }
     };
     collisionsCPU(){
         //collisions
@@ -247,17 +273,18 @@ class KaratePlayerCPU extends KaratePlayer{
                         }
                         if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
                             || entity instanceof Goku) && that.lastBB.right >= entity.BB.left){
-                            if(that.state === that.STATE.WALK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
-                            if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
-                            if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
-                            if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
+                                //console.log("Entered collision on side");
+                                if(that.state === that.STATE.WALK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
+                                if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
+                                if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
+                                if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
                         }
                         if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
                             || entity instanceof Goku) && that.lastBB.left <= entity.BB.right){
-                            if(that.state === that.STATE.WALK) that.x = entity.BB.right;
-                            if(that.state === that.STATE.ROLL) that.x = entity.BB.right;
-                            if(that.state === that.STATE.KICK) that.x = entity.BB.right;
-                            if(that.state === that.STATE.PUNCH) that.x = entity.BB.right;
+                                if(that.state === that.STATE.WALK) that.x = entity.BB.right;
+                                if(that.state === that.STATE.ROLL) that.x = entity.BB.right;
+                                if(that.state === that.STATE.KICK) that.x = entity.BB.right;
+                                if(that.state === that.STATE.PUNCH) that.x = entity.BB.right;
                         }
                     }
                     //Air Collisions
@@ -348,7 +375,8 @@ class CatPlayerCPU extends catplayer{
         this.CPUSTATE ={
             ATTACK: false,
             WALKING: false,
-            DEATH: false
+            DEATH: false,
+            AIR: true
         };
         Object.assign(this,{game,x,y, theName});
         this.other = player;
@@ -395,14 +423,14 @@ class CatPlayerCPU extends catplayer{
         }
 
         //Ground Physics
-        if(this.state !== 6  && this.CPUSTATE.DEATH !== true){
+        if(this.CPUSTATE.AIR !== true && this.CPUSTATE.DEATH !== true){
             this.midpoint = this.x + (KPstate.RIDLE[0].w / 2 * PARAMS.SCALE);
             this.otherMidpoint = this.other.cX;
             this.position = this.otherMidpoint - this.midpoint;
             //Have to check what side of the map he is on. 
 
             this.jumpDist = Math.abs(this.other.y - this.y);
-            console.log("Position " + Math.abs(this.position));
+            //console.log("Position " + Math.abs(this.position));
             //This takes what side he is on and makes him go after opponent.
             if(this.position < 0){
                 this.facing = 1;
@@ -421,13 +449,14 @@ class CatPlayerCPU extends catplayer{
         //Implementing gravity.
         this.velocity.y += this.fallAcc * TICK;
         if(this.jumpDist > 100 && this.VisCircle()){
+            this.CPUSTATE.AIR = true;
             this.velocity.y = -JUMPING;
             this.state = 6;
             this.fallAcc = STOP_FALL;
             this.CPUSTATE.WALK =false;
         }
         //air physics     
-        } else if(this.state === 6 && this.CPUSTATE.DEATH !== true) { 
+        } else if(this.CPUSTATE.AIR === true && this.CPUSTATE.DEATH !== true) { 
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
             //horizontal air physics
             if(this.position < 0){
@@ -493,7 +522,6 @@ class CatPlayerCPU extends catplayer{
                                             that.other.hitPoints -= .04;
                                         }
                                     }
-                                
                             }
                     }
                 }
@@ -502,12 +530,141 @@ class CatPlayerCPU extends catplayer{
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         //If problem come back here
-        this.cX = ((this.x + this.other.width1) / 3.8) * PARAMS.SCALE;
-        this.cY = ((this.y + this.other.height2) / 3.8) * PARAMS.SCALE;
+        // this.cX = ((this.x + this.other.width1) / 3.8) * PARAMS.SCALE;
+        // this.cY = ((this.y + this.other.height2) / 3.8) * PARAMS.SCALE;
+        this.updateCircleCPU();
         opponentcX = this.cX;
         opponentcY = this.cY;
+        // console.log("Vis Circle x: " + this.cX + "Vis cirlce Y: " + this.cY);
         this.updateBB();
-        this.collisions();
+        this.collisionsCPU();
+    };
+    updateCircleCPU(){
+        if(this.state === 0){
+            this.cX = this.x + KPstate.RIDLE[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RIDLE[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === 1){
+            this.cX = this.x + KPstate.RWALK[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RWALK[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === 4){
+            this.cX = this.x + KPstate.RPUNCH[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RPUNCH[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === 5){
+            this.cX = this.x + KPstate.RKICK[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RKICK[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === 6){
+            this.cX = this.x + KPstate.RJUMP[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RJUMP[0].h / 2 * PARAMS.SCALE; 
+        }else if(this.state === 3){
+            this.cX = this.x + KPstate.RBLOCK[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + KPstate.RBLOCK[0].h / 2 * PARAMS.SCALE;
+        }
+    };
+    collisionsCPU(){
+        //Collisions 
+        let that = this;
+        this.game.entities.forEach(function (entity){
+            if (that !== entity && entity.BB && that.BB.collide(entity.BB)){
+                //Ground Collisions
+                if(that.velocity.y > 0){
+                    if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && that.lastBB.bottom >=entity.BB.bottom){
+                        console.log("Enter me falling on level ground");
+                        if(that.CPUSTATE.AIR === true){
+                            that.state = 0; 
+                            that.CPUSTATE.AIR = false;
+                        } 
+                        if(that.state == 0) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.colAdj1);
+                        else if(that.state == 1) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.walkAdjust);
+                        else if(that.state == 3) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.blockAdjust);
+                        else if(that.state == 4) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.punchAdjust);
+                        else if(that.state = 5) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.kickAdjust);                           
+                        that.velocity.y = 0;
+                        that.updateBB(); 
+                    }
+
+                    //Falling logic for Platform Level 2 and Properller platform Level 3
+                    if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
+                        console.log("Enter me falling on platforms");
+                        if(that.CPUSTATE.AIR === true){
+                            that.state = 0; 
+                            that.CPUSTATE.AIR = false;
+                        } 
+                        if(that.state === 0) that.y = entity.BB.top - ((that.height2 - 1) * PARAMS.SCALE);
+                        else if(that.state === 1) that.y = entity.BB.top - (that.height2 * PARAMS.SCALE);
+                        else if(that.state === 3) that.y = entity.BB.top - ((that.height2 - 3) * PARAMS.SCALE);
+                        else if(that.state === 4) that.y = entity.BB.top - ((that.height2 - 3) * PARAMS.SCALE);  
+                        else if(that.state === 5) that.y = entity.BB.top - ((that.height2 - 3) * PARAMS.SCALE);             
+                        that.velocity.y = 0;
+                        that.updateBB();                         
+                    }
+                    //Walking to Right Logic - Level1 - Level2
+                    if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky ) && that.BB.right >= entity.BB.right){
+                        console.log("Enter me walk to right");
+                        if(that.state == 1) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        else if(that.state == 4) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        else if(that.state == 6) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE); //+5
+                        else if(that.state == 5) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        that.velocity.x = 0;
+                        that.updateBB();
+                    }
+                    //Walking to Left Logic - Level1 - Level2
+                    if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
+                        console.log("Enter me walk to left");
+                        if(that.state == 1) that.x = entity.BB.left; 
+                        else if(that.state == 4) that.x = entity.BB.left;
+                        else if(that.state == 5) that.x = entity.BB.left;
+                        that.velocity.x = 0;
+                        that.updateBB();
+                    }
+                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
+                        || entity instanceof Goku) && that.lastBB.right >= entity.BB.left){
+                            console.log("is this happening?");
+                            if(that.state === 0) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                            if(that.state === 1) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                            if(that.state === 5) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                            if(that.state === 4) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
+                    }
+                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
+                        || entity instanceof Goku) && that.lastBB.left <= entity.BB.right){
+                            console.log("Am i colliding with right side of player.");
+                            if(that.state === 0) that.x = entity.BB.right;
+                            if(that.state === 1) that.x = entity.BB.right;
+                            if(that.state === 5) that.x = entity.BB.right;
+                            if(that.state === 4) that.x = entity.BB.right;
+                    }
+                }
+
+                //AirCollisons
+                if(that.velocity.y < 0){
+                    console.log("am i entering air space");
+                    //Jumping logic - Level2 - Platform
+                    if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
+                        if(that.CPUSTATE.AIR) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                        else if(that.state == 5) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
+                        that.velocity.y = 0;
+                        that.updateBB();
+                    }
+                    //Jumping & Kicking to Right - Level2 - Level1
+                    if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
+                        if(that.CPUSTATE.AIR) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE);
+                        that.updateBB();
+                    }
+                    //Jumping & Kicking to Left - Level2 - Level1
+                    if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
+                        if(that.CPUSTATE.AIR) that.x = entity.BB.left;
+                        that.updateBB();
+                    }
+
+                    if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
+                        if(that.CPUSTATE.AIR) that.y = entity.BB.bottom + (that.height2 * PARAMS.SCALE);
+                        else if(that.state === 5) that.y = entity.BB.bottom + (that.height2 * PARAMS.SCALE);
+                        that.hitPoints -= 2;
+                        that.velocity.y = 0;
+                        that.updateBB(); 
+                    }
+                }
+            }
+        });
     };
     draw(ctx){
         if(PARAMS.DEBUG){
@@ -737,9 +894,9 @@ class ChunLiCPU extends ChunLi{
         //collisions
         var that = this;
         this.game.entities.forEach(function (entity) {
-                if (entity.BB && that.BB.collide(entity.BB)) {
+                if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     //Ground Collisions
-                     if (that.velocity.y > 0) {
+                    if (that.velocity.y > 0) {
                         //Falling Logic - Level1 - Level2 - Ground
                         if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && (that.lastBB.bottom) >= entity.BB.bottom){
                             if(that.state === 0) that.y = entity.BB.bottom - that.idle[that.animations[0][0].currentFrame()].h * PARAMS.CHUNLI;
@@ -756,11 +913,10 @@ class ChunLiCPU extends ChunLi{
                             if(that.state === 2) that.state = 0;  
                             that.velocity.y = 0;
                             that.updateBB();   
-                                                 
                         }
 
                          //Falling Logic - Level2  - Platform
-                         if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
+                        if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
                           //  if(that.state === 2) that.state = 0;
                             if(that.state === 0) that.y = entity.BB.top - that.walk[that.animations[0][0].currentFrame()].h * PARAMS.CHUNLI;
                             else if(that.state === 1) that.y = entity.BB.top - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.CHUNLI;
@@ -1141,7 +1297,7 @@ class BillyLeeCPU extends BillyLee{
         //collisions
         var that = this;
         this.game.entities.forEach(function (entity) {
-                if (entity.BB && that.BB.collide(entity.BB)) {
+                if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     //Ground Collisions
                      if (that.velocity.y > 0) {
                         //Falling Logic - Level1 - Level2 - Ground

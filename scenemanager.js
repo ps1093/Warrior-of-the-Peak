@@ -531,9 +531,20 @@ class GameOver{
     constructor(game){
         Object.assign(this, {game});
         this.midpoint = 1024 / 2;
+        this.elapsed = 0;
 
     };
     update(){
+        this.elapsed += this.game.clockTick;
+        if(this.elapsed > 2){
+            this.clearEntities();
+            this.game.addEntity(new SceneManager(this.game));
+        }
+    };
+    clearEntities(){
+        this.game.entities.forEach(function (entity){
+            entity.removeFromWorld = true;
+        });
     };
     draw(ctx){
         ctx.fillStyle = "Black";
@@ -552,9 +563,21 @@ class Winner{
     constructor(game){
         Object.assign(this, {game});
         this.midpoint = 1024 / 2;
+        this.elapsed = 0;
 
     };
     update(){
+        this.elapsed += this.game.clockTick;
+        if(this.elapsed > 2){
+            this.clearEntities();
+            this.game.addEntity(new SceneManager(this.game));
+        }
+
+    };
+    clearEntities(){
+        this.game.entities.forEach(function (entity){
+            entity.removeFromWorld = true;
+        });
     };
     draw(ctx){
         ctx.fillStyle = "Black";
