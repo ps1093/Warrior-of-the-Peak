@@ -189,15 +189,15 @@ class Goku{
         if(this.state !== this.STATE.JUMP && this.state !== this.STATE.DEAD){
             //Walking
             if(this.game.D){
+                ASSET_MANAGER.playAsset("./audio/gokurun.mp3");
                 this.velocity.x = WALK;
                 this.state = this.STATE.WALK;
                 this.facing = this.FACING.RIGHT;
-                ASSET_MANAGER.playAsset("./audio/gokurun.mp3");
             } else if(this.game.A){
+                ASSET_MANAGER.playAsset("./audio/gokurun.mp3");
                 this.velocity.x = -WALK;
                 this.facing = this.FACING.LEFT;
                 this.state = this.STATE.WALK;
-                ASSET_MANAGER.playAsset("./audio/gokurun.mp3");
             } else {
                 this.velocity.x = 0;
                 this.state = this.STATE.IDLE;
