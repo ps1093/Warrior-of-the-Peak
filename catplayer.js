@@ -53,6 +53,7 @@ class catplayer{
         
         this.colAdj2 = 1;
         this.deathAdj = 20;
+        this.deathAdj2 = 50;
         
         this.state = 0; //idle =0, walking=1, running=2, block = 3, punch = 4, kick = 5, jump = 6, dead = 7.
         this.size = 0; // small = 0 and large = 1 after finish 
@@ -272,7 +273,8 @@ class catplayer{
                         else if(that.state === 3) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.blockAdjust);
                         else if(that.state === 4) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.punchAdjust);
                         else if(that.state === 5) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.kickAdjust);
-                        else if(that.state === 7) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.deathAdj);                          
+                        else if(that.state === 7 && that.facing === 1) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.deathAdj);      
+                        else if(that.state === 7 && that.facing === 0) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.deathAdj2);                  
                         that.velocity.y = 0;
                         that.updateBB(); 
                     }
@@ -291,32 +293,23 @@ class catplayer{
                     }
                     //Walking to Right Logic - Level1 - Level2
                     if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky ) && that.BB.right >= entity.BB.right){
-                        if(that.state == 1) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
-                        else if(that.state == 4) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
-                        else if(that.state == 6) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE); //+5
-                        else if(that.state == 5) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        if(that.state === 1) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        else if(that.state === 4) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        else if(that.state === 6) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE); //+5
+                        else if(that.state === 5) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        else if(that.state === 3) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
                         that.velocity.x = 0;
                         that.updateBB();
                     }
                     //Walking to Left Logic - Level1 - Level2
                     if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
-                        if(that.state == 1) that.x = entity.BB.left; 
-                        else if(that.state == 4) that.x = entity.BB.left;
-                        else if(that.state == 5) that.x = entity.BB.left;
+                        if(that.state === 1) that.x = entity.BB.left; 
+                        else if(that.state === 4) that.x = entity.BB.left;
+                        else if(that.state === 5) that.x = entity.BB.left;
+                        else if(that.state === 3) that.x = entity.BB.left;
+                        
                         that.velocity.x = 0;
                         that.updateBB();
-                    }
-                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                        entity instanceof BillyLeeCPU) && that.lastBB.right >= entity.BB.left){
-                        if(that.state === 1) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                        if(that.state === 5) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                        if(that.state === 4) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                    }
-                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                        entity instanceof BillyLeeCPU) && that.lastBB.left <= entity.BB.right){
-                        if(that.state === 1) that.x = entity.BB.right;
-                        if(that.state === 5) that.x = entity.BB.right;
-                        if(that.state === 4) that.x = entity.BB.right;
                     }
                 }
 
