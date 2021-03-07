@@ -1265,7 +1265,7 @@ class BillyLeeCPU extends BillyLee{
                         || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
                             if(that.CPUSTATE.WALKING === true) that.x = entity.BB.left - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.BL;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.state === 3) that.x = entity.BB.left - that.lPpunch[that.animations[3][0].currentFrame()].w * PARAMS.BL;
+                                if(that.state === 3) that.x = entity.BB.left - that.lPunch[that.animations[3][0].currentFrame()].w * PARAMS.BL;
                                 if(that.state === 5) that.x = entity.BB.left - that.kick[that.animations[5][0].currentFrame()].w * PARAMS.BL;
                             }    
                             that.CPUSTATE.ATTACK = true;
