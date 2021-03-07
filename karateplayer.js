@@ -282,7 +282,8 @@ class KaratePlayer{
         var that = this;
         this.game.entities.forEach(function (entity) {
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
-                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU)){
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
+                        entity instanceof BillyLeeCPU || entity instanceof GokuCPU)){
                             if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
                                 opponentHitPoints -= .04;
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
