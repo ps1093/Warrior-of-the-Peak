@@ -315,7 +315,7 @@ class Goku{
         this.game.entities.forEach(function (entity) {
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     //Ground Collisions
-                     if (that.velocity.y > 0) {
+                    if (that.velocity.y > 0) {
                         //Falling Logic - Level2  - Platform
                         if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
                             if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
