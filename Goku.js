@@ -356,8 +356,8 @@ class Goku{
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - GokuState.RDUCK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - GokuState.RPUNCH[0].h * PARAMS.SCALE;  
                             else if(that.state === that.STATE.KICK) that.y = entity.BB.top - GokuState.RKICK[0].h * PARAMS.SCALE;  
-                            else if(that.state === that.STATE.POWER) that.y = entity.BB.bottom - GokuState.RPOWER[0].h * PARAMS.SCALE;     
-                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.bottom - GokuState.RBLOCK[0].h * PARAMS.SCALE;           
+                            else if(that.state === that.STATE.POWER) that.y = entity.BB.top - GokuState.RPOWER[0].h * PARAMS.SCALE;     
+                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.top - GokuState.RBLOCK[0].h * PARAMS.SCALE;           
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }
