@@ -7,7 +7,7 @@
  * map, player, and CPU loads. 
  * Paras: Put Level one together and added his player.
  * Suk: Loaded his player into level 1.
- * Tyelr: Loaded his player into level 1.
+ * Tyler: Loaded his player into level 1.
  **/
 class SceneManager{
 	constructor(game){
@@ -244,7 +244,6 @@ class SceneManager{
 
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
-
         this.updateAudio();
 
         if(this.game.click){
@@ -254,27 +253,33 @@ class SceneManager{
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[0].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
-                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[0];  
+                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[0];
+                ASSET_MANAGER.pauseBackgroundMusic();
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[1].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[1]; 
+                ASSET_MANAGER.pauseBackgroundMusic();
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[2].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[2]; 
+                ASSET_MANAGER.pauseBackgroundMusic();
             } else if(((this.game.click.y >= 550-12) && (this.game.click.y <= 550 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[3].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[3]; 
+                ASSET_MANAGER.pauseBackgroundMusic();
             } else if(((this.game.click.y >= 600-12) && (this.game.click.y <= 600 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[4].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4]; 
+                ASSET_MANAGER.pauseBackgroundMusic();
             } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[4].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[5];
+                ASSET_MANAGER.playAsset("./music/gokutheme.mp3");
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[0].length * 12))){
@@ -531,9 +536,20 @@ class GameOver{
     constructor(game){
         Object.assign(this, {game});
         this.midpoint = 1024 / 2;
+        this.elapsed = 0;
 
     };
     update(){
+        this.elapsed += this.game.clockTick;
+        if(this.elapsed > 2){
+            this.clearEntities();
+            this.game.addEntity(new SceneManager(this.game));
+        }
+    };
+    clearEntities(){
+        this.game.entities.forEach(function (entity){
+            entity.removeFromWorld = true;
+        });
     };
     draw(ctx){
         ctx.fillStyle = "Black";
@@ -552,9 +568,21 @@ class Winner{
     constructor(game){
         Object.assign(this, {game});
         this.midpoint = 1024 / 2;
+        this.elapsed = 0;
 
     };
     update(){
+        this.elapsed += this.game.clockTick;
+        if(this.elapsed > 2){
+            this.clearEntities();
+            this.game.addEntity(new SceneManager(this.game));
+        }
+
+    };
+    clearEntities(){
+        this.game.entities.forEach(function (entity){
+            entity.removeFromWorld = true;
+        });
     };
     draw(ctx){
         ctx.fillStyle = "Black";
