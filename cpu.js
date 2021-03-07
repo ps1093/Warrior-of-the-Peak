@@ -605,6 +605,7 @@ class CatPlayerCPU extends catplayer{
                         else if(that.state === 4) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
                         else if(that.state === 6) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE); //+5
                         else if(that.state === 5) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        else if(that.state === 3) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
                         that.velocity.x = 0;
                         that.updateBB();
                     }
@@ -614,6 +615,7 @@ class CatPlayerCPU extends catplayer{
                         if(that.state === 1) that.x = entity.BB.left; 
                         else if(that.state === 4) that.x = entity.BB.left;
                         else if(that.state === 5) that.x = entity.BB.left;
+                        else if(that.state === 3) that.x = entity.BB.left;
                         that.velocity.x = 0;
                         that.updateBB();
                     }
@@ -1773,11 +1775,15 @@ class GokuCPU extends Goku{
                         //Jumping & Kicking to Right - Level2 - Level1
                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
                             if(that.CPUSTATE.AIR) that.x = (entity.BB.right - (GokuState.RJUMP[0].w * PARAMS.SCALE));
+                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right - (GokuState.RPUNCH[0].w * PARAMS.SCALE);
+                            else if(that.state === that.STATE.KICK) that.x = entity.BB.right - (GokuState.RKICK[0].w * PARAMS.SCALE);
                             that.updateBB();
                         }
                         //Jumping & Kicking to Left - Level2 - Level1
                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
                             if(that.CPUSTATE.AIR) that.x = entity.BB.left;
+                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.left;
+                            else if(that.state === that.STATE.KICK) that.x = entity.BB.left;
                             that.updateBB();
                         }
                         if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee

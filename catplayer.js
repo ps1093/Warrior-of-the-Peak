@@ -297,6 +297,7 @@ class catplayer{
                         else if(that.state === 4) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
                         else if(that.state === 6) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE); //+5
                         else if(that.state === 5) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        else if(that.state === 3) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
                         that.velocity.x = 0;
                         that.updateBB();
                     }
@@ -305,22 +306,11 @@ class catplayer{
                         if(that.state === 1) that.x = entity.BB.left; 
                         else if(that.state === 4) that.x = entity.BB.left;
                         else if(that.state === 5) that.x = entity.BB.left;
+                        else if(that.state === 3) that.x = entity.BB.left;
                         
                         that.velocity.x = 0;
                         that.updateBB();
                     }
-                    // if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                    //     entity instanceof BillyLeeCPU) && that.lastBB.right >= entity.BB.left){
-                    //     if(that.state === 1) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                    //     if(that.state === 5) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                    //     if(that.state === 4) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                    // }
-                    // if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                    //     entity instanceof BillyLeeCPU) && that.lastBB.left <= entity.BB.right){
-                    //     if(that.state === 1) that.x = entity.BB.right;
-                    //     if(that.state === 5) that.x = entity.BB.right;
-                    //     if(that.state === 4) that.x = entity.BB.right;
-                    // }
                 }
 
                 //AirCollisons
