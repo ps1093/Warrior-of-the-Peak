@@ -122,9 +122,10 @@ class KaratePlayerCPU extends KaratePlayer{
         if(this.CPUSTATE.DEATH === true){
             this.state = this.STATE.DEAD;
         }
-        if(this.other.dead === true){
+        if(this.other.hitPoints === 0){
             this.velocity.x = 0;
             this.state = this.STATE.IDLE;
+            this.CPUSTATE.ATTACK = false;
         }
 
         var that = this;
@@ -271,21 +272,21 @@ class KaratePlayerCPU extends KaratePlayer{
                             that.velocity.x = 0;
                             that.updateBB();
                         }
-                        if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
-                            || entity instanceof Goku) && that.lastBB.right >= entity.BB.left){
-                                //console.log("Entered collision on side");
-                                if(that.state === that.STATE.WALK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
-                                if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
-                                if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
-                                if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
-                        }
-                        if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
-                            || entity instanceof Goku) && that.lastBB.left <= entity.BB.right){
-                                if(that.state === that.STATE.WALK) that.x = entity.BB.right;
-                                if(that.state === that.STATE.ROLL) that.x = entity.BB.right;
-                                if(that.state === that.STATE.KICK) that.x = entity.BB.right;
-                                if(that.state === that.STATE.PUNCH) that.x = entity.BB.right;
-                        }
+                        // if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
+                        //     || entity instanceof Goku) && that.lastBB.right >= entity.BB.left){
+                        //         //console.log("Entered collision on side");
+                        //         if(that.state === that.STATE.WALK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
+                        //         if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
+                        //         if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
+                        //         if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
+                        // }
+                        // if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
+                        //     || entity instanceof Goku) && that.lastBB.left <= entity.BB.right){
+                        //         if(that.state === that.STATE.WALK) that.x = entity.BB.right;
+                        //         if(that.state === that.STATE.ROLL) that.x = entity.BB.right;
+                        //         if(that.state === that.STATE.KICK) that.x = entity.BB.right;
+                        //         if(that.state === that.STATE.PUNCH) that.x = entity.BB.right;
+                        // }
                     }
                     //Air Collisions
                     if(that.velocity.y < 0){
@@ -476,7 +477,7 @@ class CatPlayerCPU extends catplayer{
         if(this.CPUSTATE.DEATH === true){
             this.state = 7;
         }
-        if(this.other.dead === true){
+        if(this.other.hitPoints === 0){
             this.velocity.x = 0;
             this.state = 0;
         }
@@ -505,8 +506,9 @@ class CatPlayerCPU extends catplayer{
                     }
                     if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
                         || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
-                            if(that.CPUSTATE.WALKING === true) that.x = entity.BB.left - that.other.width1 * PARAMS.SCALE;
+                            if(that.state === 1)that.x = entity.BB.left - (19 * PARAMS.SCALE);
                             if(that.CPUSTATE.ATTACK){
+                                //console.log("Does cat player CPU enter this branch?");
                                 if(that.state === 5) that.x = entity.BB.left - that.other.width1 * PARAMS.SCALE;
                                 if(that.state === 4) that.x = entity.BB.left - that.other.width1 * PARAMS.SCALE;
                             }    
@@ -530,13 +532,9 @@ class CatPlayerCPU extends catplayer{
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
-        //If problem come back here
-        // this.cX = ((this.x + this.other.width1) / 3.8) * PARAMS.SCALE;
-        // this.cY = ((this.y + this.other.height2) / 3.8) * PARAMS.SCALE;
         this.updateCircleCPU();
         opponentcX = this.cX;
         opponentcY = this.cY;
-        // console.log("Vis Circle x: " + this.cX + "Vis cirlce Y: " + this.cY);
         this.updateBB();
         this.collisionsCPU();
     };
@@ -569,23 +567,25 @@ class CatPlayerCPU extends catplayer{
                 //Ground Collisions
                 if(that.velocity.y > 0){
                     if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && that.lastBB.bottom >=entity.BB.bottom){
-                        console.log("Enter me falling on level ground");
+                        
                         if(that.CPUSTATE.AIR === true){
                             that.state = 0; 
                             that.CPUSTATE.AIR = false;
                         } 
-                        if(that.state == 0) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.colAdj1);
-                        else if(that.state == 1) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.walkAdjust);
-                        else if(that.state == 3) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.blockAdjust);
-                        else if(that.state == 4) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.punchAdjust);
-                        else if(that.state = 5) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.kickAdjust);                           
+                        if(that.state === 0) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.colAdj1);
+                        else if(that.state === 1) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.walkAdjust);
+                        else if(that.state === 3) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.blockAdjust);
+                        else if(that.state === 4) that.y = entity.BB.bottom - (that.height2 * PARAMS.SCALE - that.punchAdjust);
+                        else if(that.state === 5) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.kickAdjust); 
+                        else if(that.state === 7 && that.facing === 1) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.deathAdj);      
+                        else if(that.state === 7 && that.facing === 0) that.y = entity.BB.bottom - (that.height1 * PARAMS.SCALE - that.deathAdj2);                           
                         that.velocity.y = 0;
                         that.updateBB(); 
                     }
 
                     //Falling logic for Platform Level 2 and Properller platform Level 3
                     if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
-                        console.log("Enter me falling on platforms");
+                        
                         if(that.CPUSTATE.AIR === true){
                             that.state = 0; 
                             that.CPUSTATE.AIR = false;
@@ -600,44 +600,27 @@ class CatPlayerCPU extends catplayer{
                     }
                     //Walking to Right Logic - Level1 - Level2
                     if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky ) && that.BB.right >= entity.BB.right){
-                        console.log("Enter me walk to right");
+                        
                         if(that.state == 1) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
-                        else if(that.state == 4) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
-                        else if(that.state == 6) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE); //+5
-                        else if(that.state == 5) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        else if(that.state === 4) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
+                        else if(that.state === 6) that.x = entity.BB.right - (that.width2 * PARAMS.SCALE); //+5
+                        else if(that.state === 5) that.x = entity.BB.right - (that.width1 * PARAMS.SCALE);
                         that.velocity.x = 0;
                         that.updateBB();
                     }
                     //Walking to Left Logic - Level1 - Level2
                     if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
-                        console.log("Enter me walk to left");
-                        if(that.state == 1) that.x = entity.BB.left; 
-                        else if(that.state == 4) that.x = entity.BB.left;
-                        else if(that.state == 5) that.x = entity.BB.left;
+                        
+                        if(that.state === 1) that.x = entity.BB.left; 
+                        else if(that.state === 4) that.x = entity.BB.left;
+                        else if(that.state === 5) that.x = entity.BB.left;
                         that.velocity.x = 0;
                         that.updateBB();
-                    }
-                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
-                        || entity instanceof Goku) && that.lastBB.right >= entity.BB.left){
-                            console.log("is this happening?");
-                            if(that.state === 0) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                            if(that.state === 1) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                            if(that.state === 5) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                            if(that.state === 4) that.x = entity.BB.left - (that.width1 * PARAMS.SCALE);
-                    }
-                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
-                        || entity instanceof Goku) && that.lastBB.left <= entity.BB.right){
-                            console.log("Am i colliding with right side of player.");
-                            if(that.state === 0) that.x = entity.BB.right;
-                            if(that.state === 1) that.x = entity.BB.right;
-                            if(that.state === 5) that.x = entity.BB.right;
-                            if(that.state === 4) that.x = entity.BB.right;
                     }
                 }
 
                 //AirCollisons
                 if(that.velocity.y < 0){
-                    console.log("am i entering air space");
                     //Jumping logic - Level2 - Platform
                     if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
                         if(that.CPUSTATE.AIR) that.y = entity.BB.bottom + (that.height1 * PARAMS.SCALE);
@@ -662,6 +645,25 @@ class CatPlayerCPU extends catplayer{
                         that.hitPoints -= 2;
                         that.velocity.y = 0;
                         that.updateBB(); 
+                    }
+                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
+                        || entity instanceof Goku) && that.lastBB.left <= entity.BB.right/* && that.position < 0*/){
+                            if(that.CPUSTATE.AIR) that.state = 6;
+                    }
+                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
+                        || entity instanceof Goku) && that.lastBB.right >= entity.BB.left/* && that.position > 0*/){
+                            if(that.CPUSTATE.AIR)that.state = 6;
+
+                    }
+                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
+                        || entity instanceof Goku) && that.lastBB.bottom >= entity.BB.top/* && that.position > 0*/){
+                            if(that.CPUSTATE.AIR)that.state = 6;
+
+                    }
+                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
+                        || entity instanceof Goku) && that.lastBB.top <= entity.BB.bottom/* && that.position > 0*/){
+                            if(that.CPUSTATE.AIR)that.state = 6;
+
                     }
                 }
             }
@@ -1261,7 +1263,7 @@ class BillyLeeCPU extends BillyLee{
                         || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
                             if(that.CPUSTATE.WALKING === true) that.x = entity.BB.left - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.BL;
                             if(that.CPUSTATE.ATTACK){
-                                if(that.state === 3) that.x = entity.BB.left - that.punch[that.animations[3][0].currentFrame()].w * PARAMS.BL;
+                                if(that.state === 3) that.x = entity.BB.left - that.lPpunch[that.animations[3][0].currentFrame()].w * PARAMS.BL;
                                 if(that.state === 5) that.x = entity.BB.left - that.kick[that.animations[5][0].currentFrame()].w * PARAMS.BL;
                             }    
                             that.CPUSTATE.ATTACK = true;
