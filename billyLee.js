@@ -365,8 +365,8 @@ class BillyLee {
 
         const WALK = 250;
         const FALL_WALK = 1;
-        const JUMPING = 400;
-        const STOP_FALL = 400;
+        const JUMPING = 600;
+        const STOP_FALL = 700;
         const JUMP_KICK = 50;
         this.block = false;
 
@@ -414,6 +414,8 @@ class BillyLee {
                 this.velocity.y = -JUMP_KICK;
                 this.state = 6;
                 this.fallAcc = STOP_FALL;
+                this.velocity.y = 0;
+                this.velocity.x = 0;
             }
 
             // block
@@ -480,7 +482,11 @@ class BillyLee {
                                 opponentHitPoints -= .05;
                             } else if(that.state === 5/* && !opponentBlock*/){
                                 opponentHitPoints -= .05;
-                            }  
+                            } else if(that.state === 4){
+                                opponentHitPoints -= .1;
+                            } else if(that.state === 6){
+                                opponentHitPoints -= .15;
+                            }
                         }
             }
         });
@@ -508,7 +514,7 @@ class BillyLee {
         //collisions
         var that = this;
         this.game.entities.forEach(function (entity) {
-                if (entity.BB && that.BB.collide(entity.BB)) {
+                if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     //Ground Collisions
                     if (that.velocity.y > 0) {
                         //Falling Logic - Level1 - Level2 - Ground
