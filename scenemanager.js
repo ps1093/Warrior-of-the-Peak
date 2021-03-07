@@ -7,7 +7,7 @@
  * map, player, and CPU loads. 
  * Paras: Put Level one together and added his player.
  * Suk: Loaded his player into level 1.
- * Tyelr: Loaded his player into level 1.
+ * Tyler: Loaded his player into level 1.
  **/
 class SceneManager{
 	constructor(game){
@@ -244,7 +244,6 @@ class SceneManager{
 
     update(){
         PARAMS.DEBUG = document.getElementById("debug").checked;
-
         this.updateAudio();
 
         if(this.game.click){
@@ -254,7 +253,7 @@ class SceneManager{
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[0].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
-                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[0];  
+                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[0];
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[1].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
@@ -275,6 +274,7 @@ class SceneManager{
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[5];
+                ASSET_MANAGER.playAsset("./music/gokutheme.mp3");
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[0].length * 12))){
