@@ -6,10 +6,14 @@ var ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./audio/burstkick.wav");
 ASSET_MANAGER.queueDownload("./audio/birdKick.mp3");
 ASSET_MANAGER.queueDownload("./audio/yap.mp3");
-
+ASSET_MANAGER.queueDownload("./audio/gokukick.mp3");
+ASSET_MANAGER.queueDownload("./audio/gokurun.mp3");
+ASSET_MANAGER.queueDownload("./audio/gokupunch.mp3");
+ASSET_MANAGER.queueDownload("./audio/gokupower.mp3");
 
 // music
 ASSET_MANAGER.queueDownload("./music/Damn.mp4");
+ASSET_MANAGER.queueDownload("./music/gokutheme.mp3");
 ASSET_MANAGER.queueDownload("./music/ChunLi.mp3");
 ASSET_MANAGER.queueDownload("./music/Dr. Wily's Castle.mp3");
 ASSET_MANAGER.queueDownload("./music/tecmoBowl.mp3");

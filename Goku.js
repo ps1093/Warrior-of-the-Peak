@@ -192,10 +192,12 @@ class Goku{
                 this.velocity.x = WALK;
                 this.state = this.STATE.WALK;
                 this.facing = this.FACING.RIGHT;
+                ASSET_MANAGER.playAsset("./audio/gokurun.mp3");
             } else if(this.game.A){
                 this.velocity.x = -WALK;
                 this.facing = this.FACING.LEFT;
                 this.state = this.STATE.WALK;
+                ASSET_MANAGER.playAsset("./audio/gokurun.mp3");
             } else {
                 this.velocity.x = 0;
                 this.state = this.STATE.IDLE;
@@ -208,6 +210,7 @@ class Goku{
              if(this.game.Q){
                 this.state = this.STATE.POWER;
                 this.hitPoints += 0.05;
+                ASSET_MANAGER.playAsset("./audio/gokupower.mp3");
             }
             //Punch, direction does not matter.
             if(this.game.C){
@@ -289,8 +292,10 @@ class Goku{
                         || entity instanceof GokuCPU)){
                             if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
                                 opponentHitPoints -= 0.05;
+                                ASSET_MANAGER.playAsset("./audio/gokupunch.mp3");
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
                                 opponentHitPoints -= 0.10;
+                                ASSET_MANAGER.playAsset("./audio/gokukick.mp3");
                             }  
                         }
             }
