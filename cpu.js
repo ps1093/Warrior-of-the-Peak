@@ -468,9 +468,10 @@ class CatPlayerCPU extends catplayer{
         }
         if(this.hitPoints === 0){
             this.CPUSTATE.DEATH = true;
-            this.velocity.y = -100;
+            this.state = 7;
             this.velocity.x = 0;
             opponentDeath = true;
+            this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE; //gravity 
         } 
         if(this.CPUSTATE.DEATH === true){
             this.state = 7;

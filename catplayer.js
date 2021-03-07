@@ -177,7 +177,7 @@ class catplayer{
             }
 
             //gravity
-            this.velocity.y += this.fallAcc * TICK; /* PARAMS.SCALE*/
+            this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE;
 
             //jump
             if(this.game.W){
