@@ -30,6 +30,7 @@ class KaratePlayerCPU extends KaratePlayer{
         this.VisRadius = 200;
         this.attack;
         this.travel = 0;
+        this.damage;
 
         this.updateBBCPU();
         this.loadAnimations();
@@ -78,6 +79,20 @@ class KaratePlayerCPU extends KaratePlayer{
     randomTravelGen(){
         this.travel = Math.floor(Math.random() * Math.floor(2));
     }
+    randomDamage(){
+        var x = Math.floor(Math.random() * Math.floor(3));
+        switch(x){
+            case 0:
+                this.damage = .04;
+                break;
+            case 1:
+                this.damage = .06;
+                break;
+            case 2:
+                this.damage = .08;
+                break;
+        }
+    };
     update(){
         opponentBlock = false;
         this.hitPoints = opponentHitPoints;
@@ -93,6 +108,7 @@ class KaratePlayerCPU extends KaratePlayer{
         if(this.changeElapsed > 3){
             this.randomAttackGen(); 
             this.randomTravelGen();
+            this.randomDamage();
             this.changeElapsed = 0;
         }
 
@@ -162,12 +178,12 @@ class KaratePlayerCPU extends KaratePlayer{
                                     if(that.attack === 0){
                                         that.state = that.STATE.PUNCH;
                                         if(!that.other.block){
-                                            that.other.hitPoints -= .04;
+                                            that.other.hitPoints -= that.damage;
                                         }
                                     } else if(that.attack === 1){
                                         that.state = that.STATE.KICK;
                                         if(!that.other.block){
-                                            that.other.hitPoints -= .09;
+                                            that.other.hitPoints -= that.damage;
                                         }
                                     }
                                 }
@@ -189,13 +205,13 @@ class KaratePlayerCPU extends KaratePlayer{
                                             that.state = that.STATE.PUNCH;
                                             that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE+20; 
                                             if(!that.other.block){
-                                                that.other.hitPoints -= .04;
+                                                that.other.hitPoints -= that.damage;
                                             } 
                                         } else if(that.attack === 1){
                                             that.state = that.STATE.KICK;
                                             that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE+20;
                                             if(!that.other.block){
-                                                that.other.hitPoints -= .04;
+                                                that.other.hitPoints -= that.damage;
                                             }
                                         } 
                                     
@@ -206,59 +222,6 @@ class KaratePlayerCPU extends KaratePlayer{
                 }
         });
 
-        // var that = this;
-        // this.game.entities.forEach(function (entity) {
-        //         if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
-        //             if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
-        //                 || entity instanceof Goku) && that.lastBB.left <= entity.BB.right && that.position < 0){
-        //                     // if(that.CPUSTATE.TRAVEL) that.x = entity.BB.right;
-        //                     // if(that.CPUSTATE.ATTACK)that.x = entity.BB.right-20;//-20
-        //                     that.x = entity.BB.right-20;
-        //                     that.CPUSTATE.ATTACK = true;
-        //                     if(that.CPUSTATE.ATTACK === true){
-        //                         if(that.attack === 0){
-        //                             that.state = that.STATE.PUNCH;
-        //                             if(!that.other.block){
-        //                                 that.other.hitPoints -= .04;
-        //                             }
-        //                         } else if(that.attack === 1){
-        //                             that.state = that.STATE.KICK;
-        //                             if(!that.other.block){
-        //                                 that.other.hitPoints -= .09;
-        //                             }
-        //                         }
-        //                     }
-        //                     that.updateBBCPU();
-        //             }
-        //             if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
-        //                 || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
-        //                     if(that.CPUSTATE.TRAVEL){
-        //                         if(that.state === that.STATE.WALK)that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE+20;
-        //                         if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE+20;
-        //                     } 
-        //                     if(that.CPUSTATE.ATTACK){
-        //                         if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE-20;//-20
-        //                         if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE-20;
-        //                     }    
-        //                     that.CPUSTATE.ATTACK = true;
-        //                     if(that.CPUSTATE.ATTACK){
-        //                             if(that.attack === 0){
-        //                                 that.state = that.STATE.PUNCH;
-        //                                 if(!that.other.block){
-        //                                     that.other.hitPoints -= .04;
-        //                                 } 
-        //                             } else if(that.attack === 1){
-        //                                 that.state = that.STATE.KICK;
-        //                                 if(!that.other.block){
-        //                                     that.other.hitPoints -= .04;
-        //                                 }
-        //                             }
-                                
-        //                     }
-        //                     that.updateBBCPU();
-        //             }
-        //         }
-        // });
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
@@ -494,6 +457,7 @@ class CatPlayerCPU extends catplayer{
         //Setting up circle
         this.VisRadius = 200;
         this.attack;
+        this.damage;
 
         this.updateBB();
         this.loadAnimations();
@@ -501,6 +465,20 @@ class CatPlayerCPU extends catplayer{
     randomGen(){
         this.attack = Math.floor(Math.random() * Math.floor(2));
     }
+    randomDamage(){
+        var x = Math.floor(Math.random() * Math.floor(3));
+        switch(x){
+            case 0:
+                this.damage = .04;
+                break;
+            case 1:
+                this.damage = .06;
+                break;
+            case 2:
+                this.damage = .08;
+                break;
+        }
+    };
     update(){
         this.hitPoints = opponentHitPoints;
         //Variables to manipulate the X and Y velocity
@@ -514,6 +492,7 @@ class CatPlayerCPU extends catplayer{
         this.changeElapsed += TICK;
         if(this.changeElapsed > 3){
             this.randomGen(); 
+            this.randomDamage();
             this.changeElapsed = 0;
         }
 
@@ -588,12 +567,12 @@ class CatPlayerCPU extends catplayer{
                                 if(that.attack === 0){
                                     that.state = 4;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                        that.other.hitPoints -= that.damage;
                                     }
                                 } else if(that.attack === 1){
                                     that.state = 5;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                        that.other.hitPoints -= that.damage;
                                     }
                                 }
                             }
@@ -611,12 +590,12 @@ class CatPlayerCPU extends catplayer{
                                     if(that.attack === 0){
                                         that.state = 4;
                                         if(!that.other.block){
-                                            that.other.hitPoints -= .04;
+                                            that.other.hitPoints -= that.damage;
                                         }
                                     } else if(that.attack === 1){
                                         that.state = 5;
                                         if(!that.other.block){
-                                            that.other.hitPoints -= .04;
+                                            that.other.hitPoints -= that.damage;
                                         }
                                     }
                             }
@@ -1238,6 +1217,7 @@ class BillyLeeCPU extends BillyLee{
         //Setting up circle
         this.VisRadius = 200;
         this.attack;
+        this.damage;
 
         this.updateBB();
         this.loadAnimations();
@@ -1245,6 +1225,20 @@ class BillyLeeCPU extends BillyLee{
     randomGen(){
         this.attack = Math.floor(Math.random() * Math.floor(2));
     }
+    randomDamage(){
+        var x = Math.floor(Math.random() * Math.floor(3));
+        switch(x){
+            case 0:
+                this.damage = .04;
+                break;
+            case 1:
+                this.damage = .06;
+                break;
+            case 2:
+                this.damage = .08;
+                break;
+        }
+    };
     update(){
         this.hitPoints = opponentHitPoints;
         //Variables to manipulate the X and Y velocity
@@ -1259,6 +1253,7 @@ class BillyLeeCPU extends BillyLee{
         this.changeElapsed += TICK;
         if(this.changeElapsed > 3){
             this.randomGen(); 
+            this.randomDamage();
             this.changeElapsed = 0;
         }
 
@@ -1343,12 +1338,12 @@ class BillyLeeCPU extends BillyLee{
                                 if(that.attack === 0){
                                     that.state = 3;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                        that.other.hitPoints -= that.damage;
                                     }
                                 } else if(that.attack === 1){
                                     that.state = 5;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                        that.other.hitPoints -= that.damage;
                                     }
                                 }
                                 }
@@ -1367,12 +1362,12 @@ class BillyLeeCPU extends BillyLee{
                                 if(that.attack === 0){
                                     that.state = 3;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                        that.other.hitPoints -= that.damage;
                                     }
                                 } else if(that.attack === 1){
                                     that.state = 5;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                        that.other.hitPoints -= that.damage;
                                     }
                                 }
                             }
@@ -1635,6 +1630,7 @@ class GokuCPU extends Goku{
         this.VisRadius = 200;
         this.attack;
         this.travel = 0;
+        this.damage;
 
         this.updateBB();
         this.loadAnimations();
@@ -1642,6 +1638,20 @@ class GokuCPU extends Goku{
     randomAttackGen(){
         this.attack = Math.floor(Math.random() * Math.floor(2));
     }
+    randomDamage(){
+        var x = Math.floor(Math.random() * Math.floor(3));
+        switch(x){
+            case 0:
+                this.damage = .04;
+                break;
+            case 1:
+                this.damage = .06;
+                break;
+            case 2:
+                this.damage = .08;
+                break;
+        }
+    };
     randomTravelGen(){
         this.travel = Math.floor(Math.random() * Math.floor(2));
     }
@@ -1659,6 +1669,7 @@ class GokuCPU extends Goku{
         if(this.changeElapsed > 3){
             this.randomAttackGen(); 
             this.randomTravelGen();
+            this.randomDamage();
             this.changeElapsed = 0;
         }
 
@@ -1735,12 +1746,12 @@ class GokuCPU extends Goku{
                                 if(that.attack === 0){
                                     that.state = that.STATE.PUNCH;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                        that.other.hitPoints -= that.damage;
                                     }
                                 } else if(that.attack === 1){
                                     that.state = that.STATE.KICK;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .09;
+                                        that.other.hitPoints -= that.damage;
                                     }
                                 }
                             }
@@ -1759,12 +1770,12 @@ class GokuCPU extends Goku{
                                     if(that.attack === 0){
                                         that.state = that.STATE.PUNCH;
                                         if(!that.other.block){
-                                            that.other.hitPoints -= .04;
+                                            that.other.hitPoints -= that.damage;
                                         } 
                                     } else if(that.attack === 1){
                                         that.state = that.STATE.KICK;
                                         if(!that.other.block){
-                                            that.other.hitPoints -= .04;
+                                            that.other.hitPoints -= that.damage;
                                         }
                                     }
                                 
