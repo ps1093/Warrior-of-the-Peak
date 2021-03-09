@@ -210,7 +210,11 @@ class Goku{
              if(this.game.Q){
             //  ASSET_MANAGER.playAsset("./audio/gokupower.mp3");
                 this.state = this.STATE.POWER;
-                this.hitPoints += 0.05;
+                if(this.hitPoints < 100){
+                    this.hitPoints += .05
+                } else {
+                    this.hitPoints += 0;
+                }
             } else{
 
             }

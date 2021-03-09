@@ -164,10 +164,10 @@ class SceneManager{
         this.game.addEntity(this.healthbar);
 
         this.game.addEntity(new VS(this.game, this.player, this.opponent));
-        
-        this.game.addEntity(this.player);
 
         this.game.addEntity(this.opponent);
+                
+        this.game.addEntity(this.player);
     };
     loadLevel2(){
         this.music = "./music/Welcome to the Jungle.mp3";
@@ -194,9 +194,9 @@ class SceneManager{
 
         this.game.addEntity(new VS(this.game, this.player, this.opponent));
 
-        this.game.addEntity(this.player);
-
         this.game.addEntity(this.opponent);
+        
+        this.game.addEntity(this.player);
     };
     loadlevel3(){
         this.music = "./music/KenStage.mp3";
@@ -222,9 +222,9 @@ class SceneManager{
 
         this.game.addEntity(new VS(this.game, this.player, this.opponent));
 
-        this.game.addEntity(this.player);
-
         this.game.addEntity(this.opponent);
+        
+        this.game.addEntity(this.player);
 
         this.oilrig = new OilRig(this.game, 0, 446);
         this.game.addEntity(this.oilrig);
