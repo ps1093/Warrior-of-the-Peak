@@ -139,13 +139,13 @@ class KaratePlayer{
         } else if(this.state === this.STATE.WALK && this.facing === this.FACING.LEFT){
             this.BB = new BoundingBox(this.x, this.y, KPstate.LWALK[0].w * PARAMS.SCALE, KPstate.LWALK[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.RIGHT){
-            this.BB = new BoundingBox(this.x, this.y, KPstate.RPUNCH[0].w * PARAMS.SCALE, KPstate.RPUNCH[0].h * PARAMS.SCALE);
+            this.BB = new BoundingBox(this.x, this.y, KPstate.RPUNCH[0].w * PARAMS.SCALE -20, KPstate.RPUNCH[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x, this.y, KPstate.LPUNCH[0].w * PARAMS.SCALE, KPstate.LPUNCH[0].h * PARAMS.SCALE);
+            this.BB = new BoundingBox(this.x+20, this.y, KPstate.LPUNCH[0].w * PARAMS.SCALE-20, KPstate.LPUNCH[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.KICK && this.facing === this.FACING.RIGHT){
-            this.BB = new BoundingBox(this.x, this.y, KPstate.RKICK[1].w * PARAMS.SCALE, KPstate.RKICK[0].h * PARAMS.SCALE);
+            this.BB = new BoundingBox(this.x, this.y, KPstate.RKICK[1].w * PARAMS.SCALE-20, KPstate.RKICK[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.KICK && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x, this.y, KPstate.LKICK[0].w * PARAMS.SCALE, KPstate.LKICK[0].h * PARAMS.SCALE);
+            this.BB = new BoundingBox(this.x+20, this.y, KPstate.LKICK[0].w * PARAMS.SCALE-20, KPstate.LKICK[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.DUCK && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, KPstate.RDUCK[0].w * PARAMS.SCALE, KPstate.RDUCK[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.DUCK && this.facing === this.FACING.LEFT){
@@ -283,34 +283,22 @@ class KaratePlayer{
         this.game.entities.forEach(function (entity) {
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                        entity instanceof BillyLeeCPU || entity instanceof GokuCPU) && that.lastBB.right >= entity.BB.left){
-                            //console.log("it is entering left side");
-                            // if(that.state === that.STATE.WALK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
-                            // else if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
-                            // else if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
-                            // else if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
-                            // else if(that.state === that.STATE.BLOCK) that.x = entity.BB.left = KPstate.RBLOCK[0].w * PARAMS.SCALE;
-                            
+                        entity instanceof BillyLeeCPU || entity instanceof GokuCPU) && that.lastBB.right >= entity.BB.left){                            
                             if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
                                 opponentHitPoints -= .04;
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
                                 opponentHitPoints -= .09;
                             }  
+                            that.updateBB();
                         }
                         if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                            entity instanceof BillyLeeCPU || entity instanceof GokuCPU) && that.lastBB.left <= entity.BB.right){
-                                //console.log("it is entering right side");
-                                // if(that.state === that.STATE.WALK) that.x = entity.BB.right;
-                                // else if(that.state === that.STATE.ROLL) that.x = entity.BB.right;
-                                // else if(that.state === that.STATE.KICK) that.x = entity.BB.right;
-                                // else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right;
-                                // else if(that.state === that.STATE.BLOCK) that.x = entity.BB.right;
-                                
+                            entity instanceof BillyLeeCPU || entity instanceof GokuCPU) && that.lastBB.left <= entity.BB.right){                                
                                 if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
                                     opponentHitPoints -= .04;
                                 } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
                                     opponentHitPoints -= .09;
                                 }  
+                                that.updateBB();
                             }
             }
         });
@@ -401,20 +389,6 @@ class KaratePlayer{
                             that.velocity.x = 0;
                             that.updateBB();
                         }
-                        // if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.right >= entity.BB.left){
-                        //     if(that.state === that.STATE.WALK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
-                        //     if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
-                        //     if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
-                        //     if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
-                        //     if(that.state === that.STATE.BLOCK) that.x = entity.BB.left = KPstate.RBLOCK[0].w * PARAMS.SCALE;
-                        // }
-                        // if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.left <= entity.BB.right){
-                        //     if(that.state === that.STATE.WALK) that.x = entity.BB.right;
-                        //     if(that.state === that.STATE.ROLL) that.x = entity.BB.right;
-                        //     if(that.state === that.STATE.KICK) that.x = entity.BB.right;
-                        //     if(that.state === that.STATE.PUNCH) that.x = entity.BB.right;
-                        //     if(that.state === that.STATE.BLOCK) that.x = entity.BB.right;
-                        // }
                     }
                     //Air Collisions
                     if(that.velocity.y < 0){

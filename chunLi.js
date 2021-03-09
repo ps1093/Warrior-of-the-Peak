@@ -473,18 +473,6 @@ class ChunLi {
                             that.updateBB();                         
                         }
 
-                           //Side Logic - Level2/3  - Platform/Propeller
-                         /*  if((entity instanceof Platform || entity instanceof Propeller) && that.BB.collide(entity.topBB) && that.BB.collide(entity.bottomBB)){
-                                if (that.BB.collide(entity.leftBB)) {
-                                    if(that.state === 2) that.x = entity.BB.left - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI; 
-                                that.velocity.x = 0;                      
-                            } else {
-                                if(that.state === 2) that.x = entity.BB.right;  
-                                that.velocity.x = 0;
-
-                            }
-                            that.updateBB();
-                    } */
 
                          //Walking to Right Logic - any level
                          if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
@@ -507,19 +495,7 @@ class ChunLi {
                         }
                         //Walking to Left Logic - any level
                          if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
-                             that.x = entity.BB.left;
-                         /*   if(that.state === 0) that.x = entity.BB.left;
-                            else if(that.state === 1) that.x = entity.BB.left;
-                            else if(that.state === 2) that.x = entity.BB.left;
-                            else if(that.state === 3) that.x = entity.BB.left;  
-                            else if(that.state === 4) that.x = entity.BB.left;
-                            else if(that.state === 5) that.x = entity.BB.left;
-                            else if(that.state === 6) that.x = entity.BB.left;
-                            else if(that.state === 7) that.x = entity.BB.left;  
-                            else if(that.state === 8) that.x = entity.BB.left; 
-                            else if(that.state === 9) that.x = entity.BB.left;
-                            else if(that.state === 10) that.x = entity.BB.left;
-                          //  if(that.state === 2) that.state = 0;    */
+                            that.x = entity.BB.left;
                             that.velocity.x = 0;
                             that.updateBB(); 
                         }
@@ -660,31 +636,6 @@ class ChunLi {
             ctx.strokeText(this.name, 759 - (cpuNameCount * 14), 60);
         }
 
-        /*
-        ctx.strokeStyle = "White";
-        ctx.strokeRect(300, 300, 43 * 3, 80 * 3);
-        ctx.save();
-        ctx.scale(-1, 1);
-        ctx.drawImage(this.spritesheet, 0, 0, 49, 80, -429, 300, 49 * 3, 80 * 3);
-        
-        */
-      //  ctx.scale(-1, 1);
-      //  this.animations[6][0].drawFrame(this.game.clockTick, ctx, -535, 429, 1);
-
-       /* if(PARAMS.DEBUG && this.facing === 0){
-            ctx.stroke();
-            ctx.strokeStyle = "Red";
-            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
-            
-        } else if (PARAMS.DEBUG && this.facing === 1) {
-            ctx.save();
-            ctx.scale(-1, 1);
-            ctx.strokeStyle = "Red";
-            ctx.strokeRect(-this.BB.x - this.animations[this.state][this.facing].array[this.animations[this.state][this.facing].currentFrame()].w, this.BB.y, (this.BB.width), this.BB.height);
-            ctx.restore();
-        } else {
-
-        };*/
 
         if(PARAMS.DEBUG && this.facing === 0){
             //Visual CIrcle

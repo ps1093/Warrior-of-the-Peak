@@ -2,25 +2,6 @@ var gameEngine = new GameEngine();
 
 var ASSET_MANAGER = new AssetManager();
 
-// sound effects
-ASSET_MANAGER.queueDownload("./audio/burstkick.wav");
-ASSET_MANAGER.queueDownload("./audio/birdKick.mp3");
-ASSET_MANAGER.queueDownload("./audio/yap.mp3");
-ASSET_MANAGER.queueDownload("./audio/gokukick.mp3");
-ASSET_MANAGER.queueDownload("./audio/gokurun.mp3");
-ASSET_MANAGER.queueDownload("./audio/gokupunch.mp3");
-ASSET_MANAGER.queueDownload("./audio/gokupower.mp3");
-
-// music
-ASSET_MANAGER.queueDownload("./music/Damn.mp4");
-ASSET_MANAGER.queueDownload("./music/gokutheme.mp3");
-ASSET_MANAGER.queueDownload("./music/ChunLi.mp3");
-ASSET_MANAGER.queueDownload("./music/Dr. Wily's Castle.mp3");
-ASSET_MANAGER.queueDownload("./music/tecmoBowl.mp3");
-ASSET_MANAGER.queueDownload("./music/Welcome to the Jungle.mp3");
-ASSET_MANAGER.queueDownload("./music/KenStage.mp3");
-
-
 
 // spritesheets
 ASSET_MANAGER.queueDownload("./sprites/spritesheet.png");
@@ -42,6 +23,25 @@ ASSET_MANAGER.queueDownload("./sprites/ChunLi.png");
 ASSET_MANAGER.queueDownload("./sprites/BillyLee.png");
 ASSET_MANAGER.queueDownload("./sprites/round1.png");
 ASSET_MANAGER.queueDownload("./sprites/waterfallsprite.png");
+
+// sound effects
+ASSET_MANAGER.queueDownload("./audio/burstkick.wav");
+ASSET_MANAGER.queueDownload("./audio/birdKick.mp3");
+ASSET_MANAGER.queueDownload("./audio/yap.mp3");
+ASSET_MANAGER.queueDownload("./audio/gokukick.mp3");
+ASSET_MANAGER.queueDownload("./audio/gokurun.mp3");
+ASSET_MANAGER.queueDownload("./audio/gokupunch.mp3");
+ASSET_MANAGER.queueDownload("./audio/gokupower.mp3");
+
+// music
+ASSET_MANAGER.queueDownload("./music/Damn.mp4");
+ASSET_MANAGER.queueDownload("./music/gokutheme.mp3");
+ASSET_MANAGER.queueDownload("./music/ChunLi.mp3");
+ASSET_MANAGER.queueDownload("./music/Dr. Wily's Castle.mp3");
+ASSET_MANAGER.queueDownload("./music/tecmoBowl.mp3");
+ASSET_MANAGER.queueDownload("./music/Welcome to the Jungle.mp3");
+ASSET_MANAGER.queueDownload("./music/KenStage.mp3");
+
 
 //For the oilrig level
 ASSET_MANAGER.queueDownload("./sprites/OILRIG.png");

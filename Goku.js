@@ -208,9 +208,15 @@ class Goku{
             } 
             //Power
              if(this.game.Q){
+            //  ASSET_MANAGER.playAsset("./audio/gokupower.mp3");
                 this.state = this.STATE.POWER;
-                this.hitPoints += 0.05;
-                ASSET_MANAGER.playAsset("./audio/gokupower.mp3");
+                if(this.hitPoints < 100){
+                    this.hitPoints += .05
+                } else {
+                    this.hitPoints += 0;
+                }
+            } else{
+
             }
             //Punch, direction does not matter.
             if(this.game.C){
@@ -354,8 +360,8 @@ class Goku{
                             else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - GokuState.RDUCK[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - GokuState.RPUNCH[0].h * PARAMS.SCALE;  
                             else if(that.state === that.STATE.KICK) that.y = entity.BB.top - GokuState.RKICK[0].h * PARAMS.SCALE;  
-                            else if(that.state === that.STATE.POWER) that.y = entity.BB.bottom - GokuState.RPOWER[0].h * PARAMS.SCALE;     
-                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.bottom - GokuState.RBLOCK[0].h * PARAMS.SCALE;           
+                            else if(that.state === that.STATE.POWER) that.y = entity.BB.top - GokuState.RPOWER[0].h * PARAMS.SCALE;     
+                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.top - GokuState.RBLOCK[0].h * PARAMS.SCALE;           
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }
