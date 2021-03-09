@@ -31,8 +31,46 @@ class KaratePlayerCPU extends KaratePlayer{
         this.attack;
         this.travel = 0;
 
-        this.updateBB();
+        this.updateBBCPU();
         this.loadAnimations();
+    };
+    updateBBCPU(){
+        this.lastBB = this.BB;
+        //if(this.CPUSTATE.TRAVEL){
+            if(this.state === this.STATE.IDLE && this.facing === this.FACING.RIGHT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.RIDLE[0].w * PARAMS.SCALE, KPstate.RIDLE[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.IDLE && this.facing === this.FACING.LEFT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.LIDLE[1].w * PARAMS.SCALE, KPstate.LIDLE[0].h * PARAMS.SCALE); 
+            } else if(this.state === this.STATE.WALK && this.facing === this.FACING.RIGHT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.RWALK[0].w * PARAMS.SCALE, KPstate.RWALK[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.WALK && this.facing === this.FACING.LEFT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.LWALK[0].w * PARAMS.SCALE, KPstate.LWALK[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.ROLL && this.facing === this.FACING.RIGHT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.RROLL[0].w * PARAMS.SCALE, KPstate.RROLL[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.ROLL && this.facing === this.FACING.LEFT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.LROLL[0].w * PARAMS.SCALE, KPstate.LROLL[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.RIGHT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.RPUNCH[0].w * PARAMS.SCALE -20, KPstate.RPUNCH[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.PUNCH && this.facing === this.FACING.LEFT){
+                this.BB = new BoundingBox(this.x+20, this.y, KPstate.LPUNCH[0].w * PARAMS.SCALE-20, KPstate.LPUNCH[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.KICK && this.facing === this.FACING.RIGHT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.RKICK[1].w * PARAMS.SCALE-20, KPstate.RKICK[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.KICK && this.facing === this.FACING.LEFT){
+                this.BB = new BoundingBox(this.x+20, this.y, KPstate.LKICK[0].w * PARAMS.SCALE-20, KPstate.LKICK[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.DUCK && this.facing === this.FACING.RIGHT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.RDUCK[0].w * PARAMS.SCALE, KPstate.RDUCK[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.DUCK && this.facing === this.FACING.LEFT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.LDUCK[0].w * PARAMS.SCALE, KPstate.LDUCK[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.JUMP && this.facing === this.FACING.RIGHT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.RJUMP[0].w * PARAMS.SCALE, KPstate.RJUMP[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.JUMP && this.facing === this.FACING.LEFT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.LJUMP[0].w * PARAMS.SCALE, KPstate.LJUMP[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.RIGHT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.RBLOCK[0].w * PARAMS.SCALE, KPstate.RBLOCK[0].h * PARAMS.SCALE);
+            } else if(this.state === this.STATE.BLOCK && this.facing === this.FACING.LEFT){
+                this.BB = new BoundingBox(this.x, this.y, KPstate.LBLOCK[0].w * PARAMS.SCALE, KPstate.LBLOCK[0].h * PARAMS.SCALE);
+            }
+        //}
     };
     randomAttackGen(){
         this.attack = Math.floor(Math.random() * Math.floor(2));
@@ -67,29 +105,7 @@ class KaratePlayerCPU extends KaratePlayer{
 
             this.jumpDist = Math.abs(this.other.y - this.y);
             //This takes what side he is on and makes him go after opponent.
-            if(this.position < 0){
-                this.facing = this.FACING.LEFT;
-                this.CPUSTATE.TRAVEL = true;
-                if(this.travel === 0){
-                    this.state = this.STATE.WALK;
-                    if(!this.VisCircle())this.velocity.x = -BLIND_WALK;
-                    if(this.VisCircle())this.velocity.x = -WALK;
-                } else if(this.travel === 1){
-                    this.state = this.STATE.ROLL;
-                    this.velocity.x = -ROLL;
-                }
-            } else if(this.position > 0){
-                this.facing = this.FACING.RIGHT;
-                this.CPUSTATE.TRAVEL = true;
-                if(this.travel === 0){
-                    this.state = this.STATE.WALK;
-                    if(!this.VisCircle())this.velocity.x = BLIND_WALK;
-                    if(this.VisCircle())this.velocity.x = WALK;
-                } else if(this.travel === 1){
-                    this.state = this.STATE.ROLL;
-                    this.velocity.x = ROLL;
-                }
-            } 
+            this.travelInit();
 
             //Implementing gravity.
             this.velocity.y += this.fallAcc * TICK;
@@ -133,59 +149,152 @@ class KaratePlayerCPU extends KaratePlayer{
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
                         || entity instanceof Goku) && that.lastBB.left <= entity.BB.right && that.position < 0){
-                            if(that.CPUSTATE.TRAVEL) that.x = entity.BB.right;
-                            if(that.CPUSTATE.ATTACK)that.x = entity.BB.right;
-                            that.CPUSTATE.ATTACK = true;
-                            if(that.CPUSTATE.ATTACK === true){
-                                if(that.attack === 0){
-                                    that.state = that.STATE.PUNCH;
-                                    if(!that.other.block){
-                                        that.other.hitPoints -= .04;
-                                    }
-                                } else if(that.attack === 1){
-                                    that.state = that.STATE.KICK;
-                                    if(!that.other.block){
-                                        that.other.hitPoints -= .09;
-                                    }
-                                }
-                            }
-                    }
-                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
-                        || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
-                            if(that.CPUSTATE.TRAVEL){
-                                if(that.state === that.STATE.WALK)that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
-                                if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
-                            } 
-                            if(that.CPUSTATE.ATTACK){
-                                if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
-                                if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
-                            }    
-                            that.CPUSTATE.ATTACK = true;
-                            if(that.CPUSTATE.ATTACK){
+
+                            if(that.other.velocity.x > 0 || that.other.velocity.x < 0){
+                                that.travelInit();
+                                that.x = entity.BB.right;
+                            } else {
+                                // if(that.CPUSTATE.TRAVEL) that.x = entity.BB.right;
+                                // if(that.CPUSTATE.ATTACK)that.x = entity.BB.right-20;//-20
+                                that.x = entity.BB.right-20;
+                                that.CPUSTATE.ATTACK = true;
+                                if(that.CPUSTATE.ATTACK === true){
                                     if(that.attack === 0){
                                         that.state = that.STATE.PUNCH;
                                         if(!that.other.block){
                                             that.other.hitPoints -= .04;
-                                        } 
+                                        }
                                     } else if(that.attack === 1){
                                         that.state = that.STATE.KICK;
                                         if(!that.other.block){
-                                            that.other.hitPoints -= .04;
+                                            that.other.hitPoints -= .09;
                                         }
                                     }
-                                
+                                }
+                            }
+                            that.updateBBCPU();
+                    }
+                    if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
+                        || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
+                            if(that.other.velocity.x > 0 || that.other.velocity.x < 0){
+                                that.travelInit();
+                                if(that.state === that.STATE.WALK)that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
+                                if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
+                            } else {
+                                // if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE-20;//-20
+                                // if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE-20;   
+                                that.CPUSTATE.ATTACK = true;
+                                if(that.CPUSTATE.ATTACK){
+                                        if(that.attack === 0){
+                                            that.state = that.STATE.PUNCH;
+                                            that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE+20; 
+                                            if(!that.other.block){
+                                                that.other.hitPoints -= .04;
+                                            } 
+                                        } else if(that.attack === 1){
+                                            that.state = that.STATE.KICK;
+                                            that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE+20;
+                                            if(!that.other.block){
+                                                that.other.hitPoints -= .04;
+                                            }
+                                        } 
+                                    
+                                }
+                                that.updateBBCPU();
                             }
                     }
                 }
         });
+
+        // var that = this;
+        // this.game.entities.forEach(function (entity) {
+        //         if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
+        //             if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
+        //                 || entity instanceof Goku) && that.lastBB.left <= entity.BB.right && that.position < 0){
+        //                     // if(that.CPUSTATE.TRAVEL) that.x = entity.BB.right;
+        //                     // if(that.CPUSTATE.ATTACK)that.x = entity.BB.right-20;//-20
+        //                     that.x = entity.BB.right-20;
+        //                     that.CPUSTATE.ATTACK = true;
+        //                     if(that.CPUSTATE.ATTACK === true){
+        //                         if(that.attack === 0){
+        //                             that.state = that.STATE.PUNCH;
+        //                             if(!that.other.block){
+        //                                 that.other.hitPoints -= .04;
+        //                             }
+        //                         } else if(that.attack === 1){
+        //                             that.state = that.STATE.KICK;
+        //                             if(!that.other.block){
+        //                                 that.other.hitPoints -= .09;
+        //                             }
+        //                         }
+        //                     }
+        //                     that.updateBBCPU();
+        //             }
+        //             if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee 
+        //                 || entity instanceof Goku) && that.lastBB.right >= entity.BB.left && that.position > 0){
+        //                     if(that.CPUSTATE.TRAVEL){
+        //                         if(that.state === that.STATE.WALK)that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE+20;
+        //                         if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE+20;
+        //                     } 
+        //                     if(that.CPUSTATE.ATTACK){
+        //                         if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE-20;//-20
+        //                         if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE-20;
+        //                     }    
+        //                     that.CPUSTATE.ATTACK = true;
+        //                     if(that.CPUSTATE.ATTACK){
+        //                             if(that.attack === 0){
+        //                                 that.state = that.STATE.PUNCH;
+        //                                 if(!that.other.block){
+        //                                     that.other.hitPoints -= .04;
+        //                                 } 
+        //                             } else if(that.attack === 1){
+        //                                 that.state = that.STATE.KICK;
+        //                                 if(!that.other.block){
+        //                                     that.other.hitPoints -= .04;
+        //                                 }
+        //                             }
+                                
+        //                     }
+        //                     that.updateBBCPU();
+        //             }
+        //         }
+        // });
         //updating
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.updateCircleCPU();
         opponentcX = this.cX;
         opponentcY = this.cY;
-        this.updateBB();
+        this.updateBBCPU();
         this.collisionsCPU();
+    };
+    travelInit(){
+        const BLIND_WALK = 50;
+        const WALK = 75;
+        const ROLL = 100;
+        if(this.position < 0){
+            this.facing = this.FACING.LEFT;
+            this.CPUSTATE.TRAVEL = true;
+            if(this.travel === 0){
+                this.state = this.STATE.WALK;
+                if(!this.VisCircle())this.velocity.x = -BLIND_WALK;
+                if(this.VisCircle())this.velocity.x = -WALK;
+            } else if(this.travel === 1){
+                this.state = this.STATE.ROLL;
+                this.velocity.x = -ROLL;
+            }
+        } else if(this.position > 0){
+            this.facing = this.FACING.RIGHT;
+            this.CPUSTATE.TRAVEL = true;
+            if(this.travel === 0){
+                this.state = this.STATE.WALK;
+                if(!this.VisCircle())this.velocity.x = BLIND_WALK;
+                if(this.VisCircle())this.velocity.x = WALK;
+            } else if(this.travel === 1){
+                this.state = this.STATE.ROLL;
+                this.velocity.x = ROLL;
+            }
+        }
     };
     updateCircleCPU(){
         if(this.state === this.STATE.IDLE){
@@ -272,21 +381,6 @@ class KaratePlayerCPU extends KaratePlayer{
                             that.velocity.x = 0;
                             that.updateBB();
                         }
-                        // if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
-                        //     || entity instanceof Goku) && that.lastBB.right >= entity.BB.left){
-                        //         //console.log("Entered collision on side");
-                        //         if(that.state === that.STATE.WALK) that.x = entity.BB.left - KPstate.RWALK[0].w * PARAMS.SCALE;
-                        //         if(that.state === that.STATE.ROLL) that.x = entity.BB.left - KPstate.RROLL[0].w * PARAMS.SCALE;
-                        //         if(that.state === that.STATE.KICK) that.x = entity.BB.left - KPstate.RKICK[0].w * PARAMS.SCALE;
-                        //         if(that.state === that.STATE.PUNCH) that.x = entity.BB.left - KPstate.RPUNCH[0].w * PARAMS.SCALE;
-                        // }
-                        // if((entity instanceof KaratePlayer || entity instanceof catplayer || entity instanceof ChunLi || entity instanceof BillyLee
-                        //     || entity instanceof Goku) && that.lastBB.left <= entity.BB.right){
-                        //         if(that.state === that.STATE.WALK) that.x = entity.BB.right;
-                        //         if(that.state === that.STATE.ROLL) that.x = entity.BB.right;
-                        //         if(that.state === that.STATE.KICK) that.x = entity.BB.right;
-                        //         if(that.state === that.STATE.PUNCH) that.x = entity.BB.right;
-                        // }
                     }
                     //Air Collisions
                     if(that.velocity.y < 0){
