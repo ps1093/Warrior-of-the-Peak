@@ -257,7 +257,7 @@ class catplayer{
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU
                         || entity instanceof GokuCPU)){
-                            if(that.state === 5){
+                            if(that.state === 4){
                                 opponentHitPoints -= that.damage;
                             } else if(that.state === 5){
                                 opponentHitPoints -= that.damage;
