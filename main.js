@@ -33,6 +33,7 @@ ASSET_MANAGER.queueDownload("./audio/gokurun.mp3");
 ASSET_MANAGER.queueDownload("./audio/gokupunch.mp3");
 ASSET_MANAGER.queueDownload("./audio/gokupower.mp3");
 ASSET_MANAGER.queueDownload("./audio/KarateSoundEffect.mp3");
+ASSET_MANAGER.queueDownload("./audio/CatMeow.mp3");
 
 // music
 ASSET_MANAGER.queueDownload("./music/Damn.mp4");

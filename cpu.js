@@ -1507,10 +1507,18 @@ class BillyLeeCPU extends BillyLee{
                             }
 
                             // jumping on propeller oil rig
-                            if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
+                           /* if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
                                 if(that.state === 8) that.y = entity.BB.bottom;// + that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
                                 else if(that.state === 6) that.y = entity.BB.bottom; // + that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.CHUNLI;
                                 that.hitPoints -= 2;
+                                that.velocity.y = 0;
+                                that.updateBB(); 
+                            }*/
+
+                            if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
+                                if(that.CPUSTATE.AIR) that.y = entity.BB.bottom;
+                                else if(that.state === 5) that.y = entity.BB.bottom;
+                                opponentHitPoints -= 2;
                                 that.velocity.y = 0;
                                 that.updateBB(); 
                             }
