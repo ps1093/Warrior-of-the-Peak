@@ -17,7 +17,7 @@ ASSET_MANAGER.queueDownload("./sprites/fighterLR.png");
 ASSET_MANAGER.queueDownload("./sprites/falls.png");
 
 ASSET_MANAGER.queueDownload("./sprites/backdrop.png");
- 
+
 ASSET_MANAGER.queueDownload("./sprites/ChunLi.png"); 
 
 ASSET_MANAGER.queueDownload("./sprites/BillyLee.png");
@@ -33,6 +33,7 @@ ASSET_MANAGER.queueDownload("./audio/gokurun.mp3");
 ASSET_MANAGER.queueDownload("./audio/gokupunch.mp3");
 ASSET_MANAGER.queueDownload("./audio/gokupower.mp3");
 ASSET_MANAGER.queueDownload("./audio/KarateSoundEffect.mp3");
+ASSET_MANAGER.queueDownload("./audio/CatMeow.mp3");
 
 // music
 ASSET_MANAGER.queueDownload("./music/Damn.mp4");
@@ -58,6 +59,7 @@ ASSET_MANAGER.autoRepeat("./music/Damn.mp4");
 ASSET_MANAGER.autoRepeat("./music/KenStage.mp3");
 ASSET_MANAGER.autoRepeat("./music/Dr. Wily's Castle.mp3");
 ASSET_MANAGER.autoRepeat("./music/Welcome to the Jungle.mp3");
+ASSET_MANAGER.queueDownload("./music/ChunLi.mp3");
 
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
