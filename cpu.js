@@ -1536,7 +1536,7 @@ class BillyLeeCPU extends BillyLee{
                                 that.velocity.y = 0;
                                 that.updateBB();
                         }
-                           
+                
                     } 
                 }
             })

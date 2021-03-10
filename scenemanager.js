@@ -121,6 +121,7 @@ class SceneManager{
         }
         this.title = title;
         if(transition){
+            ASSET_MANAGER.pauseBackgroundMusic();
             this.game.addEntity(new TransitionScreen(this.game, this.Level.MAP));
         } else if(roundTransition){
             this.game.addEntity(new roundTransitionScreen(this.game, roundCount));
@@ -255,13 +256,11 @@ class SceneManager{
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[0];
-                //ASSET_MANAGER.pauseBackgroundMusic();
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[1].length * 12))){
                 ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
-                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[1]; 
-                //ASSET_MANAGER.pauseBackgroundMusic();
+                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[1];
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[2].length * 12))){
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
@@ -281,6 +280,7 @@ class SceneManager{
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[4]; 
                 ASSET_MANAGER.playAsset("./music/Damn.mp4");
             } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[4].length * 12))){
+                ASSET_MANAGER.pauseBackgroundMusic();
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[5];
