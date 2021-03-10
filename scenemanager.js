@@ -266,7 +266,7 @@ class SceneManager{
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[2]; 
-                ASSET_MANAGER.pauseBackgroundMusic();
+               // ASSET_MANAGER.pauseBackgroundMusic();
             } else if(((this.game.click.y >= 550-12) && (this.game.click.y <= 550 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[3].length * 12))){
                 ASSET_MANAGER.pauseBackgroundMusic();
                 this.pclickX = this.game.click.x;

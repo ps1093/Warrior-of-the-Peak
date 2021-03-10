@@ -17,7 +17,7 @@ ASSET_MANAGER.queueDownload("./sprites/fighterLR.png");
 ASSET_MANAGER.queueDownload("./sprites/falls.png");
 
 ASSET_MANAGER.queueDownload("./sprites/backdrop.png");
- 
+
 ASSET_MANAGER.queueDownload("./sprites/ChunLi.png"); 
 
 ASSET_MANAGER.queueDownload("./sprites/BillyLee.png");
