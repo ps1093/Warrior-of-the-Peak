@@ -49,7 +49,7 @@ class KaratePlayer{
         //Starting off Falling to the right
         this.facing = this.FACING.RIGHT;
         this.state = this.STATE.JUMP;
-        this.damage;
+        this.damage = .05;
         this.changeElapsed = 0;
 
         //His velocity for movements.
@@ -69,6 +69,7 @@ class KaratePlayer{
     };
     randomDamage(){
         var x = Math.floor(Math.random() * Math.floor(3));
+        console.log("X: " + x);
         switch(x){
             case 0:
                 this.damage = .04;
@@ -304,27 +305,16 @@ class KaratePlayer{
         this.game.entities.forEach(function (entity) {
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                        entity instanceof BillyLeeCPU || entity instanceof GokuCPU) && that.lastBB.right >= entity.BB.left){                            
+                        entity instanceof BillyLeeCPU || entity instanceof GokuCPU)/* && that.lastBB.right >= entity.BB.left*/){                            
                             if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
-                                that.randomDamage();
                                 opponentHitPoints -= that.damage;
+                                //console.log("Opponent Health: " + opponentHitPoints);
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
-                                that.randomDamage();
                                 opponentHitPoints -= that.damage;
+                                //console.log("Opponent Health: " + opponentHitPoints);
                             }  
                             that.updateBB();
                         }
-                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                            entity instanceof BillyLeeCPU || entity instanceof GokuCPU) && that.lastBB.left <= entity.BB.right){                                
-                                if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
-                                    that.randomDamage();
-                                    opponentHitPoints -= that.damage;
-                                } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
-                                    that.randomDamage();
-                                    opponentHitPoints -= that.damage;
-                                }  
-                                that.updateBB();
-                            }
             }
         });
 

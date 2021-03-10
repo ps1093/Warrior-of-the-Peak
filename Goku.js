@@ -20,7 +20,7 @@ class Goku{
         this.maxHitPoints  = 100;
         //Total hit points taken
         this.hitPoints = 100;
-        this.damage;
+        this.damage = .05;
 
         //Circle so the CPU can detect player
         this.VisRadius = 135;
