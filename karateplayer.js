@@ -217,6 +217,7 @@ class KaratePlayer{
             }
             //Punch, direction does not matter.
             if(this.game.C){
+                ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
                 this.state = this.STATE.PUNCH;
             }
             //Duck
@@ -235,6 +236,7 @@ class KaratePlayer{
             }
             //Kick
             if(this.game.P){
+                ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
                 this.state = this.STATE.KICK;
             }
 
