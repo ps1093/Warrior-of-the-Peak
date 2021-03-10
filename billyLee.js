@@ -347,8 +347,8 @@ class BillyLee {
       //  this.collisions();
 
         //updating
-        this.x += this.velocity.x * TICK * PARAMS.CHUNLI;
-        this.y += this.velocity.y * TICK * PARAMS.CHUNLI;
+        this.x += this.velocity.x * TICK * PARAMS.BL;
+        this.y += this.velocity.y * TICK * PARAMS.BL;
         if(this.state === 10){
             this.cX = this.x + this.blocked[this.animations[10][0].currentFrame()].w / 2 * PARAMS.BL;
             this.cY = this.y + this.blocked[this.animations[10][0].currentFrame()].h / 2 * PARAMS.BL;
@@ -446,7 +446,7 @@ class BillyLee {
                             that.updateBB();  
                         }
 
-                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.right >= entity.BB.left){
+                     /*   if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.right >= entity.BB.left){
                             if(that.state === 1) that.x = entity.BB.left - that.walk[that.animations[1][0].currentFrame()].w * PARAMS.BL;
                             if(that.state === 5) that.x = entity.BB.left - that.kick[that.animations[6][0].currentFrame()].w * PARAMS.BL;
                             if(that.state === 3) that.x = entity.BB.left - that.lpunch[that.animations[3][0].currentFrame()].w * PARAMS.BL;
@@ -455,7 +455,7 @@ class BillyLee {
                         if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU) && that.lastBB.left <= entity.BB.right){;
                             that.x = entity.BB.right;
                             that.updateBB();
-                        }
+                        }*/
                     }
                         
                     //Air Collisions

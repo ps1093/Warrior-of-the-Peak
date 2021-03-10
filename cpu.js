@@ -1065,7 +1065,7 @@ class ChunLiCPU extends ChunLi{
                     }
 
                          //Air Collisions
-                         if(that.velocity.y < 0){
+                        if(that.velocity.y < 0){
                             //Jumping logic - Level1 - Background
                             if((entity instanceof BackGround) && that.lastBB.bottom <= entity.BB.top){
                                 if(that.state === 2) that.y = entity.BB.bottom - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI;
@@ -1391,7 +1391,7 @@ class BillyLeeCPU extends BillyLee{
         this.game.entities.forEach(function (entity) {
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     //Ground Collisions
-                     if (that.velocity.y > 0) {
+                    if (that.velocity.y > 0) {
                         //Falling Logic - Level1 - Level2 - Ground
                         if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && (that.lastBB.bottom) >= entity.BB.bottom){
                             if(that.state === 0) that.y = entity.BB.bottom - that.idle[that.animations[0][0].currentFrame()].h * PARAMS.BL;
@@ -1408,13 +1408,13 @@ class BillyLeeCPU extends BillyLee{
                             if(that.state === 8) that.state = 0;           
                             that.velocity.y = 0;
                             that.updateBB();   
-                                                 
+
                         }
 
                          //Falling Logic - Level2  - Platform
-                         if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
+                        if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
                           //  if(that.state === 2) that.state = 0;
-                          if(that.state === 8) that.state = 0;
+                        if(that.state === 8) that.state = 0;
                           if(that.state === 0) that.y = entity.BB.top - that.idle[that.animations[0][0].currentFrame()].h * PARAMS.BL;
                           else if(that.state === 1) that.y = entity.BB.top - that.walk[that.animations[1][0].currentFrame()].h * PARAMS.BL;
                           else if(that.state === 2) that.y = entity.BB.top - that.rPunch[that.animations[2][0].currentFrame()].h * PARAMS.BL;
@@ -1427,8 +1427,8 @@ class BillyLeeCPU extends BillyLee{
                           else if(that.state === 9) that.y = entity.BB.top - that.duck[that.animations[9][0].currentFrame()].h * PARAMS.BL;
                           else if(that.state === 10) that.y = entity.BB.top - that.blocked[that.animations[10][0].currentFrame()].h * PARAMS.BL;
                       // if(that.state === 8) that.state = 0;           
-                          that.velocity.y = 0;
-                          that.updateBB();                        
+                        that.velocity.y = 0;
+                        that.updateBB();                        
                         }
 
                            //Side Logic - Level2/3  - Platform/Propeller
@@ -1483,23 +1483,32 @@ class BillyLeeCPU extends BillyLee{
                     }
 
                          //Air Collisions
-                         if(that.velocity.y < 0){
+                        if(that.velocity.y < 0){
                             //Jumping logic - Level1 - Background
                             if((entity instanceof BackGround) && that.lastBB.bottom <= entity.BB.top){
-                                if(that.state === 8) that.y = entity.BB.bottom - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.CHUNLI;
+                                if(that.state === 8) that.y = entity.BB.bottom - that.jump[that.animations[2][0].currentFrame()].w * PARAMS.BL;
                                 that.velocity.y = 0;                              
                                 that.updateBB();
                             }
                             //jumping logic - level 2 platform
-                            if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
+                          /*  if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
                                 if(that.state === 8) that.y = entity.BB.bottom;// + that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;                              
+                                else if (that.state === 3) that.y = entity.BB.bottom;
+                                else if (that.state === 5) that.y = entity.BB.bottom;
+                                that.velocity.y = 0;
+                                that.updateBB();
+                            } */
+
+                            if((entity instanceof Platform) && that.lastBB.top >= entity.BB.bottom){
+                                if(that.CPUSTATE.AIR) that.y = entity.BB.bottom; /*+ that.jump[that.animations[8][0].currentFrame()].h * PARAMS.BL;*/
+                                else if(that.state === 5) that.y = entity.BB.bottom; /*+ that.kick[that.animations[5][0].currentFrame()].h * PARAMS.BL;*/
                                 that.velocity.y = 0;
                                 that.updateBB();
                             }
 
                             // jumping on propeller oil rig
                             if((entity instanceof Propeller) &&  that.lastBB.top >= entity.BB.bottom){
-                                if(that.state === 2) that.y = entity.BB.bottom;// + that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
+                                if(that.state === 8) that.y = entity.BB.bottom;// + that.jump[that.animations[2][0].currentFrame()].h * PARAMS.CHUNLI;
                                 else if(that.state === 6) that.y = entity.BB.bottom; // + that.sKick[that.animations[6][0].currentFrame()].h * PARAMS.CHUNLI;
                                 that.hitPoints -= 2;
                                 that.velocity.y = 0;
