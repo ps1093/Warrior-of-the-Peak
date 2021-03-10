@@ -20,6 +20,7 @@ class Goku{
         this.maxHitPoints  = 100;
         //Total hit points taken
         this.hitPoints = 100;
+        this.damage = .05;
 
         //Circle so the CPU can detect player
         this.VisRadius = 135;
@@ -48,6 +49,7 @@ class Goku{
         //Starting off Falling to the right
         this.facing = this.FACING.RIGHT;
         this.state = this.STATE.JUMP;
+        this.changeElapsed = 0;
 
         //Goku's velocity for movements.
         this.velocity = {
@@ -62,6 +64,20 @@ class Goku{
         
         this.animations = [];
         this.loadAnimations();
+    };
+    randomDamage(){
+        var x = Math.floor(Math.random() * Math.floor(3));
+        switch(x){
+            case 0:
+                this.damage = .04;
+                break;
+            case 1:
+                this.damage = .06;
+                break;
+            case 2:
+                this.damage = .08;
+                break;
+        }
     };
 
     loadAnimations(){
@@ -184,7 +200,11 @@ class Goku{
         const TICK = this.game.clockTick;
         this.coolDown += TICK;
         this.block = false;
-
+        this.changeElapsed += TICK;
+        if(this.changeElapsed > 3){
+            this.randomDamage();
+            this.changeElapsed = 0;
+        }
         //Ground Physics
         if(this.state !== this.STATE.JUMP && this.state !== this.STATE.DEAD){
             //Walking
@@ -207,7 +227,7 @@ class Goku{
                 this.state = this.STATE.DUCK;
             } 
             //Power
-             if(this.game.Q){
+            if(this.game.Q){
             //  ASSET_MANAGER.playAsset("./audio/gokupower.mp3");
                 this.state = this.STATE.POWER;
                 if(this.hitPoints < 100){
@@ -297,10 +317,10 @@ class Goku{
                     if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU 
                         || entity instanceof GokuCPU)){
                             if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
-                                opponentHitPoints -= 0.05;
+                                opponentHitPoints -= that.damage;
                                 ASSET_MANAGER.playAsset("./audio/gokupunch.mp3");
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
-                                opponentHitPoints -= 0.10;
+                                opponentHitPoints -= that.damage;
                                 ASSET_MANAGER.playAsset("./audio/gokukick.mp3");
                             }  
                         }

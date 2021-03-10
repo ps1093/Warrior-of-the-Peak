@@ -58,6 +58,8 @@ class catplayer{
         this.state = 0; //idle =0, walking=1, running=2, block = 3, punch = 4, kick = 5, jump = 6, dead = 7.
         this.size = 0; // small = 0 and large = 1 after finish 
         this.facing = 0; //right = 0, left = 1
+        this.damage = .05;
+        this.changeElapsed = 0;
 
         this.velocity = { x: 0, y: 0 };
         this.fallAcc = 100;
@@ -65,6 +67,20 @@ class catplayer{
         this.animations = []; //putting them all 3 dimensional list in one;
         this.loadAnimations();
         
+    };
+    randomDamage(){
+        var x = Math.floor(Math.random() * Math.floor(3));
+        switch(x){
+            case 0:
+                this.damage = .04;
+                break;
+            case 1:
+                this.damage = .06;
+                break;
+            case 2:
+                this.damage = .08;
+                break;
+        }
     };
    
 
@@ -131,7 +147,11 @@ class catplayer{
         //const STOP_FALL_A = 90;
         const TICK = this.game.clockTick;
         this.block = false;
-
+        this.changeElapsed += TICK;
+        if(this.changeElapsed > 3){
+            this.randomDamage();
+            this.changeElapsed = 0;
+        }
         if(this.state !== 6 && this.state !== 7){
         
             //right
@@ -235,11 +255,12 @@ class catplayer{
         var that = this;
         this.game.entities.forEach(function (entity) {
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
-                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU)){
+                    if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU
+                        || entity instanceof GokuCPU)){
                             if(that.state === 5){
-                                opponentHitPoints -= .04;
+                                opponentHitPoints -= that.damage;
                             } else if(that.state === 5){
-                                opponentHitPoints -= .09;
+                                opponentHitPoints -= that.damage;
                             }  
                         }
             }

@@ -49,6 +49,8 @@ class KaratePlayer{
         //Starting off Falling to the right
         this.facing = this.FACING.RIGHT;
         this.state = this.STATE.JUMP;
+        this.damage = .05;
+        this.changeElapsed = 0;
 
         //His velocity for movements.
         this.velocity = {
@@ -64,6 +66,21 @@ class KaratePlayer{
         }
         this.animations = [];
         this.loadAnimations();
+    };
+    randomDamage(){
+        var x = Math.floor(Math.random() * Math.floor(3));
+        console.log("X: " + x);
+        switch(x){
+            case 0:
+                this.damage = .04;
+                break;
+            case 1:
+                this.damage = .06;
+                break;
+            case 2:
+                this.damage = .08;
+                break;
+        }
     };
 
     loadAnimations(){
@@ -175,6 +192,11 @@ class KaratePlayer{
         const TICK = this.game.clockTick;
         this.coolDown += TICK;
         this.block = false;
+        this.changeElapsed += TICK;
+        if(this.changeElapsed > 3){
+            this.randomDamage();
+            this.changeElapsed = 0;
+        }
         
 
         //Ground Physics
@@ -195,6 +217,7 @@ class KaratePlayer{
             }
             //Punch, direction does not matter.
             if(this.game.C){
+                ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
                 this.state = this.STATE.PUNCH;
             }
             //Duck
@@ -213,6 +236,7 @@ class KaratePlayer{
             }
             //Kick
             if(this.game.P){
+                ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
                 this.state = this.STATE.KICK;
             }
 
@@ -283,23 +307,16 @@ class KaratePlayer{
         this.game.entities.forEach(function (entity) {
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                        entity instanceof BillyLeeCPU || entity instanceof GokuCPU) && that.lastBB.right >= entity.BB.left){                            
+                        entity instanceof BillyLeeCPU || entity instanceof GokuCPU)/* && that.lastBB.right >= entity.BB.left*/){                            
                             if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
-                                opponentHitPoints -= .04;
+                                opponentHitPoints -= that.damage;
+                                //console.log("Opponent Health: " + opponentHitPoints);
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
-                                opponentHitPoints -= .09;
+                                opponentHitPoints -= that.damage;
+                                //console.log("Opponent Health: " + opponentHitPoints);
                             }  
                             that.updateBB();
                         }
-                        if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
-                            entity instanceof BillyLeeCPU || entity instanceof GokuCPU) && that.lastBB.left <= entity.BB.right){                                
-                                if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
-                                    opponentHitPoints -= .04;
-                                } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
-                                    opponentHitPoints -= .09;
-                                }  
-                                that.updateBB();
-                            }
             }
         });
 
