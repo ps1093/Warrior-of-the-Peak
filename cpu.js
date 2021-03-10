@@ -1746,11 +1746,13 @@ class GokuCPU extends Goku{
                                 if(that.attack === 0){
                                     that.state = that.STATE.PUNCH;
                                     if(!that.other.block){
+                                        console.log("Goku Damage: " + that.damage);
                                         that.other.hitPoints -= that.damage;
                                     }
                                 } else if(that.attack === 1){
                                     that.state = that.STATE.KICK;
                                     if(!that.other.block){
+                                        console.log("Goku Damage: " + that.damage);
                                         that.other.hitPoints -= that.damage;
                                     }
                                 }
@@ -1770,11 +1772,13 @@ class GokuCPU extends Goku{
                                     if(that.attack === 0){
                                         that.state = that.STATE.PUNCH;
                                         if(!that.other.block){
+                                            console.log("Goku Damage: " + that.damage);
                                             that.other.hitPoints -= that.damage;
                                         } 
                                     } else if(that.attack === 1){
                                         that.state = that.STATE.KICK;
                                         if(!that.other.block){
+                                            console.log("Goku Damage: " + that.damage);
                                             that.other.hitPoints -= that.damage;
                                         }
                                     }

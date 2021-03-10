@@ -58,7 +58,7 @@ class catplayer{
         this.state = 0; //idle =0, walking=1, running=2, block = 3, punch = 4, kick = 5, jump = 6, dead = 7.
         this.size = 0; // small = 0 and large = 1 after finish 
         this.facing = 0; //right = 0, left = 1
-        this.damage;
+        this.damage = .05;
         this.changeElapsed = 0;
 
         this.velocity = { x: 0, y: 0 };
