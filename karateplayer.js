@@ -361,19 +361,6 @@ class KaratePlayer{
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     //Ground Collisions
                     if (that.velocity.y > 0) {
-                        //Falling Logic - Level2  - Platform
-                        if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
-                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
-                            if(that.state === that.STATE.IDLE) that.y = entity.BB.top - KPstate.RIDLE[0].h * PARAMS.SCALE;
-                            else if(that.state === that.STATE.WALK) that.y = entity.BB.top - KPstate.RWALK[0].h * PARAMS.SCALE;
-                            else if(that.state === that.STATE.ROLL) that.y = entity.BB.top - KPstate.RROLL[0].h * PARAMS.SCALE;
-                            else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - KPstate.RDUCK[0].h * PARAMS.SCALE;
-                            else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - KPstate.RPUNCH[0].h * PARAMS.SCALE;  
-                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - KPstate.RKICK[0].h * PARAMS.SCALE; 
-                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.top - KPstate.RBLOCK[0].h * PARAMS.SCALE;            
-                            that.velocity.y = 0;
-                            that.updateBB();                         
-                        }
                         //Falling Logic - Level1 - Level2 - Ground
                         if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && that.lastBB.bottom >= entity.BB.bottom){
                             if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
@@ -384,6 +371,19 @@ class KaratePlayer{
                             else if(that.state === that.STATE.PUNCH) that.y = entity.BB.bottom - KPstate.RPUNCH[0].h * PARAMS.SCALE;
                             else if(that.state === that.STATE.KICK) that.y = entity.BB.bottom - KPstate.RKICK[0].h * PARAMS.SCALE; 
                             else if(that.state === that.STATE.BLOCK) that.y = entity.BB.bottom - KPstate.RBLOCK[0].h * PARAMS.SCALE;                           
+                            that.velocity.y = 0;
+                            that.updateBB();                         
+                        }
+                        //Falling Logic - Level2  - Platform
+                        if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
+                            if(that.state === that.STATE.JUMP) that.state = that.STATE.IDLE;
+                            if(that.state === that.STATE.IDLE) that.y = entity.BB.top - KPstate.RIDLE[0].h * PARAMS.SCALE;
+                            else if(that.state === that.STATE.WALK) that.y = entity.BB.top - KPstate.RWALK[0].h * PARAMS.SCALE;
+                            else if(that.state === that.STATE.ROLL) that.y = entity.BB.top - KPstate.RROLL[0].h * PARAMS.SCALE;
+                            else if(that.state === that.STATE.DUCK) that.y = entity.BB.top - KPstate.RDUCK[0].h * PARAMS.SCALE;
+                            else if(that.state === that.STATE.PUNCH) that.y = entity.BB.top - KPstate.RPUNCH[0].h * PARAMS.SCALE;  
+                            else if(that.state === that.STATE.KICK) that.y = entity.BB.top - KPstate.RKICK[0].h * PARAMS.SCALE; 
+                            else if(that.state === that.STATE.BLOCK) that.y = entity.BB.top - KPstate.RBLOCK[0].h * PARAMS.SCALE;            
                             that.velocity.y = 0;
                             that.updateBB();                         
                         }
