@@ -236,7 +236,7 @@ class Goku{
                     this.hitPoints += 0;
                 }
             } else{
-                //ASSET_MANAGER.pauseAsset("./audio/gokupower.mp3");
+                ASSET_MANAGER.pauseAsset("./audio/gokupower.mp3");
             }
             //Punch, direction does not matter.
             if(this.game.C){
