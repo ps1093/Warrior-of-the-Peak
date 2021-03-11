@@ -3,11 +3,8 @@
  *          Paras Sharma
  *          Suk Won
  *          Tyler Phippen
- * Austin: Made Scene Manager and Level Two, HUD, OBJECTS for
- * map, player, and CPU loads. 
- * Paras: Put Level one together and added his player.
- * Suk: Loaded his player into level 1.
- * Tyler: Loaded his player into level 1.
+ * This class launches the start screen, controls round transitions,
+ * and it launches winner / game over screens.
  **/
 class SceneManager{
 	constructor(game){
