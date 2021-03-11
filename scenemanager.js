@@ -292,38 +292,38 @@ class SceneManager{
             }
 
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[0].length * 12))){
-                ASSET_MANAGER.pauseBackgroundMusic();
-                ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
+                // ASSET_MANAGER.pauseBackgroundMusic();
+                // ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[0];  
             } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[1].length * 12))){
-                ASSET_MANAGER.pauseBackgroundMusic();
-                ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
+                // ASSET_MANAGER.pauseBackgroundMusic();
+                // ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[1]; 
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[2].length * 12))){
-                ASSET_MANAGER.pauseBackgroundMusic();
-                ASSET_MANAGER.playAsset("./audio/CatMeow.mp3");
+                // ASSET_MANAGER.pauseBackgroundMusic();
+                // ASSET_MANAGER.playAsset("./audio/CatMeow.mp3");
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[2]; 
             } else if(((this.game.click.y >= 550-12) && (this.game.click.y <= 550 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[3].length * 12))){
-                ASSET_MANAGER.pauseBackgroundMusic();
-                ASSET_MANAGER.playAsset("./music/ChunLi.mp3");
+                // ASSET_MANAGER.pauseBackgroundMusic();
+                // ASSET_MANAGER.playAsset("./music/ChunLi.mp3");
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[3]; 
             } else if(((this.game.click.y >= 600-12) && (this.game.click.y <= 600 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[4].length * 12))){
-                ASSET_MANAGER.pauseBackgroundMusic();
-                ASSET_MANAGER.playAsset("./music/Damn.mp4");
+                // ASSET_MANAGER.pauseBackgroundMusic();
+                // ASSET_MANAGER.playAsset("./music/Damn.mp4");
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[4]; 
             } else if(((this.game.click.y >= 650-12) && (this.game.click.y <= 650 +3) && (this.game.click.x > 400) && (this.game.click.x < 400 + this.Players.CHARACTERS[4].length * 12))){
-                ASSET_MANAGER.pauseBackgroundMusic();
-                ASSET_MANAGER.playAsset("./music/gokutheme.mp3");
+                // ASSET_MANAGER.pauseBackgroundMusic();
+                // ASSET_MANAGER.playAsset("./music/gokutheme.mp3");
                 this.oclickX = this.game.click.x;
                 this.oclickY = this.game.click.y;
                 this.PlayersChoice.OPPONENT = this.Players.CHARACTERS[5];
