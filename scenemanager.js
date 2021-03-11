@@ -252,21 +252,23 @@ class SceneManager{
         }
         if(this.game.click){
             if(((this.game.click.y >= 400-12) && (this.game.click.y <= 400 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[0].length * 12))){
-                ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
+                ASSET_MANAGER.pauseBackgroundMusic();
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[0];
-            } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[1].length * 12))){
                 ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
+            } else if(((this.game.click.y >= 450-12) && (this.game.click.y <= 450 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[1].length * 12))){
+                ASSET_MANAGER.pauseBackgroundMusic();
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
                 this.PlayersChoice.PLAYER = this.Players.CHARACTERS[1];
+                ASSET_MANAGER.playAsset("./audio/KarateSoundEffect.mp3");
             } else if(((this.game.click.y >= 500-12) && (this.game.click.y <= 500 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[2].length * 12))){
-                ASSET_MANAGER.playAsset("./audio/CatMeow.mp3");
+                ASSET_MANAGER.pauseBackgroundMusic();
                 this.pclickX = this.game.click.x;
                 this.pclickY = this.game.click.y;
-                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[2]; 
-               // ASSET_MANAGER.pauseBackgroundMusic();
+                this.PlayersChoice.PLAYER = this.Players.CHARACTERS[2];
+                ASSET_MANAGER.playAsset("./audio/CatMeow.mp3");
             } else if(((this.game.click.y >= 550-12) && (this.game.click.y <= 550 +3) && (this.game.click.x > 0) && (this.game.click.x < this.Players.CHARACTERS[3].length * 12))){
                 ASSET_MANAGER.pauseBackgroundMusic();
                 this.pclickX = this.game.click.x;
