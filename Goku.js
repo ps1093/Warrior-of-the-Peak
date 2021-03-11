@@ -395,7 +395,7 @@ class Goku{
                                 opponentHitPoints -= that.damage;
                             } else if(that.state === that.STATE.KAME/* && !opponentBlock*/){
                                 if(that.time >= 8){
-                                opponentHitPoints -= that.damage * 4;
+                                opponentHitPoints -= that.damage * 2.5;
                                 } 
                             }  
                         }
