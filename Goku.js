@@ -20,7 +20,7 @@ class Goku{
         this.maxHitPoints  = 100;
         //Total hit points taken
         this.hitPoints = 100;
-        this.damage = .05;
+        this.damage = 0.05;
 
         //Circle so the CPU can detect player
         this.VisRadius = 135;
@@ -69,13 +69,13 @@ class Goku{
         var x = Math.floor(Math.random() * Math.floor(3));
         switch(x){
             case 0:
-                this.damage = .04;
+                this.damage = 0.04;
                 break;
             case 1:
-                this.damage = .06;
+                this.damage = 0.06;
                 break;
             case 2:
-                this.damage = .08;
+                this.damage = 0.08;
                 break;
         }
     };
@@ -228,15 +228,15 @@ class Goku{
             } 
             //Power
             if(this.game.Q){
-            //  ASSET_MANAGER.playAsset("./audio/gokupower.mp3");
+                ASSET_MANAGER.playAsset("./audio/gokupower.mp3");
                 this.state = this.STATE.POWER;
                 if(this.hitPoints < 100){
-                    this.hitPoints += .05
+                    this.hitPoints += 0.05;
                 } else {
                     this.hitPoints += 0;
                 }
             } else{
-
+                //ASSET_MANAGER.pauseAsset("./audio/gokupower.mp3");
             }
             //Punch, direction does not matter.
             if(this.game.C){
