@@ -293,7 +293,7 @@ class Goku{
                 ASSET_MANAGER.playAsset("./audio/gokukamevoice.mp3");
                 this.state = this.STATE.CHARGEKAME;
                 this.velocity.x = 0;
-                this.hitPoints -= 100;
+                this.hitPoints -= 0.05;
                 this.time += TICK;
                 if(this.time >= 8){
                     this.state = this.STATE.KAME;
@@ -391,7 +391,7 @@ class Goku{
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
                                 opponentHitPoints -= that.damage;
                             } else if(that.state === that.STATE.BLAST/* && !opponentBlock*/){
-                                opponentHitPoints -= that.damage*1000;
+                                opponentHitPoints -= that.damage * 1.05;
                             } else if(that.state === that.STATE.KAME/* && !opponentBlock*/){
                                 if(that.time >= 8){
                                 opponentHitPoints -= that.damage * 2.5;
