@@ -257,7 +257,7 @@ class Goku{
                 this.state = this.STATE.IDLE;
             }
             //Duck
-            if(this.game.S){
+            if(this.game.S){ 
                 this.state = this.STATE.DUCK;
             } 
             //Power
@@ -289,7 +289,7 @@ class Goku{
                 ASSET_MANAGER.pauseAsset("./audio/gokuclash.mp3");
             }
             //Kamehameha
-            if(this.game.K){
+            if(this.game.K){ 
                 ASSET_MANAGER.playAsset("./audio/gokukamevoice.mp3");
                 this.state = this.STATE.CHARGEKAME;
                 this.velocity.x = 0;
@@ -298,7 +298,7 @@ class Goku{
                 if(this.time >= 8){
                     this.state = this.STATE.KAME;
                 }
-                if(this.time >= 10){
+                if(this.time >= 8){
                     ASSET_MANAGER.playAsset("./audio/gokukame.mp3");
                 }
             }else{
@@ -354,7 +354,7 @@ class Goku{
         }
 
         //Dying
-        if(this.hitPoints === 0){
+        if(this.hitPoints <== 0){
             this.state = this.STATE.DEAD;
             this.velocity.x = 0;
             this.velocity.y = -50;
