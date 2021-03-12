@@ -224,6 +224,7 @@ class Goku{
             this.BB = new BoundingBox(this.x, this.y, GokuState.LCHARGEKAME[0].w * PARAMS.SCALE, GokuState.LCHARGEKAME[0].h * PARAMS.SCALE);
         }
     };
+    
     update(){
         //Variables to manipulate the X and Y velocity
         const WALK = 75;
