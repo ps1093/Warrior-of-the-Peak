@@ -225,6 +225,7 @@ class Goku{
             this.BB = new BoundingBox(this.x, this.y, GokuState.LCHARGEKAME[0].w * PARAMS.SCALE, GokuState.LCHARGEKAME[0].h * PARAMS.SCALE);
         }
     };
+    
     update(){
         //Variables to manipulate the X and Y velocity
         const WALK = 75;
@@ -291,21 +292,17 @@ class Goku{
             }
             //Kamehameha
             if(this.game.K){ 
-                ASSET_MANAGER.playAsset("./audio/gokukamevoice.mp3");
+                ASSET_MANAGER.playAsset("./audio/gokubestkame.mp3");
                 this.state = this.STATE.CHARGEKAME;
                 this.velocity.x = 0;
                 this.hitPoints -= 0.05;
                 this.time += TICK;
-                if(this.time >= 8){
+                if(this.time >= 3){
                     this.state = this.STATE.KAME;
-                }
-                if(this.time >= 8){
-                    ASSET_MANAGER.playAsset("./audio/gokukame.mp3");
                 }
             }else{
                 this.time = 0;
-                ASSET_MANAGER.pauseAsset("./audio/gokukamevoice.mp3");
-                ASSET_MANAGER.pauseAsset("./audio/gokukame.mp3");
+                ASSET_MANAGER.pauseAsset("./audio/gokubestkame.mp3");
             }
             //Blast
             if(this.game.B){
@@ -394,8 +391,8 @@ class Goku{
                             } else if(that.state === that.STATE.BLAST/* && !opponentBlock*/){
                                 opponentHitPoints -= that.damage * 1.05;
                             } else if(that.state === that.STATE.KAME/* && !opponentBlock*/){
-                                if(that.time >= 8){
-                                opponentHitPoints -= that.damage * 2.5;
+                                if(that.time >= 3){
+                                opponentHitPoints -= that.damage * 1.5;
                                 } 
                             }  
                         }
@@ -494,6 +491,11 @@ class Goku{
                             else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right - GokuState.RPUNCH[0].w * PARAMS.SCALE;
                             else if(that.state === that.STATE.JUMP) that.x = entity.BB.right - GokuState.RJUMP[0].w * PARAMS.SCALE;
                             else if(that.state === that.STATE.KICK) that.x = entity.BB.right - GokuState.RKICK[0].w * PARAMS.SCALE;
+                            else if(that.state === that.STATE.POWER) that.x = entity.BB.right - GokuState.RPOWER[0].w * PARAMS.SCALE;     
+                            else if(that.state === that.STATE.BLOCK) that.x = entity.BB.right - GokuState.RBLOCK[0].w * PARAMS.SCALE;           
+                            else if(that.state === that.STATE.BLAST) that.x = entity.BB.right - GokuState.RBLAST[0].w * PARAMS.SCALE;
+                            else if(that.state === that.STATE.DUCK) that.x = entity.BB.right - GokuState.RDUCK[0].w * PARAMS.SCALE;
+                            else if(that.state === that.STATE.KAME) that.x = entity.BB.right - GokuState.RKAME[0].w * PARAMS.SCALE;
                             that.velocity.x = 0;
                             that.updateBB();
                         }
@@ -502,6 +504,11 @@ class Goku{
                             if(that.state === that.STATE.WALK) that.x = entity.BB.left; 
                             else if(that.state === that.STATE.PUNCH) that.x = entity.BB.left;
                             else if(that.state === that.STATE.KICK) that.x = entity.BB.left;
+                            else if(that.state === that.STATE.POWER) that.x = entity.BB.left;     
+                            else if(that.state === that.STATE.BLOCK) that.x = entity.BB.left;           
+                            else if(that.state === that.STATE.BLAST) that.x = entity.BB.left;
+                            else if(that.state === that.STATE.DUCK) that.x = entity.BB.left;
+                            else if(that.state === that.STATE.KAME) that.x = entity.BB.left;
                             that.velocity.x = 0;
                             that.updateBB();
                         }
