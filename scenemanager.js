@@ -120,12 +120,25 @@ class SceneManager{
         if(transition){
             ASSET_MANAGER.pauseBackgroundMusic();
             this.game.addEntity(new TransitionScreen(this.game, this.Level.MAP));
+            ASSET_MANAGER.playAsset("./audio/roundone.mp3");
         } else if(roundTransition){
+            ASSET_MANAGER.pauseBackgroundMusic();
             this.game.addEntity(new roundTransitionScreen(this.game, roundCount));
-        } else if (gameOver){
+            if(this.roundCount === 1){
+                ASSET_MANAGER.playAsset("./audio/roundone.mp3");
+            } else if(this.roundCount === 2){
+                ASSET_MANAGER.playAsset("./audio/roundtwo.mp3");
+            } else if(this.roundCount === 3){
+                ASSET_MANAGER.playAsset("./audio/finalround.mp3");
+            }
+        } else if (gameOver){    
             this.game.addEntity(new GameOver(this.game));
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset("./audio/gameover.mp3");
         } else if(winner){
             this.game.addEntity(new Winner(this.game));
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset("./audio/perfectwinner.mp3");
         } else {
             switch(this.Level.MAP){
                 //Water falls
@@ -527,10 +540,12 @@ class roundTransitionScreen{
         this.roundCount = roundCount;
         this.elapsed = 0;
         this.midpoint = 1024 / 2;
-        if(this.roundCount === 2){
+        if(this.roundCount === 1){
+            this.round = "Round 1";
+        } else if(this.roundCount === 2){
             this.round = "Round 2";
         } else if (this.roundCount === 3) {
-            this.round = "Round 3";
+            this.round = "Final Round";
         }
     };
     update(){
@@ -555,12 +570,13 @@ class GameOver{
         Object.assign(this, {game});
         this.midpoint = 1024 / 2;
         this.elapsed = 0;
-
+        
     };
     update(){
         this.elapsed += this.game.clockTick;
         if(this.elapsed > 2){
             this.clearEntities();
+            
             this.game.addEntity(new SceneManager(this.game));
         }
     };
