@@ -354,7 +354,7 @@ class Goku{
         }
 
         //Dying
-        if(this.hitPoints <== 0){
+        if(this.hitPoints <= 0){
             this.state = this.STATE.DEAD;
             this.velocity.x = 0;
             this.velocity.y = -50;
