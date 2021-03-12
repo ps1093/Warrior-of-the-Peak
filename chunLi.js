@@ -364,7 +364,7 @@ class ChunLi {
         
         } 
 
-        if(this.hitPoints === 0){
+        if(this.hitPoints <= 0){
             this.dead = true;
         } 
 
