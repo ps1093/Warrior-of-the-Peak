@@ -105,28 +105,28 @@ class Goku{
             = new Animator2(this.spritesheet2, GokuState.LWALK, 2, 0.5, false, true);
 
          //******* Punch Right & LEFT ********
-         this.animations[this.STATE.PUNCH][this.FACING.RIGHT] 
-             = new Animator2(this.spritesheet, GokuState.RPUNCH, 2, 0.2, false, true);
-         this.animations[this.STATE.PUNCH][this.FACING.LEFT]
-             = new Animator2(this.spritesheet2, GokuState.LPUNCH, 2, 0.2, false, true);
+        this.animations[this.STATE.PUNCH][this.FACING.RIGHT] 
+            = new Animator2(this.spritesheet, GokuState.RPUNCH, 2, 0.2, false, true);
+        this.animations[this.STATE.PUNCH][this.FACING.LEFT]
+            = new Animator2(this.spritesheet2, GokuState.LPUNCH, 2, 0.2, false, true);
     
          //******* Kick Right & Left *******
-         this.animations[this.STATE.KICK][this.FACING.RIGHT]
-             = new Animator2(this.spritesheet, GokuState.RKICK , 3, 0.25, false, true);
-         this.animations[this.STATE.KICK][this.FACING.LEFT]
-             = new Animator2(this.spritesheet2, GokuState.LKICK, 3, 0.25, false, true);
+        this.animations[this.STATE.KICK][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, GokuState.RKICK , 3, 0.25, false, true);
+        this.animations[this.STATE.KICK][this.FACING.LEFT]
+            = new Animator2(this.spritesheet2, GokuState.LKICK, 3, 0.25, false, true);
     
          //****** Duck Left & Right ******
-         this.animations[this.STATE.DUCK][this.FACING.RIGHT]
-             = new Animator2(this.spritesheet, GokuState.RDUCK, 1, 0.15, false, true);
-         this.animations[this.STATE.DUCK][this.FACING.LEFT]
-             = new Animator2(this.spritesheet2, GokuState.LDUCK, 1, 0.15, false, true);
+        this.animations[this.STATE.DUCK][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, GokuState.RDUCK, 1, 0.15, false, true);
+        this.animations[this.STATE.DUCK][this.FACING.LEFT]
+            = new Animator2(this.spritesheet2, GokuState.LDUCK, 1, 0.15, false, true);
     
          //****** Jump Right & Left ******
-         this.animations[this.STATE.JUMP][this.FACING.RIGHT]
-             = new Animator2(this.spritesheet, GokuState.RJUMP, 1, 0.15, false, true);
-         this.animations[this.STATE.JUMP][this.FACING.LEFT]
-             = new Animator2(this.spritesheet2, GokuState.LJUMP, 1, 0.15, false, true);
+        this.animations[this.STATE.JUMP][this.FACING.RIGHT]
+            = new Animator2(this.spritesheet, GokuState.RJUMP, 1, 0.15, false, true);
+        this.animations[this.STATE.JUMP][this.FACING.LEFT]
+            = new Animator2(this.spritesheet2, GokuState.LJUMP, 1, 0.15, false, true);
 
         //****** Block Left & Right ******
         this.animations[this.STATE.BLOCK][this.FACING.RIGHT]
@@ -257,7 +257,7 @@ class Goku{
                 this.state = this.STATE.IDLE;
             }
             //Duck
-            if(this.game.S){
+            if(this.game.S){ 
                 this.state = this.STATE.DUCK;
             } 
             //Power
@@ -289,7 +289,7 @@ class Goku{
                 ASSET_MANAGER.pauseAsset("./audio/gokuclash.mp3");
             }
             //Kamehameha
-            if(this.game.K){
+            if(this.game.K){ 
                 ASSET_MANAGER.playAsset("./audio/gokukamevoice.mp3");
                 this.state = this.STATE.CHARGEKAME;
                 this.velocity.x = 0;
@@ -298,7 +298,7 @@ class Goku{
                 if(this.time >= 8){
                     this.state = this.STATE.KAME;
                 }
-                if(this.time >= 10){
+                if(this.time >= 8){
                     ASSET_MANAGER.playAsset("./audio/gokukame.mp3");
                 }
             }else{
@@ -354,7 +354,7 @@ class Goku{
         }
 
         //Dying
-        if(this.hitPoints === 0){
+        if(this.hitPoints <== 0){
             this.state = this.STATE.DEAD;
             this.velocity.x = 0;
             this.velocity.y = -50;
@@ -522,18 +522,18 @@ class Goku{
                         //Jumping & Kicking to Right - Level2 - Level1
                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
                             if(that.state === that.STATE.JUMP) that.x = entity.BB.right - GokuState.RJUMP[0].w * PARAMS.SCALE;
-                             that.updateBB();
+                            that.updateBB();
                         }
                         //Jumping & Kicking to Left - Level2 - Level1
                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
                             if(that.state === that.STATE.JUMP) that.x = entity.BB.left;
-                             that.updateBB();
+                            that.updateBB();
                         }
                     }
                 } 
         });        
     };
-     draw(ctx){
+    draw(ctx){
         if(PARAMS.DEBUG){
             //Visual CIrcle
             ctx.beginPath();

@@ -1735,7 +1735,7 @@ class GokuCPU extends Goku{
             }                
         }
 
-        if(this.hitPoints === 0){
+        if(this.hitPoints <== 0){
             this.CPUSTATE.DEATH = true;
             this.velocity.y = -50;
             this.velocity.x = 0;
