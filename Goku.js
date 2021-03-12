@@ -558,6 +558,12 @@ class Goku{
             ctx.fillText(this.name, 759 - (cpuNameCount * 14), 60);
             ctx.strokeText(this.name, 759 - (cpuNameCount * 14), 60);
         }
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
+        if(this.state === this.STATE.BLAST && this.facing === this.FACING.LEFT){
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x-185, this.y, PARAMS.SCALE);
+        } else if(this.state === this.STATE.KAME && this.facing === this.FACING.LEFT){
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x-230, this.y, PARAMS.SCALE);
+        } else {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick,ctx, this.x, this.y, PARAMS.SCALE);
+        }
     };
 };

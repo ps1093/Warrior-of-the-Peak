@@ -226,7 +226,7 @@ class catplayer{
             }
         }
 
-        if(this.hitPoints === 0){
+        if(this.hitPoints <= 0){
             
             this.state = 7;
             this.velocity.y += this.fallAcc * TICK * PARAMS.SCALE; //gravity 
