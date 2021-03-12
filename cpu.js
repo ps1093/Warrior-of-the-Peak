@@ -226,8 +226,6 @@ class KaratePlayerCPU extends KaratePlayer{
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.updateCircleCPU();
-        opponentcX = this.cX;
-        opponentcY = this.cY;
         this.updateBBCPU();
         this.collisionsCPU();
     };
@@ -606,8 +604,6 @@ class CatPlayerCPU extends catplayer{
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.updateCircleCPU();
-        opponentcX = this.cX;
-        opponentcY = this.cY;
         this.updateBB();
         this.collisionsCPU();
     };
@@ -900,7 +896,7 @@ class ChunLiCPU extends ChunLi{
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     if(that.velocity.y > 0){
                         if((entity instanceof BackGround || entity instanceof BackScene || entity instanceof Sky) && (that.lastBB.bottom) >= entity.BB.bottom){
-                            console.log("IS she colliding with ground?");
+                            //console.log("IS she colliding with ground?");
                             that.CPUSTATE.AIR = false;
                         }
                         if((entity instanceof Platform || entity instanceof Propeller) && that.lastBB.bottom >= entity.BB.top){
@@ -962,8 +958,6 @@ class ChunLiCPU extends ChunLi{
         this.y += this.velocity.y * TICK * PARAMS.CHUNLI;
         this.cX = this.x + this.walk[this.animations[1][0].currentFrame()].w / 2 * PARAMS.CHUNLI;
         this.cY = this.y + this.walk[this.animations[1][0].currentFrame()].h / 2 * PARAMS.CHUNLI;
-        opponentcX = this.cX;
-        opponentcY = this.cY;
         this.updateBB();
         this.collisionsCPU();
     };
@@ -1380,8 +1374,6 @@ class BillyLeeCPU extends BillyLee{
         this.y += this.velocity.y * TICK * PARAMS.BL;
         this.cX = this.x + this.walk[this.animations[1][0].currentFrame()].w / 2 * PARAMS.BL;
         this.cY = this.y + this.walk[this.animations[1][0].currentFrame()].h / 2 * PARAMS.BL;
-        opponentcX = this.cX;
-        opponentcY = this.cY;
         this.updateBB();
         this.collisionsCPU();
     };    
@@ -1807,8 +1799,6 @@ class GokuCPU extends Goku{
         this.y += this.velocity.y * TICK * PARAMS.SCALE;
         this.cX = this.x + GokuState.RWALK[0].w / 2 * PARAMS.SCALE;
         this.cY = this.y + GokuState.RWALK[0].h / 2 * PARAMS.SCALE;
-        opponentcX = this.cX;
-        opponentcY = this.cY;
         this.updateBB();
         this.collisionsCPU();
     };

@@ -1,6 +1,6 @@
 class KaratePlayer{
-    constructor(game, x, y, blue, theName, roundCount, map, deathCount, opponent){
-        Object.assign(this, {game, x, y, blue, theName, roundCount, map, deathCount, opponent});
+    constructor(game, x, y, blue, theName, roundCount, map, deathCount, opponent, cpuDeathCount){
+        Object.assign(this, {game, x, y, blue, theName, roundCount, map, deathCount, opponent, cpuDeathCount});
         this.game.KaratePlayer = this;
 
         //Character Details for HUD and game
@@ -8,6 +8,7 @@ class KaratePlayer{
         console.log("Player: " + this.theName);
         this.CPU = false;
         this.deathCount = deathCount;
+        this.cpuDeathCount = cpuDeathCount
         this.elapsed = 0;
         //this.atkElapsed = 0;
         this.blockElapsed = 0;
@@ -69,7 +70,6 @@ class KaratePlayer{
     };
     randomDamage(){
         var x = Math.floor(Math.random() * Math.floor(3));
-        console.log("X: " + x);
         switch(x){
             case 0:
                 this.damage = .04;
@@ -285,11 +285,12 @@ class KaratePlayer{
         } 
 
         if(opponentDeath){
-            if(this.roundCount <= 3 && opponentDeathCount <= 3){
+            console.log("Death Count: " + this.cpuDeathCount);
+            if(this.roundCount <= 3 && this.cpuDeathCount <= 3){
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
-                    opponentDeathCount++; 
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    this.cpuDeathCount += 1;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, this.cpuDeathCount));
                 }
             } 
         }
@@ -299,7 +300,7 @@ class KaratePlayer{
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
                     this.deathCount++;
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, this.cpuDeathCount));
                 }
             } 
         }
@@ -309,10 +310,10 @@ class KaratePlayer{
                     if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
                         entity instanceof BillyLeeCPU || entity instanceof GokuCPU)/* && that.lastBB.right >= entity.BB.left*/){                            
                             if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
-                                opponentHitPoints -= that.damage;
+                                opponentHitPoints -= /*that.damage*/25;
                                 //console.log("Opponent Health: " + opponentHitPoints);
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
-                                opponentHitPoints -= that.damage;
+                                opponentHitPoints -= /*that.damage*/25;
                                 //console.log("Opponent Health: " + opponentHitPoints);
                             }  
                             that.updateBB();

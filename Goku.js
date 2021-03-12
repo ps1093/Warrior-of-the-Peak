@@ -1,6 +1,6 @@
 class Goku{
-    constructor(game, x, y, theName, roundCount, map, deathCount, opponent){
-        Object.assign(this, {game, x, y, theName, roundCount, map, deathCount, opponent});
+    constructor(game, x, y, theName, roundCount, map, deathCount, opponent, cpuDeathCount){
+        Object.assign(this, {game, x, y, theName, roundCount, map, deathCount, opponent, cpuDeathCount});
         this.game.Goku = this;
 
         //Character Details for HUD and game
@@ -8,6 +8,7 @@ class Goku{
         console.log("Player: " + this.theName);
         this.CPU = false;
         this.deathCount = deathCount;
+        this.cpuDeathCount = cpuDeathCount;
         this.elapsed = 0;
         this.blockElapsed = 0;
         this.coolDown = 3;
@@ -359,11 +360,11 @@ class Goku{
         } 
         //Round Change
         if(opponentDeath){
-            if(this.roundCount <= 3 && opponentDeathCount <= 3){
+            if(this.roundCount <= 3 && this.cpuDeathCount <= 3){
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
-                    opponentDeathCount++; 
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    this.cpuDeathCount++; 
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, this.cpuDeathCount));
                 }
             } 
         }
@@ -373,7 +374,7 @@ class Goku{
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
                     this.deathCount++;
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, this.cpuDeathCount));
                 }
             } 
         }
