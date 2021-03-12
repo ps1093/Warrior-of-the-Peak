@@ -310,10 +310,10 @@ class KaratePlayer{
                     if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU ||
                         entity instanceof BillyLeeCPU || entity instanceof GokuCPU)/* && that.lastBB.right >= entity.BB.left*/){                            
                             if(that.state === that.STATE.PUNCH/* && !opponentBlock*/){
-                                opponentHitPoints -= /*that.damage*/25;
+                                opponentHitPoints -= that.damage;
                                 //console.log("Opponent Health: " + opponentHitPoints);
                             } else if(that.state === that.STATE.KICK/* && !opponentBlock*/){
-                                opponentHitPoints -= /*that.damage*/25;
+                                opponentHitPoints -= that.damage;
                                 //console.log("Opponent Health: " + opponentHitPoints);
                             }  
                             that.updateBB();
