@@ -88,11 +88,8 @@ var GokuState = {
 
 };
 var opponentDeath;
-var opponentDeathCount;
 var opponentHitPoints;
 var opponentBlock;
-var opponentAtkRadius;
-var opponentcX;
-var opponentcY;
+
 
 

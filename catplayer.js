@@ -1,6 +1,6 @@
 class catplayer{
-    constructor(game, x, y, theName, roundCount, map, deathCount, opponent){
-        Object.assign(this,{game, x, y, theName, roundCount, map, deathCount, opponent});
+    constructor(game, x, y, theName, roundCount, map, deathCount, opponent, cpuDeathCount){
+        Object.assign(this,{game, x, y, theName, roundCount, map, deathCount, opponent, cpuDeathCount});
 
         this.name = theName;
         this.CPU = false;
@@ -8,6 +8,7 @@ class catplayer{
         this.maxHitPoints = 100;
         this.hitPoints = 100;
         this.deathCount = deathCount;
+        this.cpuDeathCount = cpuDeathCount;
         this.elapsed = 0;
         this.block = false;
 
@@ -234,11 +235,11 @@ class catplayer{
             console.log("i have died ");
         } 
         if(opponentDeath){
-            if(this.roundCount <= 3 && opponentDeathCount <= 3){
+            if(this.roundCount <= 3 && this.cpuDeathCount <= 3){
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
-                    opponentDeathCount++;
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    this.cpuDeathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, this.cpuDeathCount));
                 }
             } 
         }
@@ -247,7 +248,7 @@ class catplayer{
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
                     this.deathCount++;
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, this.cpuDeathCount));
                 }
             } 
         }
