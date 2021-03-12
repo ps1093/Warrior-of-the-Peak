@@ -23,7 +23,7 @@ class SceneManager{
         this.clickCounter = 0;
         this.roundCount = 1;
         this.deathCount=0;
-        opponentDeathCount = 0;
+        this.cpuDeathCount = 0;
         this.DLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet.png");
         this.JLspritesheet = ASSET_MANAGER.getAsset("./sprites/spritesheet1.png");
         this.CPspritesheet = ASSET_MANAGER.getAsset("./sprites/fighterLR.png");
@@ -67,27 +67,27 @@ class SceneManager{
         switch(this.PlayersChoice.PLAYER){
             //Daniel Larusso
             case this.Players.CHARACTERS[0]:
-                this.player = new KaratePlayer(this.game, 50, 0, false, this.Players.CHARACTERS[0], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
+                this.player = new KaratePlayer(this.game, 50, 0, false, this.Players.CHARACTERS[0], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT, this.cpuDeathCount);
                 break;
             //Johnny Lawrence
             case this.Players.CHARACTERS[1]:
-                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
+                this.player = new KaratePlayer(this.game, 50, 0, true, this.Players.CHARACTERS[1], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT, this.cpuDeathCount);
                 break;
             //Yodha
             case this.Players.CHARACTERS[2]:
-                this.player = new catplayer(this.game, 0, 0, this.Players.CHARACTERS[2], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
+                this.player = new catplayer(this.game, 0, 0, this.Players.CHARACTERS[2], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT,this.cpuDeathCount);
                 break;
             //Chun Li
             case this.Players.CHARACTERS[3]:
-                this.player = new ChunLi(this.game, 0, 0, this.Players.CHARACTERS[3], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
+                this.player = new ChunLi(this.game, 0, 0, this.Players.CHARACTERS[3], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT,this.cpuDeathCount);
                 break;
             //Billy Lee
             case this.Players.CHARACTERS[4]:
-                this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
+                this.player = new BillyLee(this.game, 0, 0, this.Players.CHARACTERS[4], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT,this.cpuDeathCount);
                 break;
             //Goku
             case this.Players.CHARACTERS[5]:
-                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT);
+                this.player = new Goku(this.game, 0, 0, this.Players.CHARACTERS[5], this.roundCount, this.Level.MAP, this.deathCount, this.PlayersChoice.OPPONENT,this.cpuDeathCount);
                 break;
         }
         switch(this.PlayersChoice.OPPONENT){
@@ -505,17 +505,18 @@ class VS{
 };
 
 class RoundManager extends SceneManager{
-    constructor(game, roundCount, player, opponent, map, deathCount, opponentDeathCount){
+    constructor(game, roundCount, player, opponent, map, deathCount, cpuDeathCount){
         super(game);
         Object.assign(this, {game});
         this.deathCount = deathCount;
+        this.cpuDeathCount = cpuDeathCount;
         this.roundCount = roundCount;
-        opponentDeathCount = opponentDeathCount;
         //True if won, and false if lost.
         this.result;
-        console.log("Player Death: " + this.deathCount + "VS. Opponent Death count: " + opponentDeathCount);
-        if(this.deathCount < opponentDeathCount) this.result = true;
-        if(this.deathCount > opponentDeathCount) this.result = false;
+        console.log("CPU death t/f: " + opponentDeath);
+        console.log("Player Death: " + this.deathCount + "VS. Opponent Death count: " + this.cpuDeathCount);
+        if(this.deathCount < this.cpuDeathCount) this.result = true;
+        if(this.deathCount > this.cpuDeathCount) this.result = false;
         this.roundCount+=1;
         if(this.roundCount === 4){
             if(this.result)this.loadgame(false, false, false, this.roundCount, false, true);

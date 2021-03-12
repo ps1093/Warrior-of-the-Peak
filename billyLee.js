@@ -1,6 +1,6 @@
 class BillyLee {
-    constructor(game, x, y, theName, roundCount, map, deathCount, opponent) {
-        Object.assign(this, { game, x, y, theName, roundCount, map, deathCount, opponent });
+    constructor(game, x, y, theName, roundCount, map, deathCount, opponent, cpuDeathCount) {
+        Object.assign(this, { game, x, y, theName, roundCount, map, deathCount, opponent, cpuDeathCount });
   
       //  this.game.BillyLee = this;
 
@@ -11,6 +11,7 @@ class BillyLee {
         this.dead = false;
         this.CPU = false;
         this.deathCount = deathCount;
+        this.cpuDeathCount = cpuDeathCount
         this.elapsed = 0;
         this.block = false;
 
@@ -306,11 +307,11 @@ class BillyLee {
             this.dead = true;
         }
         if(opponentDeath){
-            if(this.roundCount <= 3 && opponentDeathCount <= 3){
+            if(this.roundCount <= 3 && this.cpuDeathCount <= 3){
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
-                    opponentDeathCount++;
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    this.cpuDeathCount++;
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, this.cpuDeathCount));
                 }
             } 
         }
@@ -319,7 +320,7 @@ class BillyLee {
                 this.elapsed += TICK;
                 if(this.elapsed > 2){
                     this.deathCount++;
-                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, opponentDeathCount));
+                    this.game.addEntity(new RoundManager(this.game, this.roundCount, this.theName, this.opponent, this.map, this.deathCount, this.cpuDeathCount));
                 }
             } 
         }
