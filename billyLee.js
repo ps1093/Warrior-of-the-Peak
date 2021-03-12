@@ -302,7 +302,7 @@ class BillyLee {
             }
         }
 
-        if (this.hitPoints === 0){
+        if (this.hitPoints <= 0){
             this.dead = true;
         }
         if(opponentDeath){

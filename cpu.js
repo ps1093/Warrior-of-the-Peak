@@ -145,7 +145,7 @@ class KaratePlayerCPU extends KaratePlayer{
             }                
         }
 
-        if(this.hitPoints === 0){
+        if(this.hitPoints <= 0){
             this.CPUSTATE.DEATH = true;
             this.velocity.y = -100;
             this.velocity.x = 0;
@@ -540,7 +540,7 @@ class CatPlayerCPU extends catplayer{
             } else {
             }                
         }
-        if(this.hitPoints === 0){
+        if(this.hitPoints <= 0){
             this.CPUSTATE.DEATH = true;
             this.state = 7;
             this.velocity.x = 0;
@@ -880,7 +880,7 @@ class ChunLiCPU extends ChunLi{
             } else {
             }                
         }
-        if(this.hitPoints === 0){
+        if(this.hitPoints <= 0){
             this.CPUSTATE.DEATH = true;
             this.velocity.y = -100;
             this.velocity.x = 0;
@@ -1301,7 +1301,7 @@ class BillyLeeCPU extends BillyLee{
             } else {
             }                
         }
-        if(this.hitPoints === 0){
+        if(this.hitPoints <= 0){
             this.CPUSTATE.DEATH = true;
             this.velocity.y = -100;
             this.velocity.x = 0;

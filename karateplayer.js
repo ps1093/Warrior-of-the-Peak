@@ -278,7 +278,7 @@ class KaratePlayer{
 
 
         
-        if(this.hitPoints === 0){
+        if(this.hitPoints <= 0){
             this.state = this.STATE.DEAD;
             this.velocity.y = - 100;
             this.velocity.x = 0;
@@ -391,18 +391,17 @@ class KaratePlayer{
                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.right >= entity.BB.right){
                             if(that.state === that.STATE.WALK) that.x = entity.BB.right - KPstate.RWALK[0].w * PARAMS.SCALE;
                             else if(that.state === that.STATE.ROLL) that.x = entity.BB.right - KPstate.RROLL[0].w * PARAMS.SCALE;
-                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right - KPstate.RPUNCH[0].w * PARAMS.SCALE;
+                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.right - (KPstate.RPUNCH[0].w * PARAMS.SCALE-20);
                             else if(that.state === that.STATE.JUMP) that.x = entity.BB.right - KPstate.RJUMP[0].w * PARAMS.SCALE;
-                            else if(that.state === that.STATE.KICK) that.x = entity.BB.right - KPstate.RKICK[0].w * PARAMS.SCALE;
+                            else if(that.state === that.STATE.KICK) that.x = entity.BB.right - (KPstate.RKICK[0].w * PARAMS.SCALE-20);
                             that.velocity.x = 0;
                             that.updateBB();
                         }
                         //Walking to Left Logic - Level1 - Level2
                         if((entity instanceof BackScene || entity instanceof BackGround || entity instanceof Sky) && that.lastBB.left <= entity.BB.left){
-                            if(that.state === that.STATE.WALK) that.x = entity.BB.left; 
-                            else if(that.state === that.STATE.ROLL) that.x = entity.BB.left;
-                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.left;
-                            else if(that.state === that.STATE.KICK) that.x = entity.BB.left;
+                            that.x = entity.BB.left;
+                            if(that.state === that.STATE.KICK) that.x = entity.BB.left-20;
+                            else if(that.state === that.STATE.PUNCH) that.x = entity.BB.left-20;
                             that.velocity.x = 0;
                             that.updateBB();
                         }
