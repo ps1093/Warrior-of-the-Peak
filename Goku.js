@@ -15,6 +15,7 @@ class Goku{
         this.coolDown = 3;
         this.block = false;
         this.time = 0;
+        this.counter = 1;
 
         //This is the falling acceleration for gravity.
         this.fallAcc =100;
@@ -364,11 +365,9 @@ class Goku{
 
         //Dying
         if(this.hitPoints <= 0){
-            this.time = 0;
-            if (this.time < 3){
-                ASSET_MANAGER.playAsset("./audio/gokuNO.mp3")
-            } else {
-                ASSET_MANAGER.pauseAsset("./audio/gokuNO.mp3");
+            if(this.counter === 1){
+                ASSET_MANAGER.playAsset("./audio/gokuNO.mp3");
+                this.counter++;
             }
             ASSET_MANAGER.pauseAsset("./audio/gokukiblast.mp3");
             ASSET_MANAGER.pauseAsset("./audio/gokujump.mp3");
