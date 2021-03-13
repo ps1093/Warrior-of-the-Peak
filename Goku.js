@@ -317,7 +317,7 @@ class Goku{
                 ASSET_MANAGER.pauseAsset("./audio/gokubestkame.mp3");
             }
             //Blast
-            if(this.game.B){
+            if(this.game.L){
                 this.state = this.STATE.BLAST;
                 ASSET_MANAGER.playAsset("./audio/gokukiblast.mp3");
             }else{
