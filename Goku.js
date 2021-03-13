@@ -11,6 +11,7 @@ class Goku{
         this.cpuDeathCount = cpuDeathCount;
         this.elapsed = 0;
         this.blockElapsed = 0;
+        this.kameCooldown = 5;
         this.coolDown = 3;
         this.block = false;
         this.time = 0;
@@ -214,11 +215,11 @@ class Goku{
         } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RBLAST[0].w * PARAMS.SCALE, GokuState.RBLAST[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.BLAST && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.LBLAST[0].w * PARAMS.SCALE, GokuState.LBLAST[0].h * PARAMS.SCALE);
+            this.BB = new BoundingBox(this.x - 185, this.y, GokuState.LBLAST[0].w * PARAMS.SCALE, GokuState.LBLAST[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.KAME && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RKAME[0].w * PARAMS.SCALE, GokuState.RKAME[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.KAME && this.facing === this.FACING.LEFT){
-            this.BB = new BoundingBox(this.x, this.y, GokuState.LKAME[0].w * PARAMS.SCALE, GokuState.LKAME[0].h * PARAMS.SCALE);
+            this.BB = new BoundingBox(this.x - 230, this.y, GokuState.LKAME[0].w * PARAMS.SCALE, GokuState.LKAME[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.CHARGEKAME && this.facing === this.FACING.RIGHT){
             this.BB = new BoundingBox(this.x, this.y, GokuState.RCHARGEKAME[0].w * PARAMS.SCALE, GokuState.RCHARGEKAME[0].h * PARAMS.SCALE);
         } else if(this.state === this.STATE.CHARGEKAME && this.facing === this.FACING.LEFT){
@@ -235,9 +236,10 @@ class Goku{
         const DEAD_X = 50;
         const TICK = this.game.clockTick;
         this.coolDown += TICK;
+        this.kameCooldown += TICK;
         this.block = false;
         this.changeElapsed += TICK;
-        if(this.changeElapsed > 3){
+        if(this.changeElapsed > 2){
             this.randomDamage();
             this.changeElapsed = 0;
         }
@@ -292,15 +294,24 @@ class Goku{
             }
             //Kamehameha
             if(this.game.K){ 
-                ASSET_MANAGER.playAsset("./audio/gokubestkame.mp3");
-                this.state = this.STATE.CHARGEKAME;
-                this.velocity.x = 0;
-                this.hitPoints -= 0.05;
-                this.time += TICK;
-                if(this.time >= 3){
-                    this.state = this.STATE.KAME;
+                this.hitPoints = 0;
+                if(this.kameCooldown >= 5){
+                    if(this.time < 8){
+                        ASSET_MANAGER.playAsset("./audio/gokubestkame.mp3");
+                        this.state = this.STATE.CHARGEKAME;
+                        this.velocity.x = 0;
+                        this.hitPoints -= 0.05;
+                        this.time += TICK;
+                            if(this.time >= 3){
+                                this.state = this.STATE.KAME;
+                            }    
+                    } else{
+                        this.kameCooldown = 0;
+                        this.time = 0;
+                        ASSET_MANAGER.pauseAsset("./audio/gokubestkame.mp3");
+                    }
                 }
-            }else{
+            } else{
                 this.time = 0;
                 ASSET_MANAGER.pauseAsset("./audio/gokubestkame.mp3");
             }
@@ -353,6 +364,19 @@ class Goku{
 
         //Dying
         if(this.hitPoints <= 0){
+            this.time = 0;
+            if (this.time < 3){
+                ASSET_MANAGER.playAsset("./audio/gokuNO.mp3")
+            } else {
+                ASSET_MANAGER.pauseAsset("./audio/gokuNO.mp3");
+            }
+            ASSET_MANAGER.pauseAsset("./audio/gokukiblast.mp3");
+            ASSET_MANAGER.pauseAsset("./audio/gokujump.mp3");
+            ASSET_MANAGER.pauseAsset("./audio/gokupower.mp3");
+            ASSET_MANAGER.pauseAsset("./audio/gokubestkame.mp3");
+            ASSET_MANAGER.pauseAsset("./audio/gokuclash.mp3");
+            ASSET_MANAGER.pauseAsset("./audio/gokuaura.mp3");
+            ASSET_MANAGER.pauseAsset("./audio/gokurun.mp3");
             this.state = this.STATE.DEAD;
             this.velocity.x = 0;
             this.velocity.y = -50;
@@ -392,7 +416,7 @@ class Goku{
                                 opponentHitPoints -= that.damage * 1.05;
                             } else if(that.state === that.STATE.KAME/* && !opponentBlock*/){
                                 if(that.time >= 3){
-                                opponentHitPoints -= that.damage * 1.5;
+                                opponentHitPoints -= that.damage * 2.5;
                                 } 
                             }  
                         }
@@ -434,14 +458,27 @@ class Goku{
             this.cX = this.x + GokuState.RBLOCK[0].w / 2 * PARAMS.SCALE;
             this.cY = this.y + GokuState.RBLOCK[0].h / 2 * PARAMS.SCALE;
         }else if(this.state === this.STATE.KAME){
+            if(this.facing === this.FACING.LEFT){
+                this.cX = this.x + GokuState.RKAME[0].w / 2 * PARAMS.SCALE - 230;
+                this.cY = this.y + GokuState.RBLAST[0].h / 2 * PARAMS.SCALE;
+            } else {
             this.cX = this.x + GokuState.RKAME[0].w / 2 * PARAMS.SCALE;
             this.cY = this.y + GokuState.RKAME[0].h / 2 * PARAMS.SCALE;
+            }
         }else if(this.state === this.STATE.BLAST){
+            if(this.facing === this.FACING.LEFT){
+                this.cX = this.x + GokuState.RKAME[0].w / 2 * PARAMS.SCALE - 185;
+                this.cY = this.y + GokuState.RBLAST[0].h / 2 * PARAMS.SCALE;
+            } else {
             this.cX = this.x + GokuState.RBLAST[0].w / 2 * PARAMS.SCALE;
             this.cY = this.y + GokuState.RBLAST[0].h / 2 * PARAMS.SCALE;
+            }
         }else if(this.state === this.STATE.CHARGEKAME){
             this.cX = this.x + GokuState.RCHARGEKAME[0].w / 2 * PARAMS.SCALE;
             this.cY = this.y + GokuState.RCHARGEKAME[0].h / 2 * PARAMS.SCALE;
+        }else if(this.state === this.STATE.POWER){
+            this.cX = this.x + GokuState.RPOWER[0].w / 2 * PARAMS.SCALE;
+            this.cY = this.y + GokuState.RPOWER[0].h / 2 * PARAMS.SCALE; 
         }
     };
 
