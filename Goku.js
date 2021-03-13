@@ -295,7 +295,6 @@ class Goku{
             }
             //Kamehameha
             if(this.game.K){ 
-                this.hitPoints = 0;
                 if(this.kameCooldown >= 5){
                     if(this.time < 8){
                         ASSET_MANAGER.playAsset("./audio/gokubestkame.mp3");
