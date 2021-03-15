@@ -907,12 +907,12 @@ class ChunLiCPU extends ChunLi{
                                 if(that.attack === 0){
                                     that.state = 3;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                        that.other.hitPoints -= .06;
                                     }
                                 } else if(that.attack === 1){
                                     that.state = 6;
                                     if(!that.other.block){
-                                        that.other.hitPoints -= .04;
+                                        that.other.hitPoints -= .06;
                                     }
                                 }
                                 }
