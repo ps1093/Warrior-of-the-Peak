@@ -314,13 +314,13 @@ class BillyLee {
                 if (that !== entity && entity.BB && that.BB.collide(entity.BB)) {
                     if((entity instanceof KaratePlayerCPU || entity instanceof CatPlayerCPU || entity instanceof ChunLiCPU || entity instanceof BillyLeeCPU)){
                             if(that.state === 3){
-                                opponentHitPoints -= .05;
+                                opponentHitPoints -= .06;
                             } else if(that.state === 5){
-                                opponentHitPoints -= .05;
+                                opponentHitPoints -= .06;
                             } else if(that.state === 4){
-                                opponentHitPoints -= .1;
+                                opponentHitPoints -= .08;
                             } else if(that.state === 6){
-                                opponentHitPoints -= .15;
+                                opponentHitPoints -= .08;
                             }
                         }
             }
